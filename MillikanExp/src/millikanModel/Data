@@ -1,0 +1,22 @@
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class Data
+{
+	List<Double> charges = new ArrayList<Double>();
+
+	public void ChargeCalculator()
+	{	
+	}
+
+	public void calculateCharge(OilDrop drop,double E)
+	{
+		Constants C=new Constants(); 
+		double q;
+		q=(4/3)*Math.PI*Math.pow((9*C.airViscosity/2),(3/2))*Math.sqrt(1/(C.g*(drop.getOilDensity()-C.airDensity)));
+		q*=(drop.getV1()+drop.getV2())*Math.sqrt(drop.getV1())/E;
+		charges.add(q);
+	}
+}
