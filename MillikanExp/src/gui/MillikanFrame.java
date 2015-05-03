@@ -1,6 +1,8 @@
 package gui;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 
@@ -36,6 +38,20 @@ public class MillikanFrame extends JFrame {
 		p3.setPreferredSize(new Dimension(170, 500));
 		JPanel listPanel = new JPanel();
 		listPanel.setPreferredSize(new Dimension(170, 400));
+		
+		UnitaryCharge chargee=new UnitaryCharge();
+		int ile=chargee.gcd(64088,16022);
+		ArrayList<Integer> charges=new ArrayList<Integer>();
+		charges.add(16);
+		charges.add(64);
+		charges.add(64);
+		charges.add(128);
+		//charges.add(6601064);
+		boolean wynik=chargee.elementsEqual(charges);
+		ChargeCalculator calculator=new ChargeCalculator();
+		int ladunek=calculator.chargeCalc(charges);
+		System.out.println("ILE: "+ile+"wynik"+wynik);
+		System.out.println(Integer.toString(ladunek));
 
 		for (int i = 0; i < 5; i++) {
 			ListView(listPanel, 1.6);
