@@ -6,10 +6,7 @@ import java.util.List;
 public class Data
 {
 	List<Double> charges = new ArrayList<Double>();
-
-	public void ChargeCalculator()
-	{	
-	}
+	public Data(){}
 
 	public void calculateCharge(OilDrop drop,double E)
 	{
