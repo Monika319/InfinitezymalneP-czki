@@ -1,10 +1,10 @@
 
 public class Constants
 {
-	double e=1.602176565E-19;
-	double airViscosity=18.6E-6;
-	double g=9.81;
-	double airDensity=1.168;
+	double e;
+	double airViscosity;
+	double g;
+	double airDensity;
 	public Constants()
 	{
 		 e=1.602176565E-19;
