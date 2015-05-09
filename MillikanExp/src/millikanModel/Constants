@@ -1,8 +1,0 @@
-
-public class Constants
-{
-		static final double e=1.602176565E-19;
-		static final double airViscosity=18.6E-6;
-		static final double g=9.81;
-		static final double airDensity=1.168;
-}
