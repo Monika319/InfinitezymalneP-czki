@@ -1,37 +1,53 @@
 package gui;
 
 import millikanModel.ChargeCalculator;
+import millikanModel.OilDrop;
 import millikanModel.UnitaryCharge;
 
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.*;
 
-public class MillikanFrame extends JFrame {
+public class MillikanFrame extends JFrame
+{
 
     private static final long serialVersionUID = 1L;
     private static final int WINDOW_HEIGHT = 600;
     private static final int WINDOW_WIDTH = 800;
-    private JPanel p1;
+    // private JPanel p1;
+    public OilDrop currentDrop;
+    private double electricField;
+    private static final double t = 0.1;
+    private AnimationFrame p1;
 
-    public static void main(String[] args) {
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
+    public static void main(String[] args)
+    {
+        javax.swing.SwingUtilities.invokeLater(new Runnable()
+        {
+            public void run()
+            {
                 MillikanFrame panelWindow = new MillikanFrame();
+
             }
         });
     }
 
-    public MillikanFrame() {
+    public MillikanFrame()
+    {
         initialize();
+
     }
 
-    private void initialize() {
+    private void initialize()
+    {
+        electricField = 0;
+
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        AnimationFrame p1 = new AnimationFrame();
+        p1 = new AnimationFrame(this);
         JPanel p2 = new JPanel(new BorderLayout());
         p2.setBackground(Color.green);
 
@@ -55,11 +71,13 @@ public class MillikanFrame extends JFrame {
         System.out.println("ILE: " + ile + "wynik" + wynik);
         System.out.println(Integer.toString(ladunek));
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++)
+        {
             ListView(listPanel, (double) charges.get(i));
 
         }
-        for (int i = 5; i < 17; i++) {
+        for (int i = 5; i < 17; i++)
+        {
             ListView(listPanel, 0D);
         }
 
@@ -116,9 +134,40 @@ public class MillikanFrame extends JFrame {
                 / 2 - WINDOW_HEIGHT / 2, WINDOW_WIDTH, WINDOW_HEIGHT);
 
         setTitle("Symulacja doświadczenia Millikana");
+        //zamiast tego bedzie dodawanie poprzez actionlistener
+        currentDrop = new OilDrop(1E-7, 2E-7, 1, 1000, this);
+
+        //start();
     }
 
-    public JPanel makeButtonsPanel() {
+    public void start()
+    {
+
+        Thread th = new Thread()
+        {
+            public void run()
+            {
+
+                while (true)
+                {
+
+                    currentDrop.move();
+                    p1.repaint();
+                    try
+                    {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e)
+                    {
+                    }
+                }
+            }
+        };
+        th.start();
+    }
+
+
+    public JPanel makeButtonsPanel()
+    {
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setBackground(Color.WHITE);
 
@@ -126,11 +175,20 @@ public class MillikanFrame extends JFrame {
         buttonsPanel.setPreferredSize(new Dimension(180, 80));
 
         Button startButton = new Button("res/start.png", 20, 20);
+        startButton.setName("start");
         Button pomiarButton = new Button("res/measurement.png", 20, 20);
         Button saveButton = new Button("res/save.png", 20, 20);
         Button languageButton = new Button("res/globe.png", 20, 20);
         Button photocell1 = new Button("res/lightoff.jpg", 20, 20);
+        photocell1.setName("photocell1");
         Button photocell2 = new Button("res/lighton.png", 20, 20);
+        photocell2.setName("photocell2");
+
+        Listeners listeners = new Listeners(this);
+        startButton.addActionListener(listeners.start);
+        photocell1.addActionListener(listeners.photo1);
+        photocell2.addActionListener(listeners.photo2);
+
 
         buttonsPanel.add(startButton);
         buttonsPanel.add(pomiarButton);
@@ -153,7 +211,8 @@ public class MillikanFrame extends JFrame {
     // }
 
     // columnpanel-dodaje rowpanel
-    public void ListView(JPanel columnpanel, Double charge) {
+    public void ListView(JPanel columnpanel, Double charge)
+    {
         JPanel rowPanel = new JPanel();
 
         rowPanel.setMaximumSize(new Dimension(1000, 15));
@@ -173,5 +232,24 @@ public class MillikanFrame extends JFrame {
             rowPanel.setBackground(SystemColor.inactiveCaptionBorder);
     }
 
+    public double getElectricField()
+    {
+        return electricField;
+    }
+
+    public double getT()
+    {
+        return t;
+    }
+
+    public void setElectricField(double electricField)
+    {
+        this.electricField = electricField;
+    }
+
+    public AnimationFrame getP1()
+    {
+        return p1;
+    }
 }
 
