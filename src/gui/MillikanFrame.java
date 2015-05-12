@@ -44,9 +44,12 @@ public class MillikanFrame extends JFrame {
         JPanel p3 = new JPanel();
         p3.setMinimumSize(new Dimension(150, 500));
         p3.setPreferredSize(new Dimension(170, 500));
+
         JPanel listPanel;
         listPanel = new JPanel();
-        listPanel.setPreferredSize(new Dimension(170, 400));
+        //jak tutaj zmieniam w dimension drugi parametr, to zmienia się ta lista
+        listPanel.setPreferredSize(new Dimension(170, 700));
+
 
         UnitaryCharge chargee = new UnitaryCharge();
         int ile = chargee.gcd(64088, 16022);
@@ -79,22 +82,14 @@ public class MillikanFrame extends JFrame {
 
         for (int i = 5; i < 100; i++) {
             ListView(listPanel, emptyValue);
+
+
         }
+        JScrollPane scrollPane = new JScrollPane(listPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setPreferredSize(new Dimension(170, 350));
+        p3.add(scrollPane);
 
 
-        JScrollPane scrollPane = new JScrollPane(listPanel);
-        scrollPane.setAutoscrolls(true);
-        scrollPane.getBaselineResizeBehavior();
-        scrollPane.getHorizontalScrollBar().setEnabled(false);
-        scrollPane.getHorizontalScrollBar().setVisible(false);
-    scrollPane.setPreferredSize(new Dimension(170, 400));
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-
-         //   scrollPane.add(listPanel);
-       // p3.add(scrollPane);
-// listPanel.add(scrollPane);
-       p3.add(scrollPane);
         JButton ask = new JButton("ask");
         JToggleButton onOff = new JToggleButton("on/off");
         onOff.setSize(30, 30);
@@ -220,8 +215,9 @@ public class MillikanFrame extends JFrame {
     public void ListView(JPanel columnpanel, chargeVariable charge) {
         JPanel rowPanel = new JPanel();
 
-
-        rowPanel.setMaximumSize(new Dimension(1000, 15));
+        rowPanel.setMinimumSize(new Dimension(170, 25));
+        //należało ustawić serMinimumSize i zmieniać ustawienia
+         rowPanel.setMaximumSize(new Dimension(1000, 15));
         columnpanel.setLayout(new BoxLayout(columnpanel, BoxLayout.Y_AXIS));
         rowPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         columnpanel.add(rowPanel);
@@ -251,6 +247,7 @@ public class MillikanFrame extends JFrame {
     public double getT() {
         return t;
     }
+
     public AnimationFrame getP1() {
         return p1;
     }
