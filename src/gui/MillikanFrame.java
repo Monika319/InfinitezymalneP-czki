@@ -16,7 +16,6 @@ public class MillikanFrame extends JFrame {
     private static final int WINDOW_WIDTH = 800;
     // private JPanel p1;
     public OilDrop currentDrop;
-    private double electricField;
     private static final double t = 0.1;
     private AnimationFrame p1;
 
@@ -35,8 +34,6 @@ public class MillikanFrame extends JFrame {
     }
 
     private void initialize() {
-        electricField = 0;
-
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -237,18 +234,9 @@ public class MillikanFrame extends JFrame {
             rowPanel.setBackground(SystemColor.inactiveCaptionBorder);
     }
 
-    public double getElectricField() {
-        return electricField;
-    }
-
     public double getT() {
         return t;
     }
-
-    public void setElectricField(double electricField) {
-        this.electricField = electricField;
-    }
-
     public AnimationFrame getP1() {
         return p1;
     }
