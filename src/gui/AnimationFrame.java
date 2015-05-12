@@ -30,10 +30,11 @@ public class AnimationFrame extends JPanel
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
-        g.setColor(Color.yellow);
-        g.fillOval((int) (this.getWidth() / 2), (int) Math.round(frame.currentDrop.getY()), 30, 30);
         pd1.paintPhotoDetector(g, this);
         pd2.paintPhotoDetector(g, this);
+        g.setColor(Color.yellow);
+        g.fillOval((int) (this.getWidth() / 2), (int) Math.round(frame.currentDrop.getY()), 30, 30);
+
     }
 
     public Photodetector getPd1()

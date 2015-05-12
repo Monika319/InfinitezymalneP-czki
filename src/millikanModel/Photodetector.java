@@ -21,9 +21,18 @@ public class Photodetector
 
     public void paintPhotoDetector(Graphics g, AnimationFrame af)
     {
-        if (!on) g.setColor(Color.red);
-        else g.setColor(Color.green);
-        g.fillRoundRect(9 * af.getWidth() / 10, (int) (y1 - 5.0), af.getWidth() / 10, (int) (y2 - y1), (int) ((y2 - y1) / 4), (int) ((y2 - y1) / 4));
+        g.setColor(Color.darkGray);
+        g.fillRoundRect(9 * af.getWidth() / 10, (int) (y1 - 5.0), af.getWidth() / 10, (int) (y2 - y1)+10, (int) ((y2 - y1) / 4), (int) ((y2 - y1) / 4));
+        if (on)
+        {
+            g.setColor(Color.red);
+            g.drawLine(0,(int)y1,(int)(9 * af.getWidth() / 10),(int)y1);
+            g.drawLine(0,(int)y2,(int)(9 * af.getWidth() / 10),(int)y2);
+            g.setColor(Color.green);
+
+        }
+        else g.setColor(Color.red);
+        g.fillOval((int)(9.5*af.getWidth()/10),(int)Math.abs((y2+y1)/2),(int)Math.abs((y2-y1)/2),(int)Math.abs((y2-y1)/2));
     }
 
     public void calculateV1(OilDrop drop)
