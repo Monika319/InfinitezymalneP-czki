@@ -47,22 +47,23 @@ public class MillikanFrame extends JFrame {
         JPanel p3 = new JPanel();
         p3.setMinimumSize(new Dimension(150, 500));
         p3.setPreferredSize(new Dimension(170, 500));
-        JPanel listPanel = new JPanel();
+        JPanel listPanel;
+        listPanel = new JPanel();
         listPanel.setPreferredSize(new Dimension(170, 400));
 
         UnitaryCharge chargee = new UnitaryCharge();
         int ile = chargee.gcd(64088, 16022);
-        ArrayList<Integer> charges = new ArrayList<Integer>();
+        ArrayList<Integer> charges = new ArrayList<>();
         ArrayList<chargeVariable<Integer>> testCharges;
         testCharges = new ArrayList<>();
         charges.add(16);
-        testCharges.add(new chargeVariable<Integer>(16));
+        testCharges.add(new chargeVariable<>(16));
         charges.add(64);
-        testCharges.add(new chargeVariable<Integer>(64));
+        testCharges.add(new chargeVariable<>(64));
         charges.add(64);
-        testCharges.add(new chargeVariable<Integer>(64));
+        testCharges.add(new chargeVariable<>(64));
         charges.add(128);
-        testCharges.add(new chargeVariable<Integer>(128));
+        testCharges.add(new chargeVariable<>(128));
         //charges.add(6601064);
         boolean wynik = chargee.elementsEqual(charges);
         ChargeCalculator calculator = new ChargeCalculator();
@@ -79,11 +80,24 @@ public class MillikanFrame extends JFrame {
 
         }
 
-        for (int i = 5; i < 17; i++) {
+        for (int i = 5; i < 100; i++) {
             ListView(listPanel, emptyValue);
         }
 
-        p3.add(listPanel);
+
+        JScrollPane scrollPane = new JScrollPane(listPanel);
+        scrollPane.setAutoscrolls(true);
+        scrollPane.getBaselineResizeBehavior();
+        scrollPane.getHorizontalScrollBar().setEnabled(false);
+        scrollPane.getHorizontalScrollBar().setVisible(false);
+    scrollPane.setPreferredSize(new Dimension(170, 400));
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+
+         //   scrollPane.add(listPanel);
+       // p3.add(scrollPane);
+// listPanel.add(scrollPane);
+       p3.add(scrollPane);
         JButton ask = new JButton("ask");
         JToggleButton onOff = new JToggleButton("on/off");
         onOff.setSize(30, 30);
@@ -144,8 +158,7 @@ public class MillikanFrame extends JFrame {
 
     public void start() {
 
-        Thread th;
-        th = new Thread() {
+        Thread th = new Thread() {
             public void run() {
 
                 while (true) {
@@ -215,6 +228,7 @@ public class MillikanFrame extends JFrame {
         columnpanel.setLayout(new BoxLayout(columnpanel, BoxLayout.Y_AXIS));
         rowPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         columnpanel.add(rowPanel);
+
         // rowPanel.setBounds(170, 70, 150, 20);
         JLabel dataList = new JLabel(" ");
         // dataList.setBounds(170, 70, 150, 20);
