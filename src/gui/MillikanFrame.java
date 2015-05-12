@@ -53,7 +53,7 @@ public class MillikanFrame extends JFrame {
         UnitaryCharge chargee = new UnitaryCharge();
         int ile = chargee.gcd(64088, 16022);
         ArrayList<Integer> charges = new ArrayList<Integer>();
-        ArrayList<chargeVariable <Integer>> testCharges;
+        ArrayList<chargeVariable<Integer>> testCharges;
         testCharges = new ArrayList<>();
         charges.add(16);
         testCharges.add(new chargeVariable<Integer>(16));
@@ -69,18 +69,18 @@ public class MillikanFrame extends JFrame {
         int ladunek = calculator.chargeCalc(charges);
         System.out.println("ILE: " + ile + "wynik" + wynik);
         System.out.println(Integer.toString(ladunek));
-        chargeVariable <String> emptyValue;
-        emptyValue = new chargeVariable<>("");
+        chargeVariable<String> emptyValue;
+        emptyValue = new chargeVariable<>(" ");
         for (int i = 0; i < 4; i++) {
             //ListView(listPanel, (double) charges.get(i));
             System.out.println("Wypisuję:" + testCharges.get(i).setString());
-           //ListView(listPanel, testCharges.get(i).get().toString());
-            ListView(listPanel, testCharges.get(i).setString());
+            //ListView(listPanel, testCharges.get(i).get().toString());
+            ListView(listPanel, testCharges.get(i));
 
         }
 
         for (int i = 5; i < 17; i++) {
-            ListView(listPanel, emptyValue.setString());
+            ListView(listPanel, emptyValue);
         }
 
         p3.add(listPanel);
@@ -207,7 +207,7 @@ public class MillikanFrame extends JFrame {
     // }
 
     // columnpanel-dodaje rowpanel
-    public void ListView(JPanel columnpanel,String charge) {
+    public void ListView(JPanel columnpanel, chargeVariable charge) {
         JPanel rowPanel = new JPanel();
 
 
@@ -216,12 +216,20 @@ public class MillikanFrame extends JFrame {
         rowPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         columnpanel.add(rowPanel);
         // rowPanel.setBounds(170, 70, 150, 20);
-        JLabel dataList = new JLabel("");
+        JLabel dataList = new JLabel(" ");
         // dataList.setBounds(170, 70, 150, 20);
 
 //        dataList.setText("Q_" + columnpanel.getComponentCount() + "="
 //                + charge + "C");
-        dataList.setText(charge+"C" );
+
+        if (charge.checkIfString()) {
+
+            dataList.setText(charge.setString());
+        } else {
+
+            dataList.setText("Q_" + columnpanel.getComponentCount() + "=" + charge.setString() + "C");
+        }
+
         dataList.setVisible(true);
         rowPanel.add(dataList);
 

@@ -24,6 +24,11 @@ public class chargeVariable<T> {
     public T get() {
         return t;
     }
+    public boolean checkIfString(){
+        if (this.t.getClass().getName().equals("java.lang.String")) return true;
+        else return  false;
+    }
+
 
     public String setString() {
         if (this.t.getClass().getName().equals("java.lang.String")) return (String) t;
