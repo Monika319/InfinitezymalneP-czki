@@ -5,13 +5,11 @@ import millikanModel.OilDrop;
 import millikanModel.UnitaryCharge;
 
 import java.awt.*;
-import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.*;
 
-public class MillikanFrame extends JFrame
-{
+public class MillikanFrame extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private static final int WINDOW_HEIGHT = 600;
@@ -22,26 +20,21 @@ public class MillikanFrame extends JFrame
     private static final double t = 0.1;
     private AnimationFrame p1;
 
-    public static void main(String[] args)
-    {
-        javax.swing.SwingUtilities.invokeLater(new Runnable()
-        {
-            public void run()
-            {
+    public static void main(String[] args) {
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
                 MillikanFrame panelWindow = new MillikanFrame();
 
             }
         });
     }
 
-    public MillikanFrame()
-    {
+    public MillikanFrame() {
         initialize();
 
     }
 
-    private void initialize()
-    {
+    private void initialize() {
         electricField = 0;
 
         setLayout(new GridBagLayout());
@@ -60,25 +53,34 @@ public class MillikanFrame extends JFrame
         UnitaryCharge chargee = new UnitaryCharge();
         int ile = chargee.gcd(64088, 16022);
         ArrayList<Integer> charges = new ArrayList<Integer>();
+        ArrayList<chargeVariable <Integer>> testCharges;
+        testCharges = new ArrayList<>();
         charges.add(16);
+        testCharges.add(new chargeVariable<Integer>(16));
         charges.add(64);
+        testCharges.add(new chargeVariable<Integer>(64));
         charges.add(64);
+        testCharges.add(new chargeVariable<Integer>(64));
         charges.add(128);
+        testCharges.add(new chargeVariable<Integer>(128));
         //charges.add(6601064);
         boolean wynik = chargee.elementsEqual(charges);
         ChargeCalculator calculator = new ChargeCalculator();
         int ladunek = calculator.chargeCalc(charges);
         System.out.println("ILE: " + ile + "wynik" + wynik);
         System.out.println(Integer.toString(ladunek));
-
-        for (int i = 0; i < 4; i++)
-        {
-            ListView(listPanel, (double) charges.get(i));
+        chargeVariable <String> emptyValue;
+        emptyValue = new chargeVariable<>("");
+        for (int i = 0; i < 4; i++) {
+            //ListView(listPanel, (double) charges.get(i));
+            System.out.println("Wypisuję:" + testCharges.get(i).setString());
+           //ListView(listPanel, testCharges.get(i).get().toString());
+            ListView(listPanel, testCharges.get(i).setString());
 
         }
-        for (int i = 5; i < 17; i++)
-        {
-            ListView(listPanel, 0D);
+
+        for (int i = 5; i < 17; i++) {
+            ListView(listPanel, emptyValue.setString());
         }
 
         p3.add(listPanel);
@@ -140,24 +142,19 @@ public class MillikanFrame extends JFrame
         //start();
     }
 
-    public void start()
-    {
+    public void start() {
 
-        Thread th = new Thread()
-        {
-            public void run()
-            {
+        Thread th;
+        th = new Thread() {
+            public void run() {
 
-                while (true)
-                {
+                while (true) {
 
                     currentDrop.move();
                     p1.repaint();
-                    try
-                    {
+                    try {
                         Thread.sleep(100);
-                    } catch (InterruptedException e)
-                    {
+                    } catch (InterruptedException e) {
                     }
                 }
             }
@@ -166,8 +163,7 @@ public class MillikanFrame extends JFrame
     }
 
 
-    public JPanel makeButtonsPanel()
-    {
+    public JPanel makeButtonsPanel() {
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setBackground(Color.WHITE);
 
@@ -211,9 +207,9 @@ public class MillikanFrame extends JFrame
     // }
 
     // columnpanel-dodaje rowpanel
-    public void ListView(JPanel columnpanel, Double charge)
-    {
+    public void ListView(JPanel columnpanel,String charge) {
         JPanel rowPanel = new JPanel();
+
 
         rowPanel.setMaximumSize(new Dimension(1000, 15));
         columnpanel.setLayout(new BoxLayout(columnpanel, BoxLayout.Y_AXIS));
@@ -223,8 +219,9 @@ public class MillikanFrame extends JFrame
         JLabel dataList = new JLabel("");
         // dataList.setBounds(170, 70, 150, 20);
 
-        dataList.setText("Q_" + columnpanel.getComponentCount() + "="
-                + charge.toString() + "C");
+//        dataList.setText("Q_" + columnpanel.getComponentCount() + "="
+//                + charge + "C");
+        dataList.setText(charge+"C" );
         dataList.setVisible(true);
         rowPanel.add(dataList);
 
@@ -232,23 +229,19 @@ public class MillikanFrame extends JFrame
             rowPanel.setBackground(SystemColor.inactiveCaptionBorder);
     }
 
-    public double getElectricField()
-    {
+    public double getElectricField() {
         return electricField;
     }
 
-    public double getT()
-    {
+    public double getT() {
         return t;
     }
 
-    public void setElectricField(double electricField)
-    {
+    public void setElectricField(double electricField) {
         this.electricField = electricField;
     }
 
-    public AnimationFrame getP1()
-    {
+    public AnimationFrame getP1() {
         return p1;
     }
 }
