@@ -1,7 +1,9 @@
 package millikanModel;
 
 import gui.AnimationFrame;
+import gui.MillikanFrame;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -14,9 +16,13 @@ public class Capacitor
     private int d;
     private int y1;
     private int y2;
+    private int power;
+    //private MillikanFrame frame;
 
     public Capacitor(int h1, int h2)
     {
+        //frame=mf;
+        power=-3;
         y1=h1;
         y2=h2;
         d=Math.abs(h2-h1);
@@ -25,14 +31,11 @@ public class Capacitor
     }
     void makeField()
     {
-        E=voltage/d;
+        E=-voltage/d;
     }
     public void paintCapacitor(Graphics g, AnimationFrame af)
     {
         g.setColor(Color.GRAY);
-        //int y1=(int)Math.min(af.getPd2().getY1(),af.getPd2().getY2())-40;
-        System.out.println(y1);
-        //int y2=(int)Math.max(af.getPd2().getY1(),af.getPd2().getY2())+80;
         g.drawLine(0,y1,(int)(af.getWidth()/2)-af.getBallDiameter(),y1);
         g.drawLine((int)(af.getWidth()/2)+af.getBallDiameter(),y1,(int)(af.getWidth()),y1);
         g.drawLine(0,y2,(int)(af.getWidth()),y2);
@@ -55,13 +58,18 @@ public class Capacitor
 
     public void setVoltage(double voltage)
     {
-        this.voltage = voltage;
+        this.voltage = voltage*Math.pow(10,this.power);
         makeField();
     }
 
-    public void setD(int d)
+    public int getY1()
     {
-        this.d = d;
-        makeField();
+        return y1;
     }
+
+    public int getY2()
+    {
+        return y2;
+    }
+
 }

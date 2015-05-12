@@ -26,7 +26,7 @@ public class AnimationFrame extends JPanel
         frame = mf;
         pd1 = new Photodetector(100, 140);
         pd2 = new Photodetector(380, 420);
-        C=new Capacitor(370,470);
+        C=new Capacitor(270,470);
         // animationPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
     }
@@ -54,5 +54,10 @@ public class AnimationFrame extends JPanel
     public Photodetector getPd2()
     {
         return pd2;
+    }
+
+    public Capacitor getC()
+    {
+        return C;
     }
 }

@@ -18,6 +18,7 @@ public class MillikanFrame extends JFrame {
     public OilDrop currentDrop;
     private static final double t = 0.1;
     private AnimationFrame p1;
+    public Listeners listeners;
 
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -34,6 +35,7 @@ public class MillikanFrame extends JFrame {
     }
 
     private void initialize() {
+        listeners=new Listeners(this);
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -109,7 +111,7 @@ public class MillikanFrame extends JFrame {
         p2.add(ask, BorderLayout.WEST);
 
         p2.add(onOff, BorderLayout.EAST);
-        ElectricField electricFieldPanel = new ElectricField();
+        ElectricField electricFieldPanel = new ElectricField(this);
         p3.add(electricFieldPanel);
 
         gbc.gridx = gbc.gridy = 0;
@@ -185,7 +187,7 @@ public class MillikanFrame extends JFrame {
         Button photocell2 = new Button("res/lighton.png", 20, 20);
         photocell2.setName("photocell2");
 
-        Listeners listeners = new Listeners(this);
+        //Listeners listeners = new Listeners(this);
         startButton.addActionListener(listeners.start);
         photocell1.addActionListener(listeners.photo1);
         photocell2.addActionListener(listeners.photo2);

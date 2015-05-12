@@ -8,10 +8,10 @@ import java.awt.*;
  */
 public class ElectricField extends JPanel
 {
-    //private double fieldValue;
-    public ElectricField() {
+    private MillikanFrame frame;
+    public ElectricField(MillikanFrame fm) {
         super(new BorderLayout());
-        //fieldValue=0;
+        frame=fm;
         this.setMaximumSize(new Dimension(180, 20));
         this.setPreferredSize(new Dimension(150, 40));
         Double voltageValue = 0D;
@@ -19,8 +19,11 @@ public class ElectricField extends JPanel
         String[] fieldUnits = {"mV", "V", "kV"};
         JTextField valueField = new JFormattedTextField(voltageValue);
         valueField.setEditable(true);
-        JSlider valueSlider = new JSlider();
+        JSlider valueSlider = new JSlider(0,500);
+        valueSlider.setValue(0);
+        valueSlider.addChangeListener(frame.listeners.change);
         JComboBox unitBox = new JComboBox(fieldUnits);
+        //unitBox.setSelectedIndex(0);
         valueField.setPreferredSize(new Dimension(100, 25));
 
         this.add(valueField, BorderLayout.WEST);

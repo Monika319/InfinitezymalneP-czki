@@ -2,6 +2,9 @@ package gui;
 
 import millikanModel.Photodetector;
 
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,21 +14,23 @@ import java.awt.event.ActionListener;
 public class Listeners
 {
     MillikanFrame frame;
-    startListener start;
-    photoListener photo1;
-    photoListener photo2;
+    StartListener start;
+    PhotoListener photo1;
+    PhotoListener photo2;
+    ChangeListener change;
 
     Listeners(MillikanFrame mf)
     {
         frame = mf;
-        start = new startListener();
-        photo1 = new photoListener();
-        photo2 = new photoListener();
+        start = new StartListener();
+        photo1 = new PhotoListener();
+        photo2 = new PhotoListener();
+        change=new ElectricListener();
     }
 
-    class startListener implements ActionListener
+    class StartListener implements ActionListener
     {
-        startListener()
+        StartListener()
         {
             super();
         }
@@ -37,9 +42,9 @@ public class Listeners
         }
     }
 
-    class photoListener implements ActionListener
+    class PhotoListener implements ActionListener
     {
-        photoListener()
+        PhotoListener()
         {
             super();
         }
@@ -60,6 +65,18 @@ public class Listeners
             else
                 frame.getP1().getPd2().setOn(true);
 
+        }
+    }
+    class ElectricListener implements ChangeListener
+    {
+        ElectricListener(){super();}
+        @Override
+        public void stateChanged(ChangeEvent changeEvent)
+        {
+            JSlider slider=(JSlider)changeEvent.getSource();
+            int value=slider.getValue();
+            frame.getP1().getC().setVoltage(value);
+            //System.out.println(value- frame.getP1().getC().getVoltage()*1000);
         }
     }
 }
