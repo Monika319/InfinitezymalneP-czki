@@ -12,15 +12,14 @@ public class Capacitor
     private double voltage;
     private double E;
     private int d;
-    public Capacitor()
+    private int y1;
+    private int y2;
+
+    public Capacitor(int h1, int h2)
     {
-        d=100;
-        voltage=0;
-        makeField();
-    }
-    public Capacitor(int a)
-    {
-        d=a;
+        y1=h1;
+        y2=h2;
+        d=Math.abs(h2-h1);
         voltage=0;
         makeField();
     }
@@ -31,9 +30,9 @@ public class Capacitor
     public void paintCapacitor(Graphics g, AnimationFrame af)
     {
         g.setColor(Color.GRAY);
-        int y1=(int)Math.min(af.getPd2().getY1(),af.getPd2().getY2())-40;
+        //int y1=(int)Math.min(af.getPd2().getY1(),af.getPd2().getY2())-40;
         System.out.println(y1);
-        int y2=(int)Math.max(af.getPd2().getY1(),af.getPd2().getY2())+80;
+        //int y2=(int)Math.max(af.getPd2().getY1(),af.getPd2().getY2())+80;
         g.drawLine(0,y1,(int)(af.getWidth()/2)-af.getBallDiameter(),y1);
         g.drawLine((int)(af.getWidth()/2)+af.getBallDiameter(),y1,(int)(af.getWidth()),y1);
         g.drawLine(0,y2,(int)(af.getWidth()),y2);

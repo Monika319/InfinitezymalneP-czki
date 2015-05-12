@@ -25,9 +25,8 @@ public class AnimationFrame extends JPanel
         ballDiameter=30;
         frame = mf;
         pd1 = new Photodetector(100, 140);
- //UWAGA!!! LINIA FOTOKOMORKI NIE WIEKSZA JAK 420
         pd2 = new Photodetector(380, 420);
-        C=new Capacitor(100);
+        C=new Capacitor(370,470);
         // animationPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
     }
