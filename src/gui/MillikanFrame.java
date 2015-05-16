@@ -3,8 +3,13 @@ package gui;
 import millikanModel.ChargeCalculator;
 import millikanModel.OilDrop;
 import millikanModel.UnitaryCharge;
+import millikanModel.Test;
 
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -19,6 +24,8 @@ public class MillikanFrame extends JFrame {
     private static final double t = 0.1;
     private AnimationFrame p1;
     public Listeners listeners;
+
+    boolean condition;
 
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -35,6 +42,7 @@ public class MillikanFrame extends JFrame {
     }
 
     private void initialize() {
+        condition=true;
         listeners=new Listeners(this);
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -137,7 +145,21 @@ public class MillikanFrame extends JFrame {
 
         pack();
         setVisible(true);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+
+        WindowListener exitListener = new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int confirm = JOptionPane.showOptionDialog(null, "Are You Sure to Close Application?", "Exit Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                if (confirm == 0) {
+                     condition=false;
+
+                    System.exit(0);
+                }
+            }
+        };
+        this.addWindowListener(exitListener);
 
         Dimension dimensions = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds(dimensions.width / 2 - WINDOW_WIDTH / 2, dimensions.height
@@ -151,21 +173,39 @@ public class MillikanFrame extends JFrame {
     }
 
     public void start() {
-
+        condition=true;
+        currentDrop = new OilDrop(1E-7, 2E-7, 1, 1000, this);
         Thread th = new Thread() {
             public void run() {
 
-                while (true) {
+               PrintWriter writer=null;
+                try
+                {
+                     writer = new PrintWriter(new FileWriter("out.txt"));
+                    Test test=new Test(currentDrop,writer);
+                    while (condition) {
 
-                    currentDrop.move();
-                    p1.repaint();
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
+                        currentDrop.move();
+                        p1.repaint();
+                        test.test();
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                        }
                     }
+
+                }
+            catch (Exception ex) {
+                System.out.println("Error: " + ex.getMessage());
+            } finally {
+                try { writer.close(); }
+                catch (Exception ex) {
+                    System.out.println("Error: " + ex.getMessage());
                 }
             }
+            }
         };
+
         th.start();
     }
 
@@ -191,6 +231,7 @@ public class MillikanFrame extends JFrame {
         startButton.addActionListener(listeners.start);
         photocell1.addActionListener(listeners.photo1);
         photocell2.addActionListener(listeners.photo2);
+        pomiarButton.addActionListener(listeners.measure);
 
 
         buttonsPanel.add(startButton);
