@@ -72,6 +72,7 @@ public class MillikanFrame extends JFrame {
         int ladunek = calculator.chargeCalc(charges);
         System.out.println("ILE: " + ile + "wynik" + wynik);
         System.out.println(Integer.toString(ladunek));
+
         chargeVariable<String> emptyValue;
         emptyValue = new chargeVariable<>(" ");
         for (int i = 0; i < 4; i++) {
