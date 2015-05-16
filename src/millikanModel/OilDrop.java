@@ -21,8 +21,9 @@ public class OilDrop
     public OilDrop(double rMin, double rMax, int qMin, int qMax, MillikanFrame mf)
     {
         frame = mf;
-        v1 = 0;
-        v2 = 0;
+        v1 = 0.0;
+        System.out.println(v1);
+        v2 = 0.0;
         v = 0;
         // heating oil density by
         // http://www.engineeringtoolbox.com/liquids-densities-d_743.html
@@ -37,10 +38,9 @@ public class OilDrop
     public void move()
     {
         //Mnoznik 10E6 aby przeskalowac rzeczywiste jednostki [metr] na piksele
+        //System.out.println(this.getV1());
         y += 10E6 * (frame.getT() * v);
         if(y<0) y=0;
-        System.out.println(y);
-        //System.out.println(y);
         double k = 6 * Math.PI * Constants.airViscosity * radius;
         double m = 4 / 3 * Math.PI * Math.pow(radius, 3) * oilDensity;
         double u = Constants.g / k * (m - Constants.airDensity * 4 / 3 * Math.PI * Math.pow(radius, 3));
@@ -57,20 +57,11 @@ public class OilDrop
         else if(y < frame.getP1().getC().getY2())
         {
             double A=a+charge/m*frame.getP1().getC().getE();
-//            System.out.println(A);
-//            System.out.println(v);
-//            System.out.println(y);
             double w=u+charge/k*frame.getP1().getC().getE();
             v+=A* frame.getT();
             if(v>w) v=w;
         }
         else v=0;
-//        System.out.println(y);
-//        System.out.print("__");
-//        System.out.print(v);
-//        System.out.print("__");
-
-
     }
 
     public double getRadius()

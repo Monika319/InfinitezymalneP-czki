@@ -18,6 +18,7 @@ public class Listeners
     PhotoListener photo1;
     PhotoListener photo2;
     ChangeListener change;
+    MeasureListener measure;
 
     Listeners(MillikanFrame mf)
     {
@@ -26,6 +27,7 @@ public class Listeners
         photo1 = new PhotoListener();
         photo2 = new PhotoListener();
         change=new ElectricListener();
+        measure=new MeasureListener();
     }
 
     class StartListener implements ActionListener
@@ -77,6 +79,15 @@ public class Listeners
             int value=slider.getValue();
             frame.getP1().getC().setVoltage(value);
             //System.out.println(value- frame.getP1().getC().getVoltage()*1000);
+        }
+    }
+    class MeasureListener implements ActionListener
+    {
+        MeasureListener(){super();}
+        @Override
+        public void actionPerformed(ActionEvent actionEvent)
+        {
+            frame.condition=false;
         }
     }
 }
