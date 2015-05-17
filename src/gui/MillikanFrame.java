@@ -231,6 +231,7 @@ public class MillikanFrame extends JFrame {
         //Listeners listeners = new Listeners(this);
         startButton.addActionListener(listeners.start);
         photocell1.addActionListener(listeners.photo1);
+
         photocell2.addActionListener(listeners.photo2);
         pomiarButton.addActionListener(listeners.measure);
 

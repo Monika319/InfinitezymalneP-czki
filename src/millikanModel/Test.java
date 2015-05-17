@@ -12,6 +12,8 @@ public class Test
     private double u;
     private double u1;
     private double u2;
+    private double T1;
+    private double T2;
     private double y;
     private long startTime;
     private String line;
