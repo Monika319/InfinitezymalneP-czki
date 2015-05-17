@@ -45,6 +45,8 @@ public class OilDrop
         double m = 4 / 3 * Math.PI * Math.pow(radius, 3) * oilDensity;
         double u = Constants.g / k * (m - Constants.airDensity * 4 / 3 * Math.PI * Math.pow(radius, 3));
         double a=Constants.g*(1-(Constants.airDensity/oilDensity))-k/m*v;
+        double A;
+        double w;
         if (y < frame.getP1().getC().getY1())
         {
 
@@ -54,10 +56,11 @@ public class OilDrop
                 v=u;
             }
         }
-        else if(y < frame.getP1().getC().getY2())
+        else if((y < frame.getP1().getC().getY2())&&(y > frame.getP1().getC().getY1()))
         {
-            double A=a+charge/m*frame.getP1().getC().getE();
-            double w=u+charge/k*frame.getP1().getC().getE();
+             A=a+charge/m*frame.getP1().getC().getE();
+            // w=u+charge/k*frame.getP1().getC().getE();
+            w=charge*k*frame.getP1().getC().getE()-k*v2;
             v+=A* frame.getT();
             if(v>w) v=w;
         }

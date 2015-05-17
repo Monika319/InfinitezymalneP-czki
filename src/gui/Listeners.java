@@ -22,8 +22,8 @@ public class Listeners {
     AskButtonListener askButtonListener;
     private long startAnimationTime;
     long finishAnimationTime;
-    private static final int WINDOW_HEIGHT = 200;
-    private static final int WINDOW_WIDTH = 400;
+    private static final int WINDOW_HEIGHT = 120;
+    private static final int WINDOW_WIDTH = 260;
 
 
     Listeners(MillikanFrame mf) {
