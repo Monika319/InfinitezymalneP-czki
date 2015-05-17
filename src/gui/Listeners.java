@@ -3,6 +3,7 @@ package gui;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Locale;
@@ -18,8 +19,11 @@ public class Listeners {
     ChangeListener change;
     MeasureListener measure;
     LanguageListener languageListener;
-    long startAnimationTime;
+    AskButtonListener askButtonListener;
+    private long startAnimationTime;
     long finishAnimationTime;
+    private static final int WINDOW_HEIGHT = 200;
+    private static final int WINDOW_WIDTH = 400;
 
 
     Listeners(MillikanFrame mf) {
@@ -30,6 +34,7 @@ public class Listeners {
         change = new ElectricListener();
         measure = new MeasureListener();
         languageListener = new LanguageListener();
+        askButtonListener=new AskButtonListener();
     }
 
     class StartListener implements ActionListener {
@@ -47,6 +52,25 @@ public class Listeners {
             //  }
             startAnimationTime = System.currentTimeMillis();
             System.out.println("start Animation Time: " + startAnimationTime);
+        }
+    }
+    class AskButtonListener implements ActionListener {
+        AskButtonListener() {
+            super();
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            JFrame askFrame=new JFrame();
+            Dimension dimensions = Toolkit.getDefaultToolkit().getScreenSize();
+            askFrame.setBounds(dimensions.width / 2 - WINDOW_WIDTH / 2, dimensions.height
+                    / 2 - WINDOW_HEIGHT / 2, WINDOW_WIDTH, WINDOW_HEIGHT);
+    askFrame.setPreferredSize(dimensions);
+            askFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            askFrame.pack();
+            askFrame.setVisible(true);
+            JTextArea instructions=new JTextArea();
+            frame.setContentPane(instructions);
         }
     }
 
@@ -94,6 +118,9 @@ public class Listeners {
         }
     }
 
+    /**
+     * Created by monika03 on 17.05.15.
+     */
     class MeasureListener implements ActionListener {
         MeasureListener() {
             super();
@@ -110,6 +137,7 @@ public class Listeners {
             frame.getP1().getPd1().calculateV2(frame.currentDrop);
             frame.getP1().getPd2().calculateV1(frame.currentDrop);
             frame.getP1().getPd2().calculateV2(frame.currentDrop);
+
         }
     }
 

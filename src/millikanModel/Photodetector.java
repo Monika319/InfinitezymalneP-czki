@@ -11,6 +11,8 @@ public class Photodetector {
     private double y1;
     private double y2;
     private boolean on;
+private static int photoCounter;
+    private static int photoCounter1;
 
     public Photodetector(double h1, double h2) {
         y1 = h1;
@@ -63,13 +65,17 @@ public class Photodetector {
 
 
     public void calculateV1(OilDrop drop) {
+        photoCounter++;
         drop.setV1(Math.abs(y2 - y1) / (t2 - t1));
-        System.out.println("Calculated v1:" + this.getClass() + drop.getV1());
+        System.out.println("Calculated v1 for photocell" + Integer.toString(photoCounter)+" " + drop.getV1());
+
+
     }
 
     public void calculateV2(OilDrop drop) {
+        photoCounter1++;
         drop.setV2(Math.abs(y2 - y1) / (t2 - t1));
-        System.out.println("Calculated v2:" + this.getClass() + drop.getV2());
+        System.out.println("Calculated v2 for photocell" + Integer.toString(photoCounter1)+" " + drop.getV2());
     }
 
     public double getT1() {

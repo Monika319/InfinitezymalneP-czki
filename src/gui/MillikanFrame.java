@@ -105,9 +105,10 @@ public class MillikanFrame extends JFrame {
         p3.add(scrollPane);
 
 
-        JButton ask = new JButton(Messages.getString("ask"));
+        Button ask = new Button("res/ask.png", 20, 20);
         JToggleButton onOff = new JToggleButton("on/off");
         onOff.setSize(30, 30);
+        ask.addActionListener(listeners.askButtonListener);
 
         JPanel eValuePanel = new JPanel();
         eValuePanel.setMaximumSize(new Dimension(1000, 25));
@@ -259,6 +260,7 @@ public class MillikanFrame extends JFrame {
 
         photocell2.addActionListener(listeners.photo2);
         pomiarButton.addActionListener(listeners.measure);
+
 
 
         buttonsPanel.add(startButton);
