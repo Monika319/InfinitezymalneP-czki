@@ -17,7 +17,9 @@ public class Photodetector {
         y2 = h2;
         on = false;
     }
-
+    /**
+     * Created by monika03 on 17.05.15.
+     */
     public void paintPhotoDetector1(Graphics g, AnimationFrame af) {
 
 
@@ -37,7 +39,9 @@ public class Photodetector {
         g.fillOval((int) (9.5 * af.getWidth() / 10), (int) Math.abs((y2 + y1) / 2), (int) Math.abs((y2 - y1) / 2), (int) Math.abs((y2 - y1) / 2));
     }
 
-
+    /**
+     * Created by monika03 on 17.05.15.
+     */
     public void paintPhotoDetector(Graphics g, AnimationFrame af) {
 
 
@@ -48,8 +52,8 @@ public class Photodetector {
         if (on) {
             g.setColor(Color.red);
             //rysuje linie dla pola elektrycznego
-            g.drawLine(0, (int) y1, (int) (9 * af.getWidth() / 10), (int) y1);
-            g.drawLine(0, (int) y2, (int) (9 * af.getWidth() / 10), (int) y2);
+            g.drawLine(0, 1 + (int) (y2 - y1) - 38+ af.getCapacitor().getY1(), (int) (9 * af.getWidth() / 10), 1 + (int) (y2 - y1) - 38 + af.getCapacitor().getY1());
+            g.drawLine(0, 1 + (int) (y2 - y1) + af.getCapacitor().getY1(), (int) (9 * af.getWidth() / 10), 1 + (int) (y2 - y1) + af.getCapacitor().getY1());
             g.setColor(Color.green);
 
 

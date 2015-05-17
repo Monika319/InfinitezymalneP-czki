@@ -1,18 +1,20 @@
 package gui;
 
+
 import millikanModel.ChargeCalculator;
 import millikanModel.OilDrop;
-import millikanModel.UnitaryCharge;
 import millikanModel.Test;
+import millikanModel.UnitaryCharge;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.*;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-
-import javax.swing.*;
+import java.util.Locale;
 
 public class MillikanFrame extends JFrame {
 
@@ -24,12 +26,14 @@ public class MillikanFrame extends JFrame {
     private static final double t = 0.1;
     private AnimationFrame p1;
     public Listeners listeners;
+    private Thread th;
 
-    boolean condition;
+    boolean condition = false;
 
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+                Messages.setLocale(Locale.getDefault());
                 MillikanFrame panelWindow = new MillikanFrame();
 
             }
@@ -42,8 +46,8 @@ public class MillikanFrame extends JFrame {
     }
 
     private void initialize() {
-        condition=true;
-        listeners=new Listeners(this);
+        condition = true;
+        listeners = new Listeners(this);
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -101,7 +105,7 @@ public class MillikanFrame extends JFrame {
         p3.add(scrollPane);
 
 
-        JButton ask = new JButton("ask");
+        JButton ask = new JButton(Messages.getString("ask"));
         JToggleButton onOff = new JToggleButton("on/off");
         onOff.setSize(30, 30);
 
@@ -109,7 +113,7 @@ public class MillikanFrame extends JFrame {
         eValuePanel.setMaximumSize(new Dimension(1000, 25));
 
         eValuePanel.setBackground(Color.blue);
-        JLabel eLabel = new JLabel("Estimated e:");
+        JLabel eLabel = new JLabel(Messages.getString("estimation"));
         JLabel eValueLabel = new JLabel(Double.toString(ladunek / Math.pow(10, 20)));
         eValuePanel.add(eLabel);
         eValuePanel.add(eValueLabel);
@@ -152,9 +156,9 @@ public class MillikanFrame extends JFrame {
 
             @Override
             public void windowClosing(WindowEvent e) {
-                int confirm = JOptionPane.showOptionDialog(null, "Are You Sure to Close Application?", "Exit Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                int confirm = JOptionPane.showOptionDialog(null, Messages.getString("askForClose"), Messages.getString("exitConfirmation"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
                 if (confirm == 0) {
-                     condition=false;
+                    condition = false;
 
                     System.exit(0);
                 }
@@ -166,50 +170,70 @@ public class MillikanFrame extends JFrame {
         setBounds(dimensions.width / 2 - WINDOW_WIDTH / 2, dimensions.height
                 / 2 - WINDOW_HEIGHT / 2, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-        setTitle("Symulacja doświadczenia Millikana");
+        setTitle(Messages.getString("title"));
         //zamiast tego bedzie dodawanie poprzez actionlistener
         currentDrop = new OilDrop(1E-7, 2E-7, 1, 1000, this);
 
         //start();
     }
 
+
+
     public void start() {
-        condition=true;
+
+        condition = true;
         currentDrop = new OilDrop(1E-7, 2E-7, 1, 1000, this);
-        Thread th = new Thread() {
-            public void run() {
+        if (th == null) {
+            th = new Thread() {
+                public void run() {
 
-               PrintWriter writer=null;
-                try
-                {
-                     writer = new PrintWriter(new FileWriter("out.txt"));
-                    Test test=new Test(currentDrop,writer);
-                    while (condition) {
+                    PrintWriter writer = null;
+                    try {
+                        writer = new PrintWriter(new FileWriter("out.txt"));
+                        Test test = new Test(currentDrop, writer);
+                        while (condition) {
 
-                        currentDrop.move();
-                        p1.repaint();
-                        test.test();
+                            currentDrop.move();
+                            p1.repaint();
+                            test.test();
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                            }
+                        }
+
+                    } catch (Exception ex) {
+                        System.out.println("Error: " + ex.getMessage());
+                    } finally {
                         try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException e) {
+                            writer.close();
+                        } catch (Exception ex) {
+                            System.out.println("Error: " + ex.getMessage());
                         }
                     }
-
                 }
-            catch (Exception ex) {
-                System.out.println("Error: " + ex.getMessage());
-            } finally {
-                try { writer.close(); }
-                catch (Exception ex) {
-                    System.out.println("Error: " + ex.getMessage());
-                }
-            }
-            }
-        };
+            };
 
-        th.start();
+            th.start();
+        }
+
     }
 
+    public void stop() {
+        if (th != null) {
+            th.stop();
+            th = null;
+        }
+
+    }
+
+    public void resume() {
+        if (th != null) {
+            th.stop();
+            th = null;
+        }
+        th.start();
+    }
 
     public JPanel makeButtonsPanel() {
         JPanel buttonsPanel = new JPanel();
@@ -231,6 +255,7 @@ public class MillikanFrame extends JFrame {
         //Listeners listeners = new Listeners(this);
         startButton.addActionListener(listeners.start);
         photocell1.addActionListener(listeners.photo1);
+        languageButton.addActionListener(listeners.languageListener);
 
         photocell2.addActionListener(listeners.photo2);
         pomiarButton.addActionListener(listeners.measure);
@@ -262,7 +287,7 @@ public class MillikanFrame extends JFrame {
 
         rowPanel.setMinimumSize(new Dimension(170, 25));
         //należało ustawić serMinimumSize i zmieniać ustawienia
-         rowPanel.setMaximumSize(new Dimension(1000, 15));
+        rowPanel.setMaximumSize(new Dimension(1000, 15));
         columnpanel.setLayout(new BoxLayout(columnpanel, BoxLayout.Y_AXIS));
         rowPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         columnpanel.add(rowPanel);
@@ -287,6 +312,10 @@ public class MillikanFrame extends JFrame {
 
         if (columnpanel.getComponentCount() % 2 == 0)
             rowPanel.setBackground(SystemColor.inactiveCaptionBorder);
+    }
+
+    public Thread getThread() {
+        return th;
     }
 
     public double getT() {

@@ -1,12 +1,11 @@
 package gui;
 
-import millikanModel.Photodetector;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Locale;
 
 /**
  * Created by rafal on 11.05.15.
@@ -18,8 +17,10 @@ public class Listeners {
     PhotoListener photo2;
     ChangeListener change;
     MeasureListener measure;
+    LanguageListener languageListener;
     long startAnimationTime;
     long finishAnimationTime;
+
 
     Listeners(MillikanFrame mf) {
         frame = mf;
@@ -28,6 +29,7 @@ public class Listeners {
         photo2 = new PhotoListener();
         change = new ElectricListener();
         measure = new MeasureListener();
+        languageListener = new LanguageListener();
     }
 
     class StartListener implements ActionListener {
@@ -37,9 +39,14 @@ public class Listeners {
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
+            // if (frame.condition==false) {
+            //  System.out.println("Wchodzi do tej pętli! ");
             frame.start();
-            startAnimationTime=System.currentTimeMillis();
-            System.out.println("start Animation Time: "+startAnimationTime);
+            //    } else {
+            //    frame.resume();
+            //  }
+            startAnimationTime = System.currentTimeMillis();
+            System.out.println("start Animation Time: " + startAnimationTime);
         }
     }
 
@@ -94,13 +101,39 @@ public class Listeners {
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
+
             frame.condition = false;
-            finishAnimationTime=System.currentTimeMillis();
-            System.out.println("finish Animation Time: "+finishAnimationTime);
+            frame.stop();
+            finishAnimationTime = System.currentTimeMillis();
+            System.out.println("finish Animation Time: " + finishAnimationTime);
             frame.getP1().getPd1().calculateV1(frame.currentDrop);
             frame.getP1().getPd1().calculateV2(frame.currentDrop);
             frame.getP1().getPd2().calculateV1(frame.currentDrop);
             frame.getP1().getPd2().calculateV2(frame.currentDrop);
+        }
+    }
+
+    /**
+     * Created by monika03 on 17.05.15.
+     */
+    class LanguageListener implements ActionListener {
+        LanguageListener() {
+            super();
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            if (Locale.getDefault() == Locale.ENGLISH) {
+                Locale locale = new Locale.Builder().setLanguage("pl").setRegion("PL").build();
+                Messages.setLocale(locale);
+            } else {
+                Locale locale = new Locale.Builder().setLanguage("en").setRegion("US").build();
+                Messages.setLocale(locale);
+            }
+
+            frame.repaint();
+
+
         }
     }
 }
