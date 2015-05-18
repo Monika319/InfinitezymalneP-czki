@@ -41,16 +41,22 @@ public class OilDrop
         //System.out.println(this.getV1());
         y += 10E6 * (frame.getT() * v);
         if(y<0) y=0;
+
         double k = 6 * Math.PI * Constants.airViscosity * radius;
         double m = 4 / 3 * Math.PI * Math.pow(radius, 3) * oilDensity;
         double u = Constants.g / k * (m - Constants.airDensity * 4 / 3 * Math.PI * Math.pow(radius, 3));
         double a=Constants.g*(1-(Constants.airDensity/oilDensity))-k/m*v;
+      //  double a=Constants.g-k/m*v;
+      //  double u =m / k * (Constants.g -a);
         double A;
+       // double A=Constants.g+k/m*v;
         double w;
+
         if (y < frame.getP1().getC().getY1())
         {
 
             v+=a*frame.getT();
+         //   A=A*frame.getT();
             if(v>u)
             {
                 v=u;
@@ -58,9 +64,13 @@ public class OilDrop
         }
         else if((y < frame.getP1().getC().getY2())&&(y > frame.getP1().getC().getY1()))
         {
-             A=a+charge/m*frame.getP1().getC().getE();
+          //  A=A-charge/m*frame.getP1().getC().getE();
+
             // w=u+charge/k*frame.getP1().getC().getE();
-            w=charge*k*frame.getP1().getC().getE()-k*v2;
+            //poniższe 2 linijki są poprawne
+              A=a+charge/m*frame.getP1().getC().getE();
+            w=u+charge/k*frame.getP1().getC().getE()-k*v2;
+           // w=charge/k*frame.getP1().getC().getE()+m/k*(A-Constants.g);
             v+=A* frame.getT();
             if(v>w) v=w;
         }
