@@ -42,16 +42,20 @@ public class OilDrop {
         double k = 6 * Math.PI * Constants.airViscosity * radius;
         double m = 4 / 3 * Math.PI * Math.pow(radius, 3) * oilDensity;
         double u = Constants.g / k * (m - Constants.airDensity * 4 / 3 * Math.PI * Math.pow(radius, 3));
-        double a = Constants.g * (1 - (Constants.airDensity / oilDensity)) - k / m * v;
+//        double a = Constants.g * (1 - (Constants.airDensity / oilDensity)) - k / m * v;
         //  double a=Constants.g-k/m*v;
         //  double u =m / k * (Constants.g -a);
+        double a=0;
         double A;
         // double A=Constants.g+k/m*v;
         double w;
 
         if (y < frame.getP1().getC().getY1()) {
+            a = Constants.g * (1 - (Constants.airDensity / oilDensity)) - k / m * v;
             v += a * frame.getT();
-//
+            System.out.println("Predkosc v:"+Double.toString(v));
+            System.out.println("Czas t:"+Double.toString(frame.getT()));
+            System.out.println("Polozenie y:"+Double.toString(y));
             if (v > u) {
                 v = u;
             }
@@ -67,13 +71,20 @@ public class OilDrop {
             // w=charge/k*frame.getP1().getC().getE()+m/k*(A-Constants.g);
 
             A = charge / m * frame.getP1().getC().getE() - a;
+            System.out.println("przyspieszenie A:"+Double.toString(A));
 
             w = u - charge / k * frame.getP1().getC().getE();
-
-
-            v += A * frame.getT();
+            System.out.println("predkosc w:"+w);
+            System.out.println("predkosc v before:"+v);
+           // v += A * frame.getT()*10;
+            v +=A*0.01;
+            System.out.println("Predkosc v after:"+Double.toString(v));
+            System.out.println("Czas t:"+Double.toString(frame.getT()));
+            System.out.println("Polozenie y:"+Double.toString(y));
             //   System.out.println("v: "+Double.toString(v));
-            if (v > w) v = w;
+            if (v > w){
+                v = w;
+            }
         } else v = 0;
 
 

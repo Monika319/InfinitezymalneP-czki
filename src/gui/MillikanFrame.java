@@ -27,6 +27,7 @@ public class MillikanFrame extends JFrame {
     private AnimationFrame p1;
     public Listeners listeners;
     private Thread th;
+    int count = 0;
 
     boolean condition = false;
 
@@ -53,7 +54,7 @@ public class MillikanFrame extends JFrame {
 
         p1 = new AnimationFrame(this);
         JPanel p2 = new JPanel(new BorderLayout());
-        p2.setBackground(Color.green);
+        p2.setBackground(Color.lightGray);
 
         JPanel p3 = new JPanel();
         p3.setMinimumSize(new Dimension(150, 500));
@@ -108,6 +109,8 @@ public class MillikanFrame extends JFrame {
         Button ask = new Button("res/ask.png", 20, 20);
         JToggleButton onOff = new JToggleButton("on/off");
         onOff.setSize(30, 30);
+
+        onOff.addActionListener(listeners.plotListener);
         ask.addActionListener(listeners.askButtonListener);
 
         JPanel eValuePanel = new JPanel();
@@ -179,8 +182,10 @@ public class MillikanFrame extends JFrame {
     }
 
 
-
     public void start() {
+
+
+        //p1.repaint();
 
         condition = true;
         currentDrop = new OilDrop(1E-7, 2E-7, 1, 1000, this);
@@ -193,12 +198,17 @@ public class MillikanFrame extends JFrame {
                         writer = new PrintWriter(new FileWriter("out.txt"));
                         Test test = new Test(currentDrop, writer);
                         while (condition) {
-
+                            count++;
                             currentDrop.move();
+
+//                            if((count % 10)==0) {
                             p1.repaint();
+//                            }
+
+
                             test.test();
                             try {
-                                Thread.sleep(100);
+                                Thread.sleep(30);
                             } catch (InterruptedException e) {
                             }
                         }
@@ -220,17 +230,10 @@ public class MillikanFrame extends JFrame {
 
     }
 
-    public void stop() {
-        if (th != null) {
-            th.stop();
-            th = null;
-        }
-
-    }
 
     public void resume() {
         if (th != null) {
-            th.stop();
+
             th = null;
         }
         th.start();
@@ -260,7 +263,6 @@ public class MillikanFrame extends JFrame {
 
         photocell2.addActionListener(listeners.photo2);
         pomiarButton.addActionListener(listeners.measure);
-
 
 
         buttonsPanel.add(startButton);
@@ -328,4 +330,3 @@ public class MillikanFrame extends JFrame {
         return p1;
     }
 }
-

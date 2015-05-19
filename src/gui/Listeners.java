@@ -6,6 +6,9 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Locale;
 
 /**
@@ -20,10 +23,12 @@ public class Listeners {
     MeasureListener measure;
     LanguageListener languageListener;
     AskButtonListener askButtonListener;
+    PlotListener plotListener;
     private long startAnimationTime;
     long finishAnimationTime;
     private static final int WINDOW_HEIGHT = 120;
     private static final int WINDOW_WIDTH = 260;
+    private static int plotCounter=0;
 
 
     Listeners(MillikanFrame mf) {
@@ -34,7 +39,8 @@ public class Listeners {
         change = new ElectricListener();
         measure = new MeasureListener();
         languageListener = new LanguageListener();
-        askButtonListener=new AskButtonListener();
+        askButtonListener = new AskButtonListener();
+        plotListener=new PlotListener();
     }
 
     class StartListener implements ActionListener {
@@ -46,6 +52,8 @@ public class Listeners {
         public void actionPerformed(ActionEvent actionEvent) {
             // if (frame.condition==false) {
             //  System.out.println("Wchodzi do tej pętli! ");
+
+            ///co!?
             frame.start();
             //    } else {
             //    frame.resume();
@@ -54,6 +62,35 @@ public class Listeners {
             System.out.println("start Animation Time: " + startAnimationTime);
         }
     }
+
+    class PlotListener implements ActionListener {
+        PlotListener() {
+            super();
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+          //actionEvent.
+            plotCounter++;
+            System.out.println(Integer.toString(plotCounter));
+
+            JFrame dataFrame = new JFrame();
+            dataFrame.setTitle("Experiment's data");
+            dataFrame.setPreferredSize(new Dimension(600, 400));
+            JPanel dataPanel = new JPanel();
+            dataFrame.setContentPane(dataPanel);
+            dataFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            dataFrame.pack();
+            dataFrame.setVisible(true);
+                if ((plotCounter % 2)==0){
+                    dataFrame.dispose();
+                }
+
+
+
+        }
+    }
+
     class AskButtonListener implements ActionListener {
         AskButtonListener() {
             super();
@@ -61,18 +98,46 @@ public class Listeners {
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            JFrame askFrame=new JFrame();
-            Dimension dimensions = Toolkit.getDefaultToolkit().getScreenSize();
-            askFrame.setBounds(dimensions.width / 2 - WINDOW_WIDTH / 2, dimensions.height
-                    / 2 - WINDOW_HEIGHT / 2, WINDOW_WIDTH, WINDOW_HEIGHT);
-    askFrame.setPreferredSize(dimensions);
-            askFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            askFrame.pack();
-            askFrame.setVisible(true);
-            JTextArea instructions=new JTextArea();
-            frame.setContentPane(instructions);
+            new InstructionsRead();
         }
     }
+
+
+    class InstructionsRead {
+        InstructionsRead() {
+            initialize();
+        }
+
+        void initialize() {
+            JFrame askFrame = new JFrame();
+            askFrame.setTitle("Instructions");
+            JPanel instructionsPanel = new JPanel();
+            askFrame.setContentPane(instructionsPanel);
+            askFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            BufferedReader in = null;
+            JTextArea instructions = new JTextArea();
+            try {
+                in = new BufferedReader(new FileReader("res/instructions"));
+                String str;
+                while ((str = in.readLine()) != null) {
+                    instructions.append("\n" + str);
+                }
+            } catch (IOException e) {
+            } finally {
+                try {
+                    in.close();
+                } catch (Exception ex) {
+                }
+            }
+            instructionsPanel.add(instructions);
+
+            askFrame.pack();
+            askFrame.setVisible(true);
+
+
+        }
+    }
+
 
     class PhotoListener implements ActionListener {
         PhotoListener() {
@@ -113,7 +178,7 @@ public class Listeners {
         public void stateChanged(ChangeEvent changeEvent) {
             JSlider slider = (JSlider) changeEvent.getSource();
             int value = slider.getValue();
-            System.out.println("Value from slider: "+Integer.toString(value));
+            System.out.println("Value from slider: " + Integer.toString(value));
             frame.getP1().getC().setVoltage(value);
             //System.out.println(value- frame.getP1().getC().getVoltage()*1000);
         }
@@ -131,7 +196,7 @@ public class Listeners {
         public void actionPerformed(ActionEvent actionEvent) {
 
             frame.condition = false;
-            frame.stop();
+            //   frame.stop();
             finishAnimationTime = System.currentTimeMillis();
             System.out.println("finish Animation Time: " + finishAnimationTime);
             frame.getP1().getPd1().calculateV1(frame.currentDrop);
