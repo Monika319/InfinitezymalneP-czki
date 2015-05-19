@@ -19,7 +19,7 @@ public class ElectricField extends JPanel
         String[] fieldUnits = {"mV", "V", "kV"};
         JTextField valueField = new JFormattedTextField(voltageValue);
         valueField.setEditable(true);
-        JSlider valueSlider = new JSlider(0,500);
+        JSlider valueSlider = new JSlider(0,50);
         valueSlider.setValue(0);
         valueSlider.addChangeListener(frame.listeners.change);
         JComboBox unitBox = new JComboBox(fieldUnits);

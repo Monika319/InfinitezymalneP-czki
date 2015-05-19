@@ -113,6 +113,7 @@ public class Listeners {
         public void stateChanged(ChangeEvent changeEvent) {
             JSlider slider = (JSlider) changeEvent.getSource();
             int value = slider.getValue();
+            System.out.println("Value from slider: "+Integer.toString(value));
             frame.getP1().getC().setVoltage(value);
             //System.out.println(value- frame.getP1().getC().getVoltage()*1000);
         }
