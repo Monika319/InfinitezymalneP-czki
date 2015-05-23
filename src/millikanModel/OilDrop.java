@@ -1,5 +1,6 @@
 package millikanModel;
 
+import java.awt.*;
 import java.util.Random;
 
 import gui.ElectricField;
@@ -36,7 +37,7 @@ public class OilDrop {
     public void move() {
         //Mnoznik 10E6 aby przeskalowac rzeczywiste jednostki [metr] na piksele
         //System.out.println(this.getV1());
-        y += 10E6 * (frame.getT() * v);
+        y += 10E6 * (0.1 * v);
         if (y < 0) y = 0;
 
         double k = 6 * Math.PI * Constants.airViscosity * radius;
@@ -77,7 +78,7 @@ public class OilDrop {
             System.out.println("predkosc w:"+w);
             System.out.println("predkosc v before:"+v);
            // v += A * frame.getT()*10;
-            v +=A*0.01;
+            v +=A*0.1;
             System.out.println("Predkosc v after:"+Double.toString(v));
             System.out.println("Czas t:"+Double.toString(frame.getT()));
             System.out.println("Polozenie y:"+Double.toString(y));
@@ -88,6 +89,10 @@ public class OilDrop {
         } else v = 0;
 
 
+    }
+    public void paint(Graphics2D g) {
+        g.setColor(Color.yellow);
+        g.drawLine((int) radius, (int) Math.round(frame.currentDrop.getY()), (int) (2 * radius), (int) (2 * radius));
     }
 
     public double getRadius() {

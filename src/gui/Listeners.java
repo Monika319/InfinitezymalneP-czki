@@ -54,10 +54,20 @@ public class Listeners {
             //  System.out.println("Wchodzi do tej pętli! ");
 
             ///co!?
-            frame.start();
+           // frame.start();
             //    } else {
             //    frame.resume();
             //  }
+            if (frame.getP1().initialize){
+                frame.getP1().timer.start();
+
+            }
+            else
+            {
+                frame.getP1().timer.stop();
+            }
+            frame.getP1().initialize=!frame.getP1().initialize;
+
             startAnimationTime = System.currentTimeMillis();
             System.out.println("start Animation Time: " + startAnimationTime);
         }

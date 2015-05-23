@@ -1,19 +1,25 @@
 package gui;
 
 import millikanModel.Capacitor;
+import millikanModel.OilDrop;
 import millikanModel.Photodetector;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
-public class AnimationFrame extends JPanel {
+public class AnimationFrame extends JPanel implements ActionListener {
     // private JPanel animationPanel;
     private MillikanFrame frame;
     private Photodetector pd1;
     private Photodetector pd2;
     private Capacitor C;
     private int ballDiameter;
+    protected boolean initialize=true;
+    Timer timer;
+    private OilDrop oilDrop;
 
     AnimationFrame(MillikanFrame mf) {
         super(new FlowLayout(FlowLayout.CENTER));
@@ -31,8 +37,10 @@ public class AnimationFrame extends JPanel {
         C = new Capacitor(270, 470);
         // pd2 = new Photodetector(380, 420);
         pd2 = new Photodetector(273, 313);
-
-
+        oilDrop=new OilDrop(1E-7, 2E-7, 1, 1000, frame);
+        timer = new Timer(20, this);
+        timer.setInitialDelay(300);
+        timer.start();
         // animationPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
     }
@@ -44,6 +52,9 @@ public class AnimationFrame extends JPanel {
         g.setColor(Color.yellow);
         g.fillOval((int) ((this.getWidth() / 2) - ballDiameter / 2), (int) Math.round(frame.currentDrop.getY()), ballDiameter, ballDiameter);
         C.paintCapacitor(g, this);
+        if (initialize){
+            initialize=false;
+        }
     }
 
     public Capacitor getCapacitor() {
@@ -64,5 +75,11 @@ public class AnimationFrame extends JPanel {
 
     public Capacitor getC() {
         return C;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        oilDrop.move();
+        frame.repaint();
     }
 }
