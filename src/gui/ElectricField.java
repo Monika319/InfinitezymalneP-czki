@@ -22,7 +22,9 @@ public class ElectricField extends JPanel
         JSlider valueSlider = new JSlider(0,50);
         valueSlider.setValue(0);
         valueSlider.addChangeListener(frame.listeners.change);
+        valueField.addActionListener(frame.listeners.electricTextListener);
         JComboBox unitBox = new JComboBox(fieldUnits);
+        unitBox.addActionListener(frame.listeners.unitBoxListener);
         //unitBox.setSelectedIndex(0);
         valueField.setPreferredSize(new Dimension(100, 25));
 

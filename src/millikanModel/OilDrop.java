@@ -57,7 +57,7 @@ public class OilDrop {
 
         if ((y*10E6) < frame.getP1().getC().getY1()) {
    a = Constants.g * (1 - (Constants.airDensity / oilDensity)) - k / m * v;
-            System.out.println("PRZYSPIESZENIE! "+a);
+
             v += a * 0.1;
 //            System.out.println("Predkosc v:"+Double.toString(v));
 //            System.out.println("Czas t:"+Double.toString(frame.getT()));

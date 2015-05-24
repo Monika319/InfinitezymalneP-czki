@@ -329,4 +329,8 @@ public class MillikanFrame extends JFrame {
     public AnimationFrame getP1() {
         return p1;
     }
+
+    public void setP1(AnimationFrame animationFrame) {
+        p1 = animationFrame;
+    }
 }
