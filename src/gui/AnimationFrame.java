@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class AnimationFrame extends JPanel implements ActionListener {
+public class AnimationFrame extends JPanel  {
     // private JPanel animationPanel;
     private MillikanFrame frame;
     private Photodetector pd1;
@@ -38,23 +38,33 @@ public class AnimationFrame extends JPanel implements ActionListener {
         // pd2 = new Photodetector(380, 420);
         pd2 = new Photodetector(273, 313);
         oilDrop=new OilDrop(1E-7, 2E-7, 1, 1000, frame);
-        timer = new Timer(20, this);
-        timer.setInitialDelay(300);
-        timer.start();
+        timer = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                frame.currentDrop.move();
+               //oilDrop.move();
+                System.out.println("jestem przed repaint");
+                repaint();
+              //  initialize=!initialize;
+            }
+        });
+
         // animationPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
     }
 
     public void paintComponent(Graphics g) {
+        System.out.println("jestem w paint");
         super.paintComponent(g);
         pd1.paintPhotoDetector(g, this);
         pd2.paintPhotoDetector(g, this);
         g.setColor(Color.yellow);
-        g.fillOval((int) ((this.getWidth() / 2) - ballDiameter / 2), (int) Math.round(frame.currentDrop.getY()), ballDiameter, ballDiameter);
+        g.fillOval((int) ((this.getWidth() / 2) - ballDiameter / 2), (int) Math.round(frame.currentDrop.getY()*10E6), ballDiameter, ballDiameter);
         C.paintCapacitor(g, this);
         if (initialize){
             initialize=false;
         }
+
     }
 
     public Capacitor getCapacitor() {
@@ -77,9 +87,5 @@ public class AnimationFrame extends JPanel implements ActionListener {
         return C;
     }
 
-    @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-        oilDrop.move();
-        frame.repaint();
-    }
+
 }

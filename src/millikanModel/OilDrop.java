@@ -37,12 +37,16 @@ public class OilDrop {
     public void move() {
         //Mnoznik 10E6 aby przeskalowac rzeczywiste jednostki [metr] na piksele
         //System.out.println(this.getV1());
-        y += 10E6 * (0.1 * v);
+        //y += 10E6 * (0.1 * v);
+        System.out.println("RADIUS "+radius);
+        y +=0.1*v;
         if (y < 0) y = 0;
 
         double k = 6 * Math.PI * Constants.airViscosity * radius;
         double m = 4 / 3 * Math.PI * Math.pow(radius, 3) * oilDensity;
+        //u-prędkość przy a=0 w ruchu swobodnym
         double u = Constants.g / k * (m - Constants.airDensity * 4 / 3 * Math.PI * Math.pow(radius, 3));
+        System.out.println("predkosc u"+u);
 //        double a = Constants.g * (1 - (Constants.airDensity / oilDensity)) - k / m * v;
         //  double a=Constants.g-k/m*v;
         //  double u =m / k * (Constants.g -a);
@@ -51,17 +55,20 @@ public class OilDrop {
         // double A=Constants.g+k/m*v;
         double w;
 
-        if (y < frame.getP1().getC().getY1()) {
-            a = Constants.g * (1 - (Constants.airDensity / oilDensity)) - k / m * v;
-            v += a * frame.getT();
-            System.out.println("Predkosc v:"+Double.toString(v));
-            System.out.println("Czas t:"+Double.toString(frame.getT()));
-            System.out.println("Polozenie y:"+Double.toString(y));
-            if (v > u) {
+        if ((y*10E6) < frame.getP1().getC().getY1()) {
+   a = Constants.g * (1 - (Constants.airDensity / oilDensity)) - k / m * v;
+            System.out.println("PRZYSPIESZENIE! "+a);
+            v += a * 0.1;
+//            System.out.println("Predkosc v:"+Double.toString(v));
+//            System.out.println("Czas t:"+Double.toString(frame.getT()));
+//            System.out.println("Polozenie y:"+Double.toString(y));
+            if ((v > u)&&((y*10E6)<=50)) {
                 v = u;
             }
             // System.out.println("v: "+Double.toString(v));
-        } else if ((y < frame.getP1().getC().getY2()) && (y > frame.getP1().getC().getY1())) {
+            System.out.println("y przeliczone: "+y*10E6+"wymiar: "+frame.getP1().getC().getY1());
+        } else if (((y*10E6) < frame.getP1().getC().getY2()) && ((y*10E6) > frame.getP1().getC().getY1())) {
+            System.out.println("y przeliczone: "+y*10E6+"wymiar: "+frame.getP1().getC().getY2());
             //  A=A-charge/m*frame.getP1().getC().getE();
 
             // w=u+charge/k*frame.getP1().getC().getE();
@@ -80,17 +87,17 @@ public class OilDrop {
            // v += A * frame.getT()*10;
             v +=A*0.1;
             System.out.println("Predkosc v after:"+Double.toString(v));
-            System.out.println("Czas t:"+Double.toString(frame.getT()));
             System.out.println("Polozenie y:"+Double.toString(y));
             //   System.out.println("v: "+Double.toString(v));
-            if (v > w){
-                v = w;
-            }
-        } else v = 0;
+//            if (v > w){
+//                v = w;
+//            }
+        }
+       // else v = 0;
 
 
     }
-    public void paint(Graphics2D g) {
+    public void paintComponent(Graphics g) {
         g.setColor(Color.yellow);
         g.drawLine((int) radius, (int) Math.round(frame.currentDrop.getY()), (int) (2 * radius), (int) (2 * radius));
     }
