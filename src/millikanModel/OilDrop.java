@@ -62,7 +62,7 @@ public class OilDrop {
 //            System.out.println("Predkosc v:"+Double.toString(v));
 //            System.out.println("Czas t:"+Double.toString(frame.getT()));
 //            System.out.println("Polozenie y:"+Double.toString(y));
-            if ((v > u)&&((y*10E6)<=50)) {
+            if ((v > u)&&((y)<=50)) {
                 v = u;
             }
             // System.out.println("v: "+Double.toString(v));
@@ -89,9 +89,9 @@ public class OilDrop {
             System.out.println("Predkosc v after:"+Double.toString(v));
             System.out.println("Polozenie y:"+Double.toString(y));
             //   System.out.println("v: "+Double.toString(v));
-//            if (v > w){
-//                v = w;
-//            }
+            if (v > w){
+                v = w;
+            }
         }
        // else v = 0;
 
