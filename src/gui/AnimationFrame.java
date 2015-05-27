@@ -53,9 +53,7 @@ public class AnimationFrame extends JPanel {
     }
 
     public void paintComponent(Graphics g) {
-        Double yDoubleValue= new Double(frame.currentDrop.getY());
-        System.out.println("Frame yd = " + yDoubleValue);
-        int yIntValue = yDoubleValue.intValue();
+
         super.paintComponent(g);
         pd1.paintPhotoDetector(g, this);
         pd2.paintPhotoDetector(g, this);
