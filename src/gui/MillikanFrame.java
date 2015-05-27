@@ -176,7 +176,7 @@ public class MillikanFrame extends JFrame {
 
         setTitle(Messages.getString("title"));
         //zamiast tego bedzie dodawanie poprzez actionlistener
-        currentDrop = new OilDrop(1E-7, 2E-7, 1, 1000, this);
+        currentDrop = new OilDrop(0.5*10E-4, 1*10E-4, 1, 1000, this);
 
         //start();
     }

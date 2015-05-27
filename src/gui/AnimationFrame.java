@@ -37,7 +37,7 @@ public class AnimationFrame extends JPanel {
         C = new Capacitor(270, 470);
         // pd2 = new Photodetector(380, 420);
         pd2 = new Photodetector(273, 313);
-        oilDrop = new OilDrop(1E-7, 2E-7, 1, 1000, frame);
+        oilDrop = new OilDrop(0.5*10E-4, 1*10E-4, 1, 1000, frame);
         timer = new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -53,12 +53,16 @@ public class AnimationFrame extends JPanel {
     }
 
     public void paintComponent(Graphics g) {
-
+        Double yDoubleValue= new Double(frame.currentDrop.getY());
+        System.out.println("Frame yd = " + yDoubleValue);
+        int yIntValue = yDoubleValue.intValue();
         super.paintComponent(g);
         pd1.paintPhotoDetector(g, this);
         pd2.paintPhotoDetector(g, this);
         g.setColor(Color.yellow);
-        g.fillOval((int) ((this.getWidth() / 2) - ballDiameter / 2), (int) Math.round(frame.currentDrop.getY() * 10E6), ballDiameter, ballDiameter);
+        g.fillOval((int) ((this.getWidth() / 2) - ballDiameter / 2), yIntValue, ballDiameter, ballDiameter)
+        ;
+        System.out.println("Frame y = " + yIntValue);
         C.paintCapacitor(g, this);
 
     }

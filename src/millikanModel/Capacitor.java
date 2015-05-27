@@ -22,7 +22,7 @@ public class Capacitor
     public Capacitor(int h1, int h2)
     {
         //frame=mf;
-        power=-6;
+        power=12;
         y1=h1;
         y2=h2;
         d=Math.abs(h2-h1);
