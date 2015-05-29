@@ -1,6 +1,7 @@
 package millikanModel;
 
 import gui.AnimationFrame;
+import gui.ElectricField;
 import gui.MillikanFrame;
 
 import javax.swing.*;
@@ -12,18 +13,20 @@ import java.awt.*;
 public class Capacitor {
     private double voltage;
     private double E;
-    private int d;
+    private double d;
     private int y1;
     private int y2;
     private int power;
-    //private MillikanFrame frame;
+
+
 
     public Capacitor(int h1, int h2) {
         //frame=mf;
-        power = 11;
+
+        power = -3;
         y1 = h1;
         y2 = h2;
-        d = Math.abs(h2 - h1);
+        d = Math.abs(h2 - h1)*Constants.normalizationConst;
         voltage = 0;
         makeField();
     }
@@ -42,6 +45,7 @@ public class Capacitor {
         g.drawLine(0, y2, (int) (af.getWidth()), y2);
     }
 
+
     public double getE() {
         return E;
     }
@@ -50,12 +54,12 @@ public class Capacitor {
         return voltage;
     }
 
-    public int getD() {
+    public double getD() {
         return d;
     }
 
-    public void setVoltage(double voltage) {
-        this.voltage = voltage * Math.pow(10, this.power);
+    public void setVoltage(int val) {
+        voltage = val * Math.pow(10, power);
         makeField();
     }
 
@@ -66,5 +70,11 @@ public class Capacitor {
     public int getY2() {
         return y2;
     }
+
+    public void setPower(int power)
+    {
+        this.power = power;
+    }
+
 
 }

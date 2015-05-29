@@ -2,23 +2,23 @@ package millikanModel;
 
 import java.util.ArrayList;
 
-public class ChargeCalculator {
+public class GCDCalculator {
 
     private int countedCharge;
 
-    public ChargeCalculator() {
-        // unitCharge=new UnitaryCharge(charges_g);
-        // chargeCalc(charges_g);
-
+    public GCDCalculator()
+    {
+        countedCharge=0;
     }
 
-    public int chargeCalc(ArrayList<Integer> charges_g) {
-        UnitaryCharge unitCharge = new UnitaryCharge(charges_g);
-        ArrayList<Integer> listdemo = new ArrayList<Integer>(charges_g);
-        ArrayList<Integer> list = new ArrayList<Integer>(charges_g);
-
+    public int chargeCalc(Charges unitCharge) {
+        //UnitaryCharge unitCharge = new UnitaryCharge(charges_g);
+        ArrayList<Integer> listdemo = new ArrayList<Integer>(unitCharge.getCharges_int());
+        ArrayList<Integer> list = new ArrayList<Integer>(unitCharge.getCharges_int());
+        if(list.size()>0)
         while (unitCharge.elementsEqual(listdemo) == false) {
             listdemo.remove(0);
+
             for (int i = 0; i < list.size() - 1; i++) {
                 // System.out.println(listdemo.get(0));
                 for (int j = 0; j < listdemo.size(); j++) {

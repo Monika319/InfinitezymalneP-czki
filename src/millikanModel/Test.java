@@ -12,36 +12,48 @@ public class Test
     private double u;
     private double u1;
     private double u2;
-    private double T1;
-    private double T2;
+    private double pd1T1;
+    private double pd1T2;
+    private double pd2T1;
+    private double pd2T2;
     private double y;
+    private double E;
+
+
+
     private long startTime;
     private String line;
     private OilDrop drop;
-    public PrintWriter writer=null;
-
-    public Test(OilDrop currentDrop,PrintWriter writerr)
+    private Capacitor C;
+    private Photodetector pd1;
+    private Photodetector pd2;
+    public Test(OilDrop currentDrop,Capacitor c,Photodetector PD1,Photodetector PD2)
     {
-        writer=writerr;
         drop=currentDrop;
-        q=drop.getCharge();
+        C=c;
+        pd1=PD1;
+        pd2=PD2;
         check();
+        q=drop.getCharge();
         startTime = System.currentTimeMillis();
-        writer.print(String.format("Begin of file t: %d%n",startTime));
-
     }
     public void check()
     {
-         u=drop.getV();
-         u1=drop.getV1();
-         u2=drop.getV2();
-         y=drop.getY();
+
+        u=drop.getV();
+        u1=drop.getV1();
+        u2=drop.getV2();
+        y=drop.getY();
+        E=C.getE();
+        pd1T1=pd1.getT1();
+        pd1T2=pd1.getT2();
+        pd2T1=pd2.getT1();
+        pd2T2=pd2.getT2();
     }
     public void writeLine()
     {
-        line=String.format("t: %15d y: %15e v: %15e v1: %15e v2: %15e%n ",System.currentTimeMillis()-startTime,y,u,u1,u2);
-        writer.print(line);
-
+        line=String.format("t: %10d| y: %10e|v: %10e | E: %10e | q: %10e | t1(pd1): %10e |t2(pd1): %10e | t1(pd2): %10e |t2(pd2): %10e |%n ",System.currentTimeMillis()-startTime,y,u,E,q,pd1T1,pd1T2,pd2T1,pd2T2);
+        System.out.print(line);
     }
 
     public void test()
@@ -51,4 +63,9 @@ public class Test
 
     }
 
+    public void setDrop(OilDrop drop)
+    {
+        this.drop = drop;
+        q=this.drop.getCharge();
+    }
 }

@@ -9,17 +9,20 @@ import java.awt.*;
 public class ElectricField extends JPanel
 {
     private MillikanFrame frame;
+    private int voltageValue;
+    private JTextField valueField;
+    private JSlider valueSlider;
     public ElectricField(MillikanFrame fm) {
         super(new BorderLayout());
         frame=fm;
         this.setMaximumSize(new Dimension(180, 20));
         this.setPreferredSize(new Dimension(150, 40));
-        Double voltageValue = 0D;
+        voltageValue = 0;
         // this.setBorder(BorderFactory.createLineBorder(Color.black));
-        String[] fieldUnits = {"mV", "V", "kV"};
-        JTextField valueField = new JFormattedTextField(voltageValue);
+        String[] fieldUnits = {"mV", "V", "kV","MV","GV","TV"};
+        valueField = new JFormattedTextField(voltageValue);
         valueField.setEditable(true);
-        JSlider valueSlider = new JSlider(0,200);
+        valueSlider = new JSlider(0,1000);
         valueSlider.setValue(0);
         valueSlider.addChangeListener(frame.listeners.change);
         valueField.addActionListener(frame.listeners.electricTextListener);
@@ -34,7 +37,21 @@ public class ElectricField extends JPanel
 
     }
 
-//    public double getFieldValue()
+    public void setVoltageValue(int voltageValue)
+    {
+        this.voltageValue = voltageValue;
+    }
+
+    public int getVoltageValue()
+    {
+        return voltageValue;
+    }
+    public void setAll()
+    {
+        valueSlider.setValue(voltageValue);
+        valueField.setText(Integer.toString(voltageValue));
+    }
+    //    public double getFieldValue()
 //    {
 //        return fieldValue;
 //    }

@@ -1,5 +1,6 @@
 package gui;
 
+import millikanModel.OilDrop;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -40,10 +41,11 @@ public class Listeners {
     private static final int WINDOW_HEIGHT = 120;
     private static final int WINDOW_WIDTH = 260;
     private static int plotCounter = 0;
-
+    private ElectricField ef;
 
     Listeners(MillikanFrame mf) {
         frame = mf;
+
         start = new StartListener();
         photo1 = new PhotoListener();
         photo2 = new PhotoListener();
@@ -168,17 +170,17 @@ public class Listeners {
 
                 if (frame.getP1().getPd1().isOn()) {
                     frame.getP1().getPd1().setOn(false);
-                    frame.getP1().getPd1().setT2();
+                   // frame.getP1().getPd1().setT2();
                 } else {
                     frame.getP1().getPd1().setOn(true);
-                    frame.getP1().getPd1().setT1();
+                    //frame.getP1().getPd1().setT1();
                 }
             else if (frame.getP1().getPd2().isOn()) {
                 frame.getP1().getPd2().setOn(false);
-                frame.getP1().getPd2().setT2();
+                //frame.getP1().getPd2().setT2();
             } else {
                 frame.getP1().getPd2().setOn(true);
-                frame.getP1().getPd2().setT1();
+                //frame.getP1().getPd2().setT1();
             }
 
         }
@@ -193,8 +195,11 @@ public class Listeners {
         public void stateChanged(ChangeEvent changeEvent) {
             JSlider slider = (JSlider) changeEvent.getSource();
             int value = slider.getValue();
-            System.out.println("Value from slider: " + Integer.toString(value));
+            //System.out.println("Value from slider: " + Integer.toString(value));
+            //frame.getP1().getC().setValue(value);
             frame.getP1().getC().setVoltage(value);
+            ef.setVoltageValue(value);
+            ef.setAll();
             //System.out.println(value- frame.getP1().getC().getVoltage()*1000);
         }
     }
@@ -208,17 +213,36 @@ public class Listeners {
         public void actionPerformed(ActionEvent e) {
             JComboBox unitBox = (JComboBox) e.getSource();
             String s = (String) unitBox.getSelectedItem();
-            if (s == "V") {
-                System.out.println("Przed zamianą jednostek: " + frame.getP1().getC().getVoltage());
-                frame.getP1().getC().setVoltage(frame.getP1().getC().getVoltage() * 10E3);
-                System.out.println("Po zamianie jednostek: " + frame.getP1().getC().getVoltage());
-            } else if (s == "kV") {
-                System.out.println("Przed zamianą jednostek: " + frame.getP1().getC().getVoltage());
-                frame.getP1().getC().setVoltage(frame.getP1().getC().getVoltage() * 10E6);
-                System.out.println("Po zamianie jednostek: " + frame.getP1().getC().getVoltage());
-            } else {
-
+            if (s == "MV")
+            {
+                frame.getP1().getC().setPower(6);
             }
+            else
+            if (s == "V")
+            {
+                //System.out.println("Przed zamianą jednostek: " + frame.getP1().getC().getVoltage());
+                frame.getP1().getC().setPower(1);
+                //System.out.println("Po zamianie jednostek: " + frame.getP1().getC().getVoltage());
+            } else if (s == "kV")
+            {
+                //System.out.println("Przed zamianą jednostek: " + frame.getP1().getC().getVoltage());
+                frame.getP1().getC().setPower(3);
+               // System.out.println("Po zamianie jednostek: " + frame.getP1().getC().getVoltage());
+            }
+            else if (s=="GV")
+            {
+                frame.getP1().getC().setPower(9);
+            }
+            else if (s=="TV")
+            {
+                frame.getP1().getC().setPower(12);
+            }
+            else
+            {
+                frame.getP1().getC().setPower(-3);
+            }
+            frame.getP1().getC().setVoltage(ef.getVoltageValue());
+
 
         }
     }
@@ -232,9 +256,11 @@ public class Listeners {
         public void actionPerformed(ActionEvent e) {
             JTextField electricField = (JTextField) e.getSource();
             if (electricField.getText() != null) {
-                double value = Double.parseDouble(electricField.getText());
+                int value = Integer.parseInt(electricField.getText());
                 frame.getP1().getC().setVoltage(value);
-                System.out.println(electricField.getText());
+                ef.setVoltageValue(value);
+                ef.setAll();
+                //System.out.println(electricField.getText());
 
             }
         }
@@ -249,64 +275,23 @@ public class Listeners {
         }
 
         @Override
-        public void actionPerformed(ActionEvent actionEvent) {
-
-            // frame.condition = false;
-            //   frame.stop();
-            //  frame.getP1().initialize = false;
-//            if (!frame.getP1().initialize) {
-//                frame.getP1().timer.start();
-//
-//            } else {
-//                frame.getP1().timer.stop();
-//                frame.setP1();
-//            }
-//            frame.getP1().initialize = !frame.getP1().initialize;
-//                if (frame.getP1().timer == null) {
-//                    frame.getP1().timer= new Timer(100, new ActionListener() {
-//                        @Override
-//                        public void actionPerformed(ActionEvent ae) {
-//                            frame.currentDrop.move();
-//                            //oilDrop.move();
-//                            System.out.println("jestem przed repaint");
-//                            frame.getP1().repaint();
-//
-//                        }
-//                    });
-//                   // frame.getP1().timer.start();
-//                  //  frame.currentDrop.move();
-//
-//                }
-//            if (frame.getP1().timer != null) {
-//                frame.getP1().timer.stop();
-//                frame.getP1().timer = null;
-////                    frame.getP1().repaint();
-////                    frame.currentDrop.move();
-////                    frame.currentDrop.move();
-////                    frame.getP1().repaint();
-//            }
-//            else{
-//                frame.setP1(new AnimationFrame(frame));
-//                frame.getP1().timer = new Timer(100, new ActionListener() {
-//                    @Override
-//                    public void actionPerformed(ActionEvent ae) {
-//                        frame.currentDrop.move();
-//                        //oilDrop.move();
-//                        System.out.println("jestem przed repaint");
-//                        frame.getP1().repaint();
-//
-//                    }
-//                });
-//            }
-
-            // frame.getP1().initialize = !frame.getP1().initialize;
+        public void actionPerformed(ActionEvent actionEvent)
+        {
+            if (frame.getP1().initialize)
+            {
+                frame.getP1().timer.stop();
+                frame.getP1().initialize = !frame.getP1().initialize;
+            }
             finishAnimationTime = System.currentTimeMillis();
-            System.out.println("finish Animation Time: " + finishAnimationTime);
-            frame.getP1().getPd1().calculateV1(frame.currentDrop);
-            frame.getP1().getPd1().calculateV2(frame.currentDrop);
-            frame.getP1().getPd2().calculateV1(frame.currentDrop);
-            frame.getP1().getPd2().calculateV2(frame.currentDrop);
 
+            frame.getP1().getPd1().calculateV(frame.currentDrop);
+            frame.getP1().getPd2().calculateV(frame.currentDrop);
+            frame.getCharges().addCharge(frame.currentDrop, frame.getP1().getC().getE());
+            frame.currentDrop=new OilDrop(frame);
+            frame.getP1().reset();
+            frame.getP1().repaint();
+
+            System.out.println("finish Animation Time: " + finishAnimationTime);
         }
     }
 
@@ -332,5 +317,10 @@ public class Listeners {
 
 
         }
+    }
+
+    public void setEf(ElectricField ef)
+    {
+        this.ef = ef;
     }
 }
