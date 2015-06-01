@@ -47,18 +47,20 @@ public class Charges {
                     * Math.sqrt(1 / (Constants.g * (drop.getOilDensity() - Constants.airDensity)));
             q *= (drop.getV1() + drop.getV2()) * Math.sqrt(drop.getV1()) / E;
             double absQ = Math.abs(q);
-            System.out.println("q="+q);
+           System.out.println("q="+q);
             System.out.println("|q|="+absQ);
             //q=absQ
-            intCharge = (int) (absQ * Math.pow(10., 23.));
-            System.out.println("intCharge="+intCharge);
-            q=-(double)intCharge*Math.pow(10.,-23.);
-            System.out.println("new q="+q);
+            //TODO:ZROBIC TU OBCIECIE
+            intCharge = (int) Math.floor(absQ * Math.pow(10., 23.));
+           System.out.println("intCharge="+intCharge);
+           q=(double)intCharge*Math.pow(10.,-23.);
+            System.out.println("q="+q);
+            //System.out.println("new q="+q);
             charges.add(q);
             charges_int.add(intCharge);
-            frame.ListView(frame.getListPanel(), new chargeVariable<>(q));
+            frame.ListView(frame.getListPanel(), new chargeVariable<>(intCharge));
         }
-        //FIXME:WSTAWIC OKIENKO ALBO KOMUNIKAT O BLEDZIE
+        //TODO:WSTAWIC OKIENKO ALBO KOMUNIKAT O BLEDZIE
         else
             System.err.println("NIE ZMIERZONO OBU PREDKOSCI!!!");
     }
@@ -91,5 +93,33 @@ public class Charges {
     public ArrayList<Integer> getCharges_int()
     {
         return charges_int;
+    } public int decimalCut(int charge)
+    {
+        int digits[]=new int[5];
+        int newCharge=(int)Math.floor(charge*Math.pow(10.,23.));
+        int len=0;
+        while(newCharge/Math.pow(10.,(double)len)>=1.)
+            len+=1;
+        len-=1;
+        for(int i=0;i<digits.length;i++)
+        {
+
+        }
+        return newCharge;
     }
+    //TODO:ZROBIC DOKONCZYC TO
+//    public int decimalCut(int charge)
+//    {
+//        int digits[]=new int[5];
+//        int newCharge=(int)Math.floor(charge*Math.pow(10.,23.));
+//        int len=0;
+//        while(newCharge/Math.pow(10.,(double)len)>=1.)
+//            len+=1;
+//        len-=1;
+//        for(int i=0;i<digits.length;i++)
+//        {
+//
+//        }
+//        return newCharge;
+//    }
 }

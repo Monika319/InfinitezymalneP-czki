@@ -20,7 +20,7 @@ public class GCDCalculator {
             listdemo.remove(0);
 
             for (int i = 0; i < list.size() - 1; i++) {
-                // System.out.println(listdemo.get(0));
+                 System.out.println(listdemo.get(i));
                 for (int j = 0; j < listdemo.size(); j++) {
                     listdemo.set(j,
                             unitCharge.gcd(listdemo.get(j), list.get(i)));

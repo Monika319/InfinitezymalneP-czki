@@ -31,7 +31,7 @@ public class MillikanFrame extends JFrame {
     private Charges charges;
     boolean condition = false;
     private JPanel listPanel;
-
+    private ValuePanel valuePanel;
     private JScrollPane scrollPane;
     //private ListView lv;
 
@@ -84,8 +84,8 @@ public class MillikanFrame extends JFrame {
 //        testCharges.add(new chargeVariable<>(128));
         //charges.add(6601064);
 //        boolean wynik = chargee.elementsEqual(charges);
-        GCDCalculator calculator = new GCDCalculator();
-        int ladunek = calculator.chargeCalc(charges);
+//        GCDCalculator calculator = new GCDCalculator();
+//        int ladunek =0; //calculator.chargeCalc(charges);
 //        System.out.println("ILE: " + ile + "wynik" + wynik);
 //        System.out.println(Integer.toString(ladunek));
 
@@ -99,9 +99,9 @@ public class MillikanFrame extends JFrame {
 //
 //        }
 
-        for (int i = 0; i < 100; i++) {
-           // ListView(listPanel, emptyValue);
-        }
+//        for (int i = 0; i < 100; i++) {
+//           // ListView(listPanel, emptyValue);
+//        }
          scrollPane = new JScrollPane(listPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setPreferredSize(new Dimension(170, 350));
         p3.add(scrollPane);
@@ -114,17 +114,17 @@ public class MillikanFrame extends JFrame {
 
         onOff.addActionListener(listeners.plotListener);
         ask.addActionListener(listeners.askButtonListener);
+        valuePanel=new ValuePanel();
+//        valuePanel = new JPanel();
+//        valuePanel.setMaximumSize(new Dimension(1000, 25));
+//
+//        valuePanel.setBackground(Color.WHITE);
+//        JLabel eLabel = new JLabel(Messages.getString("estimation"));
+//        JLabel eValueLabel = new JLabel(Double.toString(ladunek / Math.pow(10, 20)));
+//        valuePanel.add(eLabel);
+//        valuePanel.add(eValueLabel);
 
-        JPanel eValuePanel = new JPanel();
-        eValuePanel.setMaximumSize(new Dimension(1000, 25));
-
-        eValuePanel.setBackground(Color.WHITE);
-        JLabel eLabel = new JLabel(Messages.getString("estimation"));
-        JLabel eValueLabel = new JLabel(Double.toString(ladunek / Math.pow(10, 20)));
-        eValuePanel.add(eLabel);
-        eValuePanel.add(eValueLabel);
-
-        p3.add(eValuePanel);
+        p3.add(valuePanel);
         p3.add(new makeButtonsPanel(this));
 
         p2.add(ask, BorderLayout.WEST);
@@ -189,8 +189,18 @@ public class MillikanFrame extends JFrame {
 //        }
 //        th.start();
 //    }
+    public void setEValue()
+    {
+        int charge=0;
+        GCDCalculator calculator=new GCDCalculator();
+        if(charges.getCharges_int().size()>1)
+            charge=calculator.chargeCalc(charges);
+        else
+            charge=charges.getCharges_int().get(0);
+        valuePanel.geteValueLabel().setText(Double.toString(charge / Math.pow(10, 20)));
+        System.out.println(Double.toString(charge / Math.pow(10, 20)));
 
-    // columnpanel-dodaje rowpanel
+    }
     public void ListView(JPanel columnpanel, chargeVariable charge) {
         JPanel rowPanel = new JPanel();
 

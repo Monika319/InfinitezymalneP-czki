@@ -32,12 +32,8 @@ public class AnimationFrame extends JPanel {
         ballDiameter = 30;
         frame = mf;
         pd1 = new Photodetector(110, 150);
-        //  pd1=new Photodetector(163,140);
-        // pd1=new Photodetector(271,311);
-        //   pd1.registerTime();
         C = new Capacitor(270, 470);
-        // pd2 = new Photodetector(380, 420);
-        pd2 = new Photodetector(273, 313);
+        pd2 = new Photodetector(280, 320);
         oilDrop = new OilDrop(frame);
         final Test test=new Test(oilDrop,C,pd1,pd2);
 
@@ -49,7 +45,7 @@ public class AnimationFrame extends JPanel {
                 frame.currentDrop.move();
                 repaint();
                 test.setDrop(frame.currentDrop);
-                test.test();
+//                test.test();
             }
         });
 

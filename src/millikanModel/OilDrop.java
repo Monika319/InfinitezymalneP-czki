@@ -37,7 +37,7 @@ public class OilDrop {
         //   radius=10e-4;
         y = radius;
         charge = Constants.e
-                * (10 + generator.nextInt(Math.abs(1000 - 10)));
+                * (100 + generator.nextInt(Math.abs(100000 - 1000)));
     }
 
     public void move() {
@@ -60,9 +60,9 @@ public class OilDrop {
             a = Constants.g * (1 - (Constants.airDensity / oilDensity)) - (k / m) * v;
 //            System.out.println("a po obl 1 petla = :" + Double.toString(a));
             v += a * 0.1;
-            if(Math.abs((y * Constants.normalizationConst)-frame.getP1().getPd1().getY1())<1)
+            if(Math.abs((y * Constants.normalizationConst)-frame.getP1().getPd1().getY1())<2)
                 frame.getP1().getPd1().setT1();
-            if(Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd1().getY2())<1)
+            if(Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd1().getY2())<2)
                 frame.getP1().getPd1().setT2();
 //            System.out.println("Predkosc v:" + Double.toString(v));
 //            System.out.println("a = :" + Double.toString(a));
@@ -135,5 +135,19 @@ public class OilDrop {
 
     public void setY(double y) {
         this.y = y;
+    }
+
+    public double geta()
+    {
+        return a;
+    }
+
+    public double getA()
+    {
+        return A;
+    }
+    public double getW()
+    {
+        return w;
     }
 }
