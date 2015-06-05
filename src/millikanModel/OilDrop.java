@@ -22,6 +22,7 @@ public class OilDrop {
     double a = 0;
     double A = 0;
     double w;
+    double w2;
 
     //new OilDrop(0.5*10E-4, 1*10E-4, 1, 1000, this)
     public OilDrop(MillikanFrame mf) {
@@ -36,91 +37,69 @@ public class OilDrop {
         Random generator = new Random();
         //już w metrach
         radius = 0.5 * 10E-7 + Math.abs(1 * 10E-7 - 0.5 * 10E-7) * generator.nextDouble();
-        // System.out.println("wreszcie ten promień"+radius);
-        //   radius=10e-4;
         y = radius;
         charge = Constants.e
-                * (100 + generator.nextInt(Math.abs(100000 - 1000)));
-
-    }
+                * (100 + generator.nextInt(Math.abs(10000 - 1000)));
+        frame.currentDrop=this;
+     }
 
     public void move() {
-        //System.out.println("RADIUS "+radius);
-
         y += (0.1 * v);
         isMoving = true;
         if (y < 0) {
-            y = 0;
-            v = 0;
+            y = radius;
+            //v = 0;
         }
 
         double k = 6 * Math.PI * Constants.airViscosity * radius;
         double m = (4 / 3) * Math.PI * Math.pow(radius, 3) * oilDensity;
-
-        //u-prędkość przy a=0 w ruchu swobodnym
-        //  double u = (Constants.g / k) * (m - Constants.airDensity * (4 / 3) * Math.PI * Math.pow(radius, 3));
-//        System.out.println("predkosc v " + v);
-//        System.out.println("poloenie y " + y);
         double u = m * (Constants.g / k) * (1 - (Constants.airDensity / oilDensity));
-        if ((y *5*10E4 * Constants.normalizationConst) < frame.getP1().getC().getY1()) {
-//            System.out.println("a przed obl 1 petla = :" + Double.toString(a));
+//        System.out.println("u:" + u);
+        w = m * (Constants.g / k) * ((Constants.airDensity / oilDensity)-1) + (charge * frame.getP1().getC().getE() / k);
+        w2=m * (Constants.g / k) * (1 - (Constants.airDensity / oilDensity))-charge/k*Math.abs(frame.getP1().getC().getE());
+        if ((y  * Constants.normalizationConst) < frame.getP1().getC().getY1())
+        {
             //  a = Constants.g * (1 - (Constants.airDensity / oilDensity)) - (k / m) * v;
-            a = Constants.g * (1 - (Constants.airDensity / oilDensity));
-            System.out.println("(k/m)" + (k / m));
-//            System.out.println("a po obl 1 petla = :" + Double.toString(a));
+//            a = Constants.g * (1 - (Constants.airDensity / oilDensity));
+//            System.out.println("(k/m)" + (k / m));
             //v += a * 0.1;
-
+            isMoving = true;
+            //w=0;
             v = u;
-            //    y += (10E4 * v);
             if (Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd1().getY1()) < 2)
                 frame.getP1().getPd1().setT1();
             if (Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd1().getY2()) < 2)
                 frame.getP1().getPd1().setT2();
-            System.out.println("polozenie y: " + y);
-            System.out.println("Predkosc v:" + Double.toString(v));
-            // System.out.println("a = :" + Double.toString(a));
-//            System.out.println("Czas t:"+Double.toString(frame.getT()));
-//            System.out.println("Polozenie y:" + Double.toString(y));
-//            System.out.println("przyspieszenie a " + a);
-        } else if (((y*5*10E4 * Constants.normalizationConst) < frame.getP1().getC().getY2()) && ((y *5*10E4* Constants.normalizationConst) > frame.getP1().getC().getY1())) {
-            System.out.println("Wchodzę do drugiej pętli! ");
-//
+//            System.out.println("polozenie y: " + y);
+//            System.out.println("Predkosc v:" + Double.toString(v));
+        } else if ((((y-radius) * Constants.normalizationConst) < frame.getP1().getC().getY2()) && ((y *Constants.normalizationConst) >= frame.getP1().getC().getY1())) {
+//            System.out.println("Wchodzę do drugiej pętli! ");
             isMoving = true;
-// System.out.println("y przeliczone: " + y + "wymiar: " + frame.getP1().getC().getY2());
-//            System.out.println("A przed obl 2 petla = :" + Double.toString(A));
-            A = (charge / m) * frame.getP1().getC().getE() - a;
-//            System.out.println("pole elektryczne"+frame.getP1().getC().getE());
-//            System.out.println("A po obl 2 petla = :" + Double.toString(A));
-            // System.out.println("przyspieszenie A:" + Double.toString(A));
-
+//            A = (charge / m) * frame.getP1().getC().getE() - a;
             //  w = u - (charge / k) * frame.getP1().getC().getE();
-            // System.out.println("predkosc w:" + w);
-//            System.out.println("predkosc v before:" + v);
-//            System.out.println("przyspieszenie A " + A);
-            System.out.println("otrzymane E*ladunek: " + charge * frame.getP1().getC().getE());
-            w = m * (Constants.g / k) * (1 - (Constants.airDensity / oilDensity)) - (charge * frame.getP1().getC().getE() / k);
-            //  y += (10E4 * w);
-            //   v += A * 0.1;
-            v = w;
-            System.out.println("polozenie y: " + y);
-            System.out.println("Predkosc v:" + Double.toString(v));
+//            System.out.println("otrzymane E*ladunek: " + charge * frame.getP1().getC().getE());
+//            w = m * (Constants.g / k) * ((Constants.airDensity / oilDensity)-1) + (charge * frame.getP1().getC().getE() / k);
+            if((Math.abs(frame.getP1().getC().getE())>m * (Constants.g /charge) * (1-(Constants.airDensity / oilDensity))))
+                v=w;
+            else
+            v=w2;
+//            System.out.println("polozenie y: " + y);
+//            System.out.println("Predkosc v:" + Double.toString(v));
             if (Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd2().getY1()) < 2)
                 frame.getP1().getPd2().setT1();
             if (Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd2().getY2()) < 2)
                 frame.getP1().getPd2().setT2();
-//            System.out.println("Predkosc v ujemne:" + Double.toString(v));
-//            System.out.println("Polozenie y:" + Double.toString(y));
-            //   System.out.println("v: "+Double.toString(v));
         } else {
-            v = 0;
-            isMoving = false;
+            if((Math.abs(frame.getP1().getC().getE())>m * (Constants.g /charge) * (1-(Constants.airDensity / oilDensity))))
+                v=w;
+            else v=0;
         }
     }
 
-    public void paintComponent(Graphics g) {
-        g.setColor(Color.yellow);
-        g.drawLine((int) radius, (int) Math.round(frame.currentDrop.getY()), (int) (2 * radius), (int) (2 * radius));
-    }
+//    public void paintComponent(Graphics g) {
+//        g.setColor(Color.yellow);
+//        g.drawLine((int) radius, (int) Math.round(frame.currentDrop.getY()-radius), (int) (2 * radius), (int) (2 * radius));
+//    }
 
     public double getRadius() {
         return radius;
@@ -172,5 +151,10 @@ public class OilDrop {
 
     public double getW() {
         return w;
+    }
+
+    public double getW2()
+    {
+        return w2;
     }
 }

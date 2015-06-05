@@ -21,6 +21,7 @@ public class Test
     private double a;
     private double A;
     private double w;
+    private double w2;
 
 
     private long startTime;
@@ -41,6 +42,7 @@ public class Test
         a=currentDrop.geta();
         A=currentDrop.getA();
         w=currentDrop.getW();
+        w2=currentDrop.getW2();
         startTime = System.currentTimeMillis();
     }
     public void check()
@@ -54,6 +56,7 @@ public class Test
         a=drop.geta();
         A=drop.getA();
         w=drop.getW();
+        w2=drop.getW2();
         pd1T1=pd1.getT1();
         pd1T2=pd1.getT2();
         pd2T1=pd2.getT1();
@@ -61,7 +64,7 @@ public class Test
     }
     public void writeLine()
     {
-        line1=String.format("t: %10d| y: %10e|v: %10e | w: %10e | a: %10e | A: %10e |E: %10e | q: %10e |%n ",System.currentTimeMillis()-startTime,y,u,w,a,A,E,q);
+        line1=String.format("t: %10d| y: %10e|v: %10e | w: %10e | w2: %10e | A: %10e |E: %10e | q: %10e |%n ",System.currentTimeMillis()-startTime,y,u,w,w2,A,E,q);
         line2=String.format("         t1(pd1): %12e|t2(pd1): %12e| t1(pd2): %12e|t2(pd2): %12e|%n ",pd1T1,pd1T2,pd2T1,pd2T2);
 
         System.out.print(line1);

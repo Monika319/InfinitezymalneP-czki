@@ -201,8 +201,8 @@ public class MillikanFrame extends JFrame {
         }else {
             charge = charges.getCharges_int().get(0);
         }
-        valuePanel.geteValueLabel().setText(Double.toString(charge / Math.pow(10, 20)));
-        System.out.println(Double.toString(charge / Math.pow(10, 20)));
+        valuePanel.geteValueLabel().setText(Double.toString(charge / Math.pow(10, 23)));
+        System.out.println(Double.toString(charge / Math.pow(10, 23)));
 
     }
     public void ListView(JPanel columnpanel, chargeVariable charge) {

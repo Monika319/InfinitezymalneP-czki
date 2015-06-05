@@ -1,9 +1,6 @@
 package gui;
 
-import millikanModel.Capacitor;
-import millikanModel.OilDrop;
-import millikanModel.Photodetector;
-import millikanModel.Test;
+import millikanModel.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +17,7 @@ public class AnimationFrame extends JPanel {
     private int ballDiameter;
     protected boolean initialize =true;
     Timer timer;
-    private OilDrop oilDrop;
+   // private OilDrop oilDrop;
 
     AnimationFrame(MillikanFrame mf) {
         super(new FlowLayout(FlowLayout.CENTER));
@@ -34,8 +31,8 @@ public class AnimationFrame extends JPanel {
         pd1 = new Photodetector(110, 150);
         C = new Capacitor(270, 470);
         pd2 = new Photodetector(280, 320);
-        oilDrop = new OilDrop(frame);
-        final Test test=new Test(oilDrop,C,pd1,pd2);
+
+        final Test test=new Test(new OilDrop(frame),C,pd1,pd2);
 
         timer = new Timer(100, new ActionListener() {
             int i=0;
@@ -43,7 +40,6 @@ public class AnimationFrame extends JPanel {
             public void actionPerformed(ActionEvent ae)
             {
                 frame.currentDrop.move();
-              //  if (i%100==0)
                 repaint();
               //  i++;
                 test.setDrop(frame.currentDrop);
@@ -60,8 +56,8 @@ public class AnimationFrame extends JPanel {
         pd1.paintPhotoDetector(g, this);
         pd2.paintPhotoDetector(g, this);
         g.setColor(Color.yellow);
-        Double y=new Double(frame.currentDrop.getY()*5*10E4);
-        g.fillOval(((this.getWidth() / 2) - ballDiameter / 2), y.intValue(), ballDiameter, ballDiameter);
+        Double y=new Double(frame.currentDrop.getY()* Constants.normalizationConst);
+        g.fillOval(((this.getWidth() / 2) - ballDiameter / 2), y.intValue()-ballDiameter/2, ballDiameter, ballDiameter);
 //        System.out.println("Frame y = " + y.intValue());
         C.paintCapacitor(g, this);
 
@@ -91,5 +87,8 @@ public class AnimationFrame extends JPanel {
         return C;
     }
 
-
+//    public void setOilDrop(OilDrop oilDrop)
+//    {
+//        this.oilDrop = oilDrop;
+//    }
 }

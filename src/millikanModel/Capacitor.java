@@ -28,8 +28,8 @@ public class Capacitor {
         y2 = h2;
        // d = Math.abs(h2 - h1)*0.00025;
         //przeliczenie na metry
-        d=Math.abs(h2-h1)*10E-4;
-        System.out.println("odleglosc miedzy plytkami C: "+d);
+        d=Math.abs(h2-h1);//Constants.normalizationConst*10E4;
+       // System.out.println("odleglosc miedzy plytkami C: "+d);
         voltage = 0;
         makeField();
     }
@@ -79,5 +79,8 @@ public class Capacitor {
         this.power = power;
     }
 
-
+    public int getPower()
+    {
+        return power;
+    }
 }
