@@ -170,7 +170,7 @@ public class Listeners {
 
                 if (frame.getP1().getPd1().isOn()) {
                     frame.getP1().getPd1().setOn(false);
-                   // frame.getP1().getPd1().setT2();
+                    // frame.getP1().getPd1().setT2();
                 } else {
                     frame.getP1().getPd1().setOn(true);
                     //frame.getP1().getPd1().setT1();
@@ -213,32 +213,21 @@ public class Listeners {
         public void actionPerformed(ActionEvent e) {
             JComboBox unitBox = (JComboBox) e.getSource();
             String s = (String) unitBox.getSelectedItem();
-            if (s == "MV")
-            {
+            if (s == "MV") {
                 frame.getP1().getC().setPower(6);
-            }
-            else
-            if (s == "V")
-            {
+            } else if (s == "V") {
                 //System.out.println("Przed zamianą jednostek: " + frame.getP1().getC().getVoltage());
                 frame.getP1().getC().setPower(1);
                 //System.out.println("Po zamianie jednostek: " + frame.getP1().getC().getVoltage());
-            } else if (s == "kV")
-            {
+            } else if (s == "kV") {
                 //System.out.println("Przed zamianą jednostek: " + frame.getP1().getC().getVoltage());
                 frame.getP1().getC().setPower(3);
-               // System.out.println("Po zamianie jednostek: " + frame.getP1().getC().getVoltage());
-            }
-            else if (s=="GV")
-            {
+                // System.out.println("Po zamianie jednostek: " + frame.getP1().getC().getVoltage());
+            } else if (s == "GV") {
                 frame.getP1().getC().setPower(9);
-            }
-            else if (s=="TV")
-            {
+            } else if (s == "TV") {
                 frame.getP1().getC().setPower(12);
-            }
-            else
-            {
+            } else {
                 frame.getP1().getC().setPower(-3);
             }
             frame.getP1().getC().setVoltage(ef.getVoltageValue());
@@ -275,20 +264,33 @@ public class Listeners {
         }
 
         @Override
-        public void actionPerformed(ActionEvent actionEvent)
-        {
-            if (frame.getP1().initialize)
-            {
-                frame.getP1().timer.stop();
-                frame.getP1().initialize = !frame.getP1().initialize;
-            }
+        public void actionPerformed(ActionEvent actionEvent) {
+//            if (frame.getP1().initialize)
+//            {
+//                frame.getP1().timer.stop();
+//                frame.getP1().initialize = !frame.getP1().initialize;
+//            }
             finishAnimationTime = System.currentTimeMillis();
+            if (frame.currentDrop.isMoving==true){
+                frame.getP1().timer.stop();
+                frame.currentDrop = new OilDrop(frame);
+                frame.getP1().reset();
+                frame.getP1().repaint();
 
-            frame.getP1().getPd1().calculateV(frame.currentDrop);
-            frame.getP1().getPd2().calculateV(frame.currentDrop);
+            }
+            if (frame.currentDrop.getV1() != Double.NaN && frame.currentDrop.getV2() != Double.NaN) {
+                frame.getP1().getPd1().calculateV(frame.currentDrop);
+                frame.getP1().getPd2().calculateV(frame.currentDrop);
+               // frame.getCharges().addCharge(frame.currentDrop, frame.getP1().getC().getE());
+
+            }
+//            frame.getP1().getPd1().calculateV(frame.currentDrop);
+//            frame.getP1().getPd2().calculateV(frame.currentDrop);
+            // frame.getCharges().addCharge(frame.currentDrop, frame.getP1().getC().getE());
+           // frame.setEValue();
             frame.getCharges().addCharge(frame.currentDrop, frame.getP1().getC().getE());
             frame.setEValue();
-            frame.currentDrop=new OilDrop(frame);
+            frame.currentDrop = new OilDrop(frame);
             frame.getP1().reset();
             frame.getP1().repaint();
 
@@ -320,8 +322,7 @@ public class Listeners {
         }
     }
 
-    public void setEf(ElectricField ef)
-    {
+    public void setEf(ElectricField ef) {
         this.ef = ef;
     }
 }

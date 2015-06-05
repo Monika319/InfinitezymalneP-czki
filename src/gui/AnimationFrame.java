@@ -18,7 +18,7 @@ public class AnimationFrame extends JPanel {
     private Photodetector pd2;
     private Capacitor C;
     private int ballDiameter;
-    protected boolean initialize = false;
+    protected boolean initialize =true;
     Timer timer;
     private OilDrop oilDrop;
 
@@ -43,7 +43,9 @@ public class AnimationFrame extends JPanel {
             public void actionPerformed(ActionEvent ae)
             {
                 frame.currentDrop.move();
+              //  if (i%100==0)
                 repaint();
+              //  i++;
                 test.setDrop(frame.currentDrop);
 //                test.test();
             }
@@ -58,7 +60,7 @@ public class AnimationFrame extends JPanel {
         pd1.paintPhotoDetector(g, this);
         pd2.paintPhotoDetector(g, this);
         g.setColor(Color.yellow);
-        Double y=new Double(frame.currentDrop.getY());
+        Double y=new Double(frame.currentDrop.getY()*5*10E4);
         g.fillOval(((this.getWidth() / 2) - ballDiameter / 2), y.intValue(), ballDiameter, ballDiameter);
 //        System.out.println("Frame y = " + y.intValue());
         C.paintCapacitor(g, this);

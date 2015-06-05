@@ -193,10 +193,14 @@ public class MillikanFrame extends JFrame {
     {
         int charge=0;
         GCDCalculator calculator=new GCDCalculator();
-        if(charges.getCharges_int().size()>1)
-            charge=calculator.chargeCalc(charges);
-        else
-            charge=charges.getCharges_int().get(0);
+        if(charges.getCharges_int().size()>1) {
+            charge = calculator.chargeCalc(charges);
+        }
+        else if(charges.getCharges_int().size()==0){
+        System.out.println("Dziwnie wchodzę do chargecalc");
+        }else {
+            charge = charges.getCharges_int().get(0);
+        }
         valuePanel.geteValueLabel().setText(Double.toString(charge / Math.pow(10, 20)));
         System.out.println(Double.toString(charge / Math.pow(10, 20)));
 

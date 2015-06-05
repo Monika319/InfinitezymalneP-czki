@@ -18,11 +18,13 @@ public class OilDrop {
     private double v;
     //private final static double normalizationConst = 1;
     private MillikanFrame frame;
+    public boolean isMoving = false;
     double a = 0;
     double A = 0;
     double w;
+
     //new OilDrop(0.5*10E-4, 1*10E-4, 1, 1000, this)
-    public OilDrop(MillikanFrame mf ) {
+    public OilDrop(MillikanFrame mf) {
         frame = mf;
         v1 = 0.0;
         System.out.println(v1);
@@ -30,66 +32,89 @@ public class OilDrop {
         v = 0;
         /* heating oil density by
         http://www.engineeringtoolbox.com/liquids-densities-d_743.html*/
-        oilDensity = 920;
+        oilDensity = 820;
         Random generator = new Random();
-        radius = 0.5*10E-4 + Math.abs(1*10E-4 - 0.5*10E-4) * generator.nextDouble();
+        //już w metrach
+        radius = 0.5 * 10E-7 + Math.abs(1 * 10E-7 - 0.5 * 10E-7) * generator.nextDouble();
         // System.out.println("wreszcie ten promień"+radius);
         //   radius=10e-4;
         y = radius;
         charge = Constants.e
                 * (100 + generator.nextInt(Math.abs(100000 - 1000)));
+
     }
 
     public void move() {
         //System.out.println("RADIUS "+radius);
+
         y += (0.1 * v);
-        if (y < 0)
-        {
+        isMoving = true;
+        if (y < 0) {
             y = 0;
-            v=0;
+            v = 0;
         }
 
         double k = 6 * Math.PI * Constants.airViscosity * radius;
         double m = (4 / 3) * Math.PI * Math.pow(radius, 3) * oilDensity;
+
         //u-prędkość przy a=0 w ruchu swobodnym
-        double u = (Constants.g / k) * (m - Constants.airDensity * (4 / 3) * Math.PI * Math.pow(radius, 3));
+        //  double u = (Constants.g / k) * (m - Constants.airDensity * (4 / 3) * Math.PI * Math.pow(radius, 3));
 //        System.out.println("predkosc v " + v);
 //        System.out.println("poloenie y " + y);
-        if ((y * Constants.normalizationConst) < frame.getP1().getC().getY1()) {
+        double u = m * (Constants.g / k) * (1 - (Constants.airDensity / oilDensity));
+        if ((y *5*10E4 * Constants.normalizationConst) < frame.getP1().getC().getY1()) {
 //            System.out.println("a przed obl 1 petla = :" + Double.toString(a));
-            a = Constants.g * (1 - (Constants.airDensity / oilDensity)) - (k / m) * v;
+            //  a = Constants.g * (1 - (Constants.airDensity / oilDensity)) - (k / m) * v;
+            a = Constants.g * (1 - (Constants.airDensity / oilDensity));
+            System.out.println("(k/m)" + (k / m));
 //            System.out.println("a po obl 1 petla = :" + Double.toString(a));
-            v += a * 0.1;
-            if(Math.abs((y * Constants.normalizationConst)-frame.getP1().getPd1().getY1())<2)
+            //v += a * 0.1;
+
+            v = u;
+            //    y += (10E4 * v);
+            if (Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd1().getY1()) < 2)
                 frame.getP1().getPd1().setT1();
-            if(Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd1().getY2())<2)
+            if (Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd1().getY2()) < 2)
                 frame.getP1().getPd1().setT2();
-//            System.out.println("Predkosc v:" + Double.toString(v));
-//            System.out.println("a = :" + Double.toString(a));
+            System.out.println("polozenie y: " + y);
+            System.out.println("Predkosc v:" + Double.toString(v));
+            // System.out.println("a = :" + Double.toString(a));
 //            System.out.println("Czas t:"+Double.toString(frame.getT()));
 //            System.out.println("Polozenie y:" + Double.toString(y));
 //            System.out.println("przyspieszenie a " + a);
-        } else if (((y * Constants.normalizationConst) < frame.getP1().getC().getY2()) && ((y * Constants.normalizationConst) > frame.getP1().getC().getY1())) {
-//            System.out.println("y przeliczone: " + y + "wymiar: " + frame.getP1().getC().getY2());
+        } else if (((y*5*10E4 * Constants.normalizationConst) < frame.getP1().getC().getY2()) && ((y *5*10E4* Constants.normalizationConst) > frame.getP1().getC().getY1())) {
+            System.out.println("Wchodzę do drugiej pętli! ");
+//
+            isMoving = true;
+// System.out.println("y przeliczone: " + y + "wymiar: " + frame.getP1().getC().getY2());
 //            System.out.println("A przed obl 2 petla = :" + Double.toString(A));
             A = (charge / m) * frame.getP1().getC().getE() - a;
 //            System.out.println("pole elektryczne"+frame.getP1().getC().getE());
 //            System.out.println("A po obl 2 petla = :" + Double.toString(A));
             // System.out.println("przyspieszenie A:" + Double.toString(A));
 
-            w = u - (charge / k) * frame.getP1().getC().getE();
+            //  w = u - (charge / k) * frame.getP1().getC().getE();
             // System.out.println("predkosc w:" + w);
 //            System.out.println("predkosc v before:" + v);
 //            System.out.println("przyspieszenie A " + A);
-            v += A * 0.1;
-            if(Math.abs((y * Constants.normalizationConst)-frame.getP1().getPd2().getY1())<2)
+            System.out.println("otrzymane E*ladunek: " + charge * frame.getP1().getC().getE());
+            w = m * (Constants.g / k) * (1 - (Constants.airDensity / oilDensity)) - (charge * frame.getP1().getC().getE() / k);
+            //  y += (10E4 * w);
+            //   v += A * 0.1;
+            v = w;
+            System.out.println("polozenie y: " + y);
+            System.out.println("Predkosc v:" + Double.toString(v));
+            if (Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd2().getY1()) < 2)
                 frame.getP1().getPd2().setT1();
-            if(Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd2().getY2())<2)
+            if (Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd2().getY2()) < 2)
                 frame.getP1().getPd2().setT2();
 //            System.out.println("Predkosc v ujemne:" + Double.toString(v));
 //            System.out.println("Polozenie y:" + Double.toString(y));
             //   System.out.println("v: "+Double.toString(v));
-        } else v = 0;
+        } else {
+            v = 0;
+            isMoving = false;
+        }
     }
 
     public void paintComponent(Graphics g) {
@@ -137,17 +162,15 @@ public class OilDrop {
         this.y = y;
     }
 
-    public double geta()
-    {
+    public double geta() {
         return a;
     }
 
-    public double getA()
-    {
+    public double getA() {
         return A;
     }
-    public double getW()
-    {
+
+    public double getW() {
         return w;
     }
 }
