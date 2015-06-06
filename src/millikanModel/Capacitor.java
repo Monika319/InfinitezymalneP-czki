@@ -36,7 +36,7 @@ public class Capacitor {
 
     void makeField() {
         E = -voltage / d;
-        System.out.println(Double.toString(E));
+       // System.out.println("Pole E: "+Double.toString(E));
     }
 
     public void paintCapacitor(Graphics g, AnimationFrame af) {

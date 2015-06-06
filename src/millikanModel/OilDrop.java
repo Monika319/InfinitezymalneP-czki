@@ -23,6 +23,8 @@ public class OilDrop {
     double A = 0;
     double w;
     double w2;
+    int t1Counter = 0;
+    int t2Counter = 0;
 
     //new OilDrop(0.5*10E-4, 1*10E-4, 1, 1000, this)
     public OilDrop(MillikanFrame mf) {
@@ -40,10 +42,14 @@ public class OilDrop {
         y = radius;
         charge = Constants.e
                 * (100 + generator.nextInt(Math.abs(10000 - 1000)));
-        frame.currentDrop=this;
-     }
+        frame.currentDrop = this;
+    }
 
     public void move() {
+        double k = 6 * Math.PI * Constants.airViscosity * radius;
+        double m = (4 / 3) * Math.PI * Math.pow(radius, 3) * oilDensity;
+        w2 = m * (Constants.g / k) * (1 - (Constants.airDensity / oilDensity)) - charge / k * Math.abs(frame.getP1().getC().getE());
+        w = m * (Constants.g / k) * ((Constants.airDensity / oilDensity) - 1) + (charge * frame.getP1().getC().getE() / k);
         y += (0.1 * v);
         isMoving = true;
         if (y < 0) {
@@ -51,49 +57,57 @@ public class OilDrop {
             //v = 0;
         }
 
-        double k = 6 * Math.PI * Constants.airViscosity * radius;
-        double m = (4 / 3) * Math.PI * Math.pow(radius, 3) * oilDensity;
         double u = m * (Constants.g / k) * (1 - (Constants.airDensity / oilDensity));
-//        System.out.println("u:" + u);
-        w = m * (Constants.g / k) * ((Constants.airDensity / oilDensity)-1) + (charge * frame.getP1().getC().getE() / k);
-        w2=m * (Constants.g / k) * (1 - (Constants.airDensity / oilDensity))-charge/k*Math.abs(frame.getP1().getC().getE());
-        if ((y  * Constants.normalizationConst) < frame.getP1().getC().getY1())
-        {
-            //  a = Constants.g * (1 - (Constants.airDensity / oilDensity)) - (k / m) * v;
-//            a = Constants.g * (1 - (Constants.airDensity / oilDensity));
-//            System.out.println("(k/m)" + (k / m));
-            //v += a * 0.1;
+        // w2 = m * (Constants.g / k) * (1 - (Constants.airDensity / oilDensity)) - charge / k * Math.abs(frame.getP1().getC().getE());
+        // w = m * (Constants.g / k) * ((Constants.airDensity / oilDensity) - 1) + (charge * frame.getP1().getC().getE() / k);
+
+        if ((y * Constants.normalizationConst) < frame.getP1().getC().getY1()) {
+            t2Counter = 0;
+
             isMoving = true;
-            //w=0;
+
             v = u;
-            if (Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd1().getY1()) < 2)
+            if (y * Constants.normalizationConst >= frame.getP1().getPd1().getY1() && (y * Constants.normalizationConst <= frame.getP1().getPd1().getY2())) {
+                t1Counter++;
+                //     System.out.println("Printuję t1Counter: " + t1Counter);
+            } else {
+                t1Counter = 0;
+            }
+            if (Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd1().getY1()) < 2) {
                 frame.getP1().getPd1().setT1();
-            if (Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd1().getY2()) < 2)
-                frame.getP1().getPd1().setT2();
-//            System.out.println("polozenie y: " + y);
-//            System.out.println("Predkosc v:" + Double.toString(v));
-        } else if ((((y-radius) * Constants.normalizationConst) < frame.getP1().getC().getY2()) && ((y *Constants.normalizationConst) >= frame.getP1().getC().getY1())) {
-//            System.out.println("Wchodzę do drugiej pętli! ");
+
+            }
+
+            if (Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd1().getY2()) < 2) {
+                frame.getP1().getPd1().setT2(t1Counter * 0.1);
+                System.out.println("Czas t1 z symulacji: " + Integer.toString(t1Counter));
+            }
+        } else if ((((y - radius) * Constants.normalizationConst) < frame.getP1().getC().getY2()) && ((y * Constants.normalizationConst) >= frame.getP1().getC().getY1())) {
+            t1Counter = 0;
             isMoving = true;
-//            A = (charge / m) * frame.getP1().getC().getE() - a;
-            //  w = u - (charge / k) * frame.getP1().getC().getE();
-//            System.out.println("otrzymane E*ladunek: " + charge * frame.getP1().getC().getE());
-//            w = m * (Constants.g / k) * ((Constants.airDensity / oilDensity)-1) + (charge * frame.getP1().getC().getE() / k);
-            if((Math.abs(frame.getP1().getC().getE())>m * (Constants.g /charge) * (1-(Constants.airDensity / oilDensity))))
-                v=w;
+            if ((Math.abs(frame.getP1().getC().getE()) > m * (Constants.g / charge) * (1 - (Constants.airDensity / oilDensity))))
+                v = w;
             else
-            v=w2;
-//            System.out.println("polozenie y: " + y);
-//            System.out.println("Predkosc v:" + Double.toString(v));
-            if (Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd2().getY1()) < 2)
+                v = w2;
+
+            if (Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd2().getY1()) < 2) {
                 frame.getP1().getPd2().setT1();
-            if (Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd2().getY2()) < 2)
-                frame.getP1().getPd2().setT2();
+            }
+            if (y * Constants.normalizationConst >= frame.getP1().getPd2().getY1() && (y * Constants.normalizationConst <= frame.getP1().getPd2().getY2())) {
+                t2Counter++;
+                System.out.println("Printuję t2Counter: " + t2Counter);
+            } else {
+                t2Counter = 0;
+            }
+            if (Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd2().getY2()) < 2) {
+                frame.getP1().getPd2().setT2(t2Counter * 0.1);
+            }
         } else {
-            if((Math.abs(frame.getP1().getC().getE())>m * (Constants.g /charge) * (1-(Constants.airDensity / oilDensity))))
-                v=w;
-            else v=0;
+            if ((Math.abs(frame.getP1().getC().getE()) > m * (Constants.g / charge) * (1 - (Constants.airDensity / oilDensity))))
+                v = w;
+            else v = 0;
         }
+
     }
 
 //    public void paintComponent(Graphics g) {
@@ -153,8 +167,7 @@ public class OilDrop {
         return w;
     }
 
-    public double getW2()
-    {
+    public double getW2() {
         return w2;
     }
 }

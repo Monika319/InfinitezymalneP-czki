@@ -58,10 +58,16 @@ public class Photodetector {
     public void calculateV(OilDrop drop)
     {
         //LICZY WARTOSC BEZ ZNAKU
-        if(myCounter==1)
-            drop.setV1(Math.abs(((y2 - y1)/Constants.normalizationConst / (t2 - t1))));
-        else
-            drop.setV2(Math.abs(((y2 - y1)/Constants.normalizationConst / (t2 - t1))));
+        if(myCounter==1) {
+            drop.setV1(Math.abs(((y2 - y1) / Constants.normalizationConst / (t2 - t1))));
+           // drop.setV1(Math.abs(((y2 - y1) *10E-4 / (t2 - t1))));
+            System.out.println("Wyznaczona predkosc v1: " + drop.getV1());
+        }
+        else {
+           drop.setV2(Math.abs(((y2 - y1) / Constants.normalizationConst / (t2 - t1))));
+          //  drop.setV2(Math.abs(((y2 - y1)*10E-4 / (t2 - t1))));
+            System.out.println("Wyznaczona predkosc v2: " + drop.getV2());
+        }
     }
 
     public double getT1() {
@@ -75,15 +81,17 @@ public class Photodetector {
     public void setT1() {
         if(on==true)
         {
-        this.t1 = System.currentTimeMillis();
+            this.t1=0;
+       // this.t1 = System.currentTimeMillis();
         System.out.println("czas t1: " + t1);
         }
     }
 
-    public void setT2() {
+    public void setT2(double t2) {
         if(on==true)
         {
-        this.t2 = System.currentTimeMillis();
+            this.t2=t2;
+       // this.t2 = System.currentTimeMillis();
         System.out.println("czas t2: " + t2);
         }
     }
