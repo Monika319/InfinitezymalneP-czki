@@ -180,6 +180,17 @@ public class MillikanFrame extends JFrame {
         setTitle(Messages.getString("title"));
         //zamiast tego bedzie dodawanie poprzez actionlistener
         currentDrop = new OilDrop(this);
+/********************
+        int charge=0;
+        GCDCalculator calculator=new GCDCalculator();
+        charges.getCharges_int().add(4);
+        charges.getCharges_int().add(64);
+        charges.getCharges_int().add(127);
+            charge = calculator.chargeCalcNew(charges);
+
+        valuePanel.geteValueLabel().setText(Double.toString(charge / Math.pow(10, 23)));
+        System.out.println(Double.toString(charge / Math.pow(10, 23)));
+ */
     }
 
 //    public void resume() {
@@ -194,14 +205,18 @@ public class MillikanFrame extends JFrame {
         int charge=0;
         GCDCalculator calculator=new GCDCalculator();
         if(charges.getCharges_int().size()>1) {
-            charge = calculator.chargeCalc(charges);
+//            charge = calculator.chargeCalc(charges);
+            charge = calculator.chargeCalcNew(charges);
         }
         else if(charges.getCharges_int().size()==0){
         System.out.println("Dziwnie wchodzę do chargecalc");
         }else {
             charge = charges.getCharges_int().get(0);
         }
-        valuePanel.geteValueLabel().setText(Double.toString(charge / Math.pow(10, 23)));
+        Double dCharge=new Double(charge);
+        for(int i=0;i<23;i++)
+            dCharge/=10;
+        valuePanel.geteValueLabel().setText(dCharge.toString());
         System.out.println(Double.toString(charge / Math.pow(10, 23)));
 
     }

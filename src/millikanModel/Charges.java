@@ -28,6 +28,7 @@ public class Charges {
         listdemo.remove(0);
         for (int i = 0; i < list.size() - 1; i++) {
             for (Integer aListdemo : listdemo) {
+
                 return aListdemo.equals(list.get(i));
             }
         }
@@ -45,26 +46,38 @@ public class Charges {
                     * Math.sqrt(1 / (Constants.g * (drop.getOilDensity() - Constants.airDensity)));
             q *= (drop.getV1() + drop.getV2()) * Math.sqrt(drop.getV1()) / E;
             double absQ = Math.abs(q);
-           System.out.println("q="+q);
+            System.out.println("obliczone q="+q);
             System.out.println("prawdziwe q="+frame.currentDrop.getCharge());
-            //q=absQ
 
             intCharge = (int) (absQ * Math.pow(10., 23.));
-           System.out.println("intCharge="+intCharge);
-           q=(double)intCharge*Math.pow(10.,-23.);
-            System.out.println("q="+q);
+            System.out.println("intCharge="+intCharge);
+            q=(double)intCharge*Math.pow(10.,-23.);
+            if(q<1.6E-19)
+            {
+                JOptionPane.showMessageDialog(frame,
+                        "An unexpected measurement error occured!",
+                        "Try again",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+            System.out.println("nowe q="+q);
             charges.add(q);
             int cutIntCharge=decimalCut(intCharge);
+            System.out.println("cutCHarge:"+cutIntCharge);
+            double doubleCutIntCharge=(double)cutIntCharge;
+            for(int i=0;i<23;i++)
+            {
+                doubleCutIntCharge/=10;
+            }
+            System.out.println("Blad wzgledny pomiaru q:"+(q-doubleCutIntCharge)/q*100);
             charges_int.add(cutIntCharge);
-
-            frame.ListView(frame.getListPanel(),new chargeVariable<>(cutIntCharge));
+            frame.ListView(frame.getListPanel(),new chargeVariable<>(doubleCutIntCharge));
         }
         else
             JOptionPane.showMessageDialog(frame,
                     "You have to measure both velocities",
                     "Try again",
                     JOptionPane.ERROR_MESSAGE);
-            //System.err.println("NIE ZMIERZONO OBU PREDKOSCI!!!");
+        //System.err.println("NIE ZMIERZONO OBU PREDKOSCI!!!");
     }
 
 
@@ -106,7 +119,7 @@ public class Charges {
         {
             digits[i]= (int) Math.floor(newCharge/Math.pow(10,len-i-1));
             newCharge=newCharge-digits[i]*(int)Math.pow(10,len-i-1);
-            System.out.println(digits[i]);
+//            System.out.println(digits[i]);
         }
         int newerCharge=0;
         for(int j=0;j<len;j++)

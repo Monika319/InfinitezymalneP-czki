@@ -78,19 +78,19 @@ public class Photodetector {
         return t2;
     }
 
-    public void setT1() {
+    public void setT1(double time) {
         if(on==true)
         {
-            this.t1=0;
+            this.t1=time;
        // this.t1 = System.currentTimeMillis();
         System.out.println("czas t1: " + t1);
         }
     }
 
-    public void setT2(double t2) {
+    public void setT2(double time) {
         if(on==true)
         {
-            this.t2=t2;
+            this.t2=time;
        // this.t2 = System.currentTimeMillis();
         System.out.println("czas t2: " + t2);
         }

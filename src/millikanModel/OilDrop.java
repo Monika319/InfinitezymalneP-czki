@@ -18,21 +18,20 @@ public class OilDrop {
     private double v;
     //private final static double normalizationConst = 1;
     private MillikanFrame frame;
-    public boolean isMoving = false;
+//    public boolean isMoving = false;
     double a = 0;
     double A = 0;
     double w;
     double w2;
-    int t1Counter = 0;
-    int t2Counter = 0;
+    int counter;
 
-    //new OilDrop(0.5*10E-4, 1*10E-4, 1, 1000, this)
     public OilDrop(MillikanFrame mf) {
         frame = mf;
         v1 = 0.0;
         System.out.println(v1);
         v2 = 0.0;
         v = 0;
+        counter=0;
         /* heating oil density by
         http://www.engineeringtoolbox.com/liquids-densities-d_743.html*/
         oilDensity = 820;
@@ -48,63 +47,56 @@ public class OilDrop {
     public void move() {
         double k = 6 * Math.PI * Constants.airViscosity * radius;
         double m = (4 / 3) * Math.PI * Math.pow(radius, 3) * oilDensity;
+        //PREDKOSC WOLNIEJSZEGO SPADKU
         w2 = m * (Constants.g / k) * (1 - (Constants.airDensity / oilDensity)) - charge / k * Math.abs(frame.getP1().getC().getE());
-        w = m * (Constants.g / k) * ((Constants.airDensity / oilDensity) - 1) + (charge * frame.getP1().getC().getE() / k);
+        //PREDKOSC WZNOSZENIA
+        w =-1*( m * (Constants.g / k) * ((Constants.airDensity / oilDensity) - 1) + (charge * Math.abs(frame.getP1().getC().getE()) / k));
         y += (0.1 * v);
-        isMoving = true;
-        if (y < 0) {
+        counter++;
+//        isMoving = true;
+        if (y < 0)
+        {
             y = radius;
-            //v = 0;
         }
-
+        //PREDKOSC SPADKU SWOBODNEGO
         double u = m * (Constants.g / k) * (1 - (Constants.airDensity / oilDensity));
-        // w2 = m * (Constants.g / k) * (1 - (Constants.airDensity / oilDensity)) - charge / k * Math.abs(frame.getP1().getC().getE());
-        // w = m * (Constants.g / k) * ((Constants.airDensity / oilDensity) - 1) + (charge * frame.getP1().getC().getE() / k);
-
-        if ((y * Constants.normalizationConst) < frame.getP1().getC().getY1()) {
-            t2Counter = 0;
-
-            isMoving = true;
-
+        //KULKA JEST PONAD KONDENSATOREM
+        if ((y * Constants.normalizationConst) < frame.getP1().getC().getY1())
+        {
+//           isMoving = true;
             v = u;
-            if (y * Constants.normalizationConst >= frame.getP1().getPd1().getY1() && (y * Constants.normalizationConst <= frame.getP1().getPd1().getY2())) {
-                t1Counter++;
-                //     System.out.println("Printuję t1Counter: " + t1Counter);
-            } else {
-                t1Counter = 0;
-            }
+            //WARUNKI SPRAWDZAJACE ODLEGLOSC OD WIAZKI LASERA W PIERWSZEJ FOTOKOMORCE
             if (Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd1().getY1()) < 2) {
-                frame.getP1().getPd1().setT1();
-
+                frame.getP1().getPd1().setT1(counter*0.1);
             }
-
             if (Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd1().getY2()) < 2) {
-                frame.getP1().getPd1().setT2(t1Counter * 0.1);
-                System.out.println("Czas t1 z symulacji: " + Integer.toString(t1Counter));
+                frame.getP1().getPd1().setT2(counter*0.1);
             }
-        } else if ((((y - radius) * Constants.normalizationConst) < frame.getP1().getC().getY2()) && ((y * Constants.normalizationConst) >= frame.getP1().getC().getY1())) {
-            t1Counter = 0;
-            isMoving = true;
+        }
+        //KULKA JEST W KONDENSATORZE
+        else if ((((y - radius) * Constants.normalizationConst) < frame.getP1().getC().getY2()) && ((y * Constants.normalizationConst) >= frame.getP1().getC().getY1()))
+        {
+//            isMoving = true;
+            //WARUNEK SPRAWDZA,CZY NATEZENIE POLA JEST DOSTATECZNE, BY KULKA SIE UNOSILA
             if ((Math.abs(frame.getP1().getC().getE()) > m * (Constants.g / charge) * (1 - (Constants.airDensity / oilDensity))))
                 v = w;
+            //JESLI NIE TO KULKA BEDZIE WOLNIEJ SPADAC Z PREDKOSCIA W2
             else
                 v = w2;
-
+            //WARUNKI SPRAWDZAJACE ODLEGLOSC OD WIAZKI LASERA W DRUGIEJ FOTOKOMORCE
             if (Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd2().getY1()) < 2) {
-                frame.getP1().getPd2().setT1();
-            }
-            if (y * Constants.normalizationConst >= frame.getP1().getPd2().getY1() && (y * Constants.normalizationConst <= frame.getP1().getPd2().getY2())) {
-                t2Counter++;
-                System.out.println("Printuję t2Counter: " + t2Counter);
-            } else {
-                t2Counter = 0;
+                frame.getP1().getPd2().setT1(counter*0.1);
             }
             if (Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd2().getY2()) < 2) {
-                frame.getP1().getPd2().setT2(t2Counter * 0.1);
+                frame.getP1().getPd2().setT2(counter * 0.1);
             }
-        } else {
+        }
+        //KULKA JEST NA DNIE KONDENSATORA
+        else {
+            //WARUNEK SPRAWDZA,CZY NATEZENIE POLA JEST DOSTATECZNE, BY KULKA SIE UNOSILA
             if ((Math.abs(frame.getP1().getC().getE()) > m * (Constants.g / charge) * (1 - (Constants.airDensity / oilDensity))))
                 v = w;
+            //KULKA BEDZIE SPOCZYWAC NA DNIE KONDENSATORA
             else v = 0;
         }
 

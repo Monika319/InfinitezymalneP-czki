@@ -43,6 +43,7 @@ public class AnimationFrame extends JPanel {
                 repaint();
               //  i++;
                 test.setDrop(frame.currentDrop);
+                //WYSTARCZY TO ODKOMENTOWAC BY MIEC LOGI NA KONSOLI
 //                test.test();
             }
         });
