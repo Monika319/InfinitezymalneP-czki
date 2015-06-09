@@ -42,9 +42,11 @@ public class Charges {
 
         if((drop.getV1()<10E6)&&(drop.getV2()<10E6))
         {
-            q = (4 / 3) * Math.PI * Math.pow((9 * Constants.airViscosity / 2), (3 / 2))
-                    * Math.sqrt(1 / (Constants.g * (drop.getOilDensity() - Constants.airDensity)));
-            q *= (drop.getV1() + drop.getV2()) * Math.sqrt(drop.getV1()) / E;
+            double f=(4/3)*Math.PI*Math.pow(drop.getRadius(),3)*(drop.getOilDensity()-Constants.airDensity)*Constants.g;
+//            q = (4 / 3) * Math.PI * Math.pow((9 * Constants.airViscosity / 2), (3 / 2))
+//                    * Math.sqrt(1 / (Constants.g * (drop.getOilDensity() - Constants.airDensity)));
+           // q *= (drop.getV1() + drop.getV2()) * Math.sqrt(drop.getV1()) / E;
+            q=(f/E)*(Math.abs(drop.getV2()/drop.getV1())-1);
             double absQ = Math.abs(q);
             System.out.println("obliczone q="+q);
             System.out.println("prawdziwe q="+frame.currentDrop.getCharge());
