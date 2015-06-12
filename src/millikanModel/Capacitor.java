@@ -51,6 +51,7 @@ public class Capacitor {
 
 
     public double getE() {
+        //dodano dzielenie przez 10, żeby zgadzaly sie obliczenia i jednostki
         return E;
     }
 

@@ -81,7 +81,7 @@ public class Photodetector {
         if (on == true) {
             this.t1 = time;
             // this.t1 = System.currentTimeMillis();
-            System.out.println("czas t1: " + t1);
+         //   System.out.println("zmieniam czas t1: " + t1);
 
         }
     }
@@ -90,7 +90,7 @@ public class Photodetector {
         if (on == true) {
             this.t2 = time;
             // this.t2 = System.currentTimeMillis();
-            System.out.println("czas t2: " + t2);
+          //  System.out.println("zmieniam czas t2: " + t2);
 
         }
     }

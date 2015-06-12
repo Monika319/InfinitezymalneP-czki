@@ -48,7 +48,9 @@ public class Charges {
 //            q = (4 / 3) * Math.PI * Math.pow((9 * Constants.airViscosity / 2), (3 / 2))
 //                    * Math.sqrt(1 / (Constants.g * (drop.getOilDensity() - Constants.airDensity)));
             // q *= (drop.getV1() + drop.getV2()) * Math.sqrt(drop.getV1()) / E;
-            q = (f / (E)) * (Math.abs(drop.getV2() / drop.getV1()) - 1);
+            //tutaj powinien byc wspolczynnik E/10, zeby odpowiednio liczylo ladnek!
+          //  q = (f / (E/10)) * (Math.abs(drop.getV2() / drop.getV1()) - 1);
+            q = (f / (E/10)) * (Math.abs(drop.getV2() / drop.getV1()) - 1)/10;
             double absQ = Math.abs(q);
             int potega_q = 0;
 
@@ -82,7 +84,7 @@ public class Charges {
                 while (doubleCutIntCharge > 1) {
                     doubleCutIntCharge = doubleCutIntCharge / 10;
                 }
-                System.out.println("Blad wzgledny pomiaru q:" + (q - doubleCutIntCharge) / q * 100);
+               // System.out.println("Blad wzgledny pomiaru q:" + (q - doubleCutIntCharge) / q * 100);
                 do {
                     q = q * 10;
                     potega_q = potega_q + 1;
@@ -96,13 +98,14 @@ public class Charges {
 //                for (int i = 0; i < 23; i++) {
 //                    doubleCutIntCharge /= 1000;
 //                }
-                double cutChargeforList = cutIntCharge * Math.pow(10., -(7 + potega_q));
+               // double cutChargeforList = cutIntCharge * Math.pow(10., -(7 + potega_q));
+                double cutChargeforList = cutIntCharge * Math.pow(10., -(4 + potega_q));
                 System.out.println("Double cut int charge:  " + doubleCutIntCharge);
                 System.out.println("Cut charge for list: " + cutChargeforList);
 
                 charges_int.add(cutIntCharge);
                 //  frame.ListView(frame.getListPanel(), new chargeVariable<>(doubleCutIntCharge));
-                frame.ListView(frame.getListPanel(), new chargeVariable<>(cutChargeforList));
+                frame.ListView(frame.getListPanel(), new chargeVariable<>(cutChargeforList),potega_q);
                 //   frame.ListView(frame.getListPanel(),new chargeVariable<>(charge));
             }
         } else
@@ -147,14 +150,14 @@ public class Charges {
         Integer newCharge = new Integer(charge);
         System.out.println("newCharge: " + newCharge);
         int len = newCharge.toString().length();
-        System.out.println("len: " + len);
+      //  System.out.println("len: " + len);
 
         for (int i = 0; i < digits.length; i++) {
             digits[i] = (int) Math.floor(newCharge / Math.pow(10, len - i - 1));
             newCharge = newCharge - digits[i] * (int) Math.pow(10, len - i - 1);
-            System.out.println(digits[i]);
+          //  System.out.println(digits[i]);
         }
-        System.out.println("digits.length: " + digits.length);
+       // System.out.println("digits.length: " + digits.length);
         int newerCharge = 0;
         for (int j = 0; j < digits.length; j++)
         //for(int j=0;j<len;j++)
@@ -168,8 +171,8 @@ public class Charges {
 //        while(newerCharge%16!=0){
 //            newerCharge=newerCharge*10;
 //        }
-       // return newerCharge;
-        return newerCharge * 1000;
+        return newerCharge;
+        //return newerCharge * 1000;
     }
 
 }
