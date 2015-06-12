@@ -19,24 +19,25 @@ public class Capacitor {
     private int power;
 
 
-
     public Capacitor(int h1, int h2) {
         //frame=mf;
 
         power = -3;
         y1 = h1;
         y2 = h2;
-       // d = Math.abs(h2 - h1)*0.00025;
+        // d = Math.abs(h2 - h1)*0.00025;
         //przeliczenie na metry
-        d=Math.abs(h2-h1);//Constants.normalizationConst*10E4;
-       // System.out.println("odleglosc miedzy plytkami C: "+d);
+
+        //Tutaj popatrzeć!!!!
+        d = Math.abs(h2 - h1);//Constants.normalizationConst*10E4;
+        // System.out.println("odleglosc miedzy plytkami C: "+d);
         voltage = 0;
         makeField();
     }
 
     void makeField() {
         E = -voltage / d;
-       // System.out.println("Pole E: "+Double.toString(E));
+        System.out.println("Pole E: " + Double.toString(E));
     }
 
     public void paintCapacitor(Graphics g, AnimationFrame af) {
@@ -74,13 +75,11 @@ public class Capacitor {
         return y2;
     }
 
-    public void setPower(int power)
-    {
+    public void setPower(int power) {
         this.power = power;
     }
 
-    public int getPower()
-    {
+    public int getPower() {
         return power;
     }
 }

@@ -14,9 +14,11 @@ public class Charges {
     private int intCharge;
     private MillikanFrame frame;
 
-    public Charges(MillikanFrame mf) {frame=mf;}
-    public Charges(ArrayList<Integer> charges_g)
-    {
+    public Charges(MillikanFrame mf) {
+        frame = mf;
+    }
+
+    public Charges(ArrayList<Integer> charges_g) {
         charges_int = charges_g;
     }
 
@@ -39,42 +41,71 @@ public class Charges {
 
     public void addCharge(OilDrop drop, double E) {
         //FIXME:napisz to funkcyjnie
+        // GCDCalculator calculator = new GCDCalculator();
 
-        if((drop.getV1()<10E6)&&(drop.getV2()<10E6))
-        {
-            double f=(4/3)*Math.PI*Math.pow(drop.getRadius(),3)*(drop.getOilDensity()-Constants.airDensity)*Constants.g;
+        if ((drop.getV1() < 10E6) && (drop.getV2() < 10E6)) {
+            double f = (4 / 3) * Math.PI * Math.pow(drop.getRadius(), 3) * (drop.getOilDensity() - Constants.airDensity) * Constants.g;
 //            q = (4 / 3) * Math.PI * Math.pow((9 * Constants.airViscosity / 2), (3 / 2))
 //                    * Math.sqrt(1 / (Constants.g * (drop.getOilDensity() - Constants.airDensity)));
-           // q *= (drop.getV1() + drop.getV2()) * Math.sqrt(drop.getV1()) / E;
-            q=(f/E)*(Math.abs(drop.getV2()/drop.getV1())-1);
+            // q *= (drop.getV1() + drop.getV2()) * Math.sqrt(drop.getV1()) / E;
+            q = (f / (E)) * (Math.abs(drop.getV2() / drop.getV1()) - 1);
             double absQ = Math.abs(q);
-            System.out.println("obliczone q="+q);
-            System.out.println("prawdziwe q="+frame.currentDrop.getCharge());
+            int potega_q = 0;
+
+//            while(q<1){
+//                q=q*10;
+//                potega_q++;
+//            }
+            System.out.println("Potega q: " + potega_q);
+            System.out.println("obliczone q=" + q);
+            System.out.println("prawdziwe q=" + frame.currentDrop.getCharge());
 
             intCharge = (int) (absQ * Math.pow(10., 23.));
-            System.out.println("intCharge="+intCharge);
-            q=(double)intCharge*Math.pow(10.,-23.);
-            if(q<1.6E-19)
-            {
+            System.out.println("intCharge=" + intCharge);
+            q = (double) intCharge * Math.pow(10., -23.);
+            if (q < 1.6E-19) {
                 JOptionPane.showMessageDialog(frame,
                         "An unexpected measurement error occured!",
                         "Try again",
                         JOptionPane.ERROR_MESSAGE);
+            } else if (q >= 1.6E-19) {
+                System.out.println("nowe q=" + q);
+                charges.add(q);
+                int cutIntCharge = decimalCut(intCharge);
+                System.out.println("cutCHarge:" + cutIntCharge);
+
+
+                this.getCharges_int().add(cutIntCharge);
+                // int charge = calculator.chargeCalcNew(this);
+
+                double doubleCutIntCharge = (double) cutIntCharge;
+                while (doubleCutIntCharge > 1) {
+                    doubleCutIntCharge = doubleCutIntCharge / 10;
+                }
+                System.out.println("Blad wzgledny pomiaru q:" + (q - doubleCutIntCharge) / q * 100);
+                do {
+                    q = q * 10;
+                    potega_q = potega_q + 1;
+                } while (q < 1);
+                //tu ma byc potega 19+5
+                //  doubleCutIntCharge=doubleCutIntCharge*Math.pow(10.,-potega_q+1);
+
+                //doubleCutIntCharge=cutIntCharge*Math.pow(10.,-24);
+
+                // doubleCutIntCharge=;
+//                for (int i = 0; i < 23; i++) {
+//                    doubleCutIntCharge /= 1000;
+//                }
+                double cutChargeforList = cutIntCharge * Math.pow(10., -(7 + potega_q));
+                System.out.println("Double cut int charge:  " + doubleCutIntCharge);
+                System.out.println("Cut charge for list: " + cutChargeforList);
+
+                charges_int.add(cutIntCharge);
+                //  frame.ListView(frame.getListPanel(), new chargeVariable<>(doubleCutIntCharge));
+                frame.ListView(frame.getListPanel(), new chargeVariable<>(cutChargeforList));
+                //   frame.ListView(frame.getListPanel(),new chargeVariable<>(charge));
             }
-            System.out.println("nowe q="+q);
-            charges.add(q);
-            int cutIntCharge=decimalCut(intCharge);
-            System.out.println("cutCHarge:"+cutIntCharge);
-            double doubleCutIntCharge=(double)cutIntCharge;
-            for(int i=0;i<23;i++)
-            {
-                doubleCutIntCharge/=10;
-            }
-            System.out.println("Blad wzgledny pomiaru q:"+(q-doubleCutIntCharge)/q*100);
-            charges_int.add(cutIntCharge);
-            frame.ListView(frame.getListPanel(),new chargeVariable<>(doubleCutIntCharge));
-        }
-        else
+        } else
             JOptionPane.showMessageDialog(frame,
                     "You have to measure both velocities",
                     "Try again",
@@ -107,31 +138,38 @@ public class Charges {
         }
     }
 
-    public ArrayList<Integer> getCharges_int()
-    {
+    public ArrayList<Integer> getCharges_int() {
         return charges_int;
     }
-    public int decimalCut(int charge)
-    {
-        int digits[]=new int[5];
-        Integer newCharge=new Integer(charge);
-        int len= newCharge.toString().length();
 
-        for(int i=0;i<digits.length;i++)
-        {
-            digits[i]= (int) Math.floor(newCharge/Math.pow(10,len-i-1));
-            newCharge=newCharge-digits[i]*(int)Math.pow(10,len-i-1);
-//            System.out.println(digits[i]);
+    public int decimalCut(int charge) {
+        int digits[] = new int[5];
+        Integer newCharge = new Integer(charge);
+        System.out.println("newCharge: " + newCharge);
+        int len = newCharge.toString().length();
+        System.out.println("len: " + len);
+
+        for (int i = 0; i < digits.length; i++) {
+            digits[i] = (int) Math.floor(newCharge / Math.pow(10, len - i - 1));
+            newCharge = newCharge - digits[i] * (int) Math.pow(10, len - i - 1);
+            System.out.println(digits[i]);
         }
-        int newerCharge=0;
-        for(int j=0;j<len;j++)
+        System.out.println("digits.length: " + digits.length);
+        int newerCharge = 0;
+        for (int j = 0; j < digits.length; j++)
+        //for(int j=0;j<len;j++)
         {
-            if(j<digits.length)
-                newerCharge+= digits[j]*(int)Math.pow(10,len-j-1);
-            else
-                newerCharge+=(int)Math.pow(10,digits.length-j-1);
+//            if(j<digits.length)
+//                newerCharge+= digits[j]*(int)Math.pow(10,len-j-1);
+//            else
+            newerCharge += digits[j] * (int) Math.pow(10, digits.length - j - 1);
         }
-        return newerCharge;
+        //jak damy tak, to ta liczba na pewno będzie podzielna przez 16
+//        while(newerCharge%16!=0){
+//            newerCharge=newerCharge*10;
+//        }
+       // return newerCharge;
+        return newerCharge * 1000;
     }
 
 }

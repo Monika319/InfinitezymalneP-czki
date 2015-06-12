@@ -206,17 +206,20 @@ public class MillikanFrame extends JFrame {
         GCDCalculator calculator=new GCDCalculator();
         if(charges.getCharges_int().size()>1) {
 //            charge = calculator.chargeCalc(charges);
-            charge = calculator.chargeCalcNew(charges);
+         //   charge=calculator.chargeCalc(charges);
+         charge = calculator.chargeCalcNew(charges);
+            System.out.println("Charge from gcd: "+charge);
         }
         else if(charges.getCharges_int().size()==0){
         System.out.println("Dziwnie wchodzę do chargecalc");
         }else {
             charge = charges.getCharges_int().get(0);
         }
-        Double dCharge=new Double(charge);
-        for(int i=0;i<23;i++)
-            dCharge/=10;
-        valuePanel.geteValueLabel().setText(dCharge.toString());
+      Double dCharge=new Double(charge);
+//        for(int i=0;i<23;i++)
+//            dCharge/=10;
+//        valuePanel.geteValueLabel().setText(dCharge.toString());
+        valuePanel.geteValueLabel().setText(Double.toString(dCharge));
         System.out.println(Double.toString(charge / Math.pow(10, 23)));
 
     }
