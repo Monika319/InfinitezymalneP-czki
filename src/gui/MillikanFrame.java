@@ -2,6 +2,7 @@ package gui;
 
 
 //import millikanModel.GCDCalculator;
+import millikanModel.GCDCalculator;
 import millikanModel.OilDrop;
 import millikanModel.Test;
 import millikanModel.Charges;
@@ -13,6 +14,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -202,29 +206,31 @@ public class MillikanFrame extends JFrame {
 //        }
 //        th.start();
 //    }
-//    public void setEValue()
-//    {
-//        int charge=0;
-//        GCDCalculator calculator=new GCDCalculator();
-//        if(charges.getCharges_int().size()>1) {
-////            charge = calculator.chargeCalc(charges);
-//         //   charge=calculator.chargeCalc(charges);
-//         charge = calculator.chargeCalcNew(charges);
-//            System.out.println("Charge from gcd: "+charge);
-//        }
-//        else if(charges.getCharges_int().size()==0){
-//        System.out.println("Dziwnie wchodzę do chargecalc");
-//        }else {
-//            charge = charges.getCharges_int().get(0);
-//        }
-//      Double dCharge=new Double(charge);
-//        valuePanel.geteValueLabel().setText(Double.toString(charge / Math.pow(10, 23)));
+    public void setEValue() {
+        BigInteger charge = BigInteger.ZERO;
+        GCDCalculator calculator = new GCDCalculator();
+        if (charges.getCharges_int().size() > 1) {
+//            charge = calculator.chargeCalc(charges);
+            //   charge=calculator.chargeCalc(charges);
+            charge = calculator.chargeCalcNew(charges);
+            System.out.println("Charge from gcd: " + charge);
+        } else if (charges.getCharges_int().size() == 0) {
+            System.out.println("Dziwnie wchodzę do chargecalc");
+        } else {
+            charge = charges.getCharges_int().get(0);
+        }
+        BigDecimal dCharge = new BigDecimal(charge);
+        dCharge.divide(new BigDecimal(10).pow(23), 40, RoundingMode.HALF_UP);
+
+        valuePanel.geteValueLabel().setText(dCharge.toString());
 //        System.out.println("double bez rzutowania na string "+dCharge);
 //        System.out.println("Ciekawe miejsce: "+Double.toString(charge / Math.pow(10, 23)));
-//
-//    }
-    //public void ListView(JPanel columnpanel, chargeVariable charge, int chargePower) {
-public void ListView(JPanel columnpanel, double charge, int chargePower) {
+    }
+    public void ListView(JPanel columnpanel, double charge, int chargePower) {
+
+
+
+
         JPanel rowPanel = new JPanel();
 
         rowPanel.setMinimumSize(new Dimension(170, 30));

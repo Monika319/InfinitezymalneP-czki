@@ -41,7 +41,7 @@ public class OilDrop {
         radius = 0.5 * 10E-7 + Math.abs(1 * 10E-7 - 0.5 * 10E-7) * generator.nextDouble();
         y = new BigDecimal(radius);
         charge = Constants.e
-                * (2 + generator.nextInt(Math.abs(20)));
+                * (2 + generator.nextInt(Math.abs(90)));
         frame.currentDrop = this;
     }
 

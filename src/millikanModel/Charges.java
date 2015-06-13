@@ -14,10 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Charges {
+
     private ArrayList<BigDecimal> charges = new ArrayList<>();
     private ArrayList<Double> chargesDouble = new ArrayList<>();
-    private ArrayList<Integer> charges_int = new ArrayList<>();
-    //    private double q;
+ //   private ArrayList<Integer> charges_int = new ArrayList<>();
+
+    private ArrayList<BigInteger> charges_int = new ArrayList<BigInteger>();
+//    private double q;
+
     private BigDecimal q;
     private BigInteger intCharge;
     private MillikanFrame frame;
@@ -26,7 +30,7 @@ public class Charges {
         frame = mf;
     }
 
-    public Charges(ArrayList<Integer> charges_g) {
+    public Charges(ArrayList<BigInteger> charges_g) {
         charges_int = charges_g;
     }
 
@@ -67,6 +71,7 @@ public class Charges {
         // GCDCalculator calculator = new GCDCalculator();
         double E = drop.getE();
         if ((drop.getV1().compareTo(new BigDecimal(10E6)) < 0) && (drop.getV2().compareTo(new BigDecimal(10E6)) < 0)) {
+
 //            double f = (4 / 3) * Math.PI * Math.pow(drop.getRadius(), 3) * ((drop.getOilDensity() - Constants.airDensity) * Constants.g);
             double f = (4 / 3) * Math.PI * Math.pow((9 * Constants.airViscosity / 2), (3 / 2));
             BigDecimal ff = new BigDecimal(1.0);
@@ -154,6 +159,7 @@ public class Charges {
                     //  charges.add(BigDecimal.valueOf(chargeForList));
                     //   charges.add(q);
                     System.out.println("Lista chargow z decimalami: " + chargesDouble);
+
 //                int cutIntCharge = decimalCut(intCharge);
 //                System.out.println("cutCHarge:" + cutIntCharge);
 
@@ -185,8 +191,21 @@ public class Charges {
 //                System.out.println("Cut charge for list: " + cutChargeforList);
 
 
+
                     //    frame.ListView(frame.getListPanel(), new chargeVariable<>(charges), potega_q);
                     frame.ListView(frame.getListPanel(), chargeForList, potega_q);
+
+//                charges_int.add(cutIntCharge);
+                //  frame.ListView(frame.getListPanel(), new chargeVariable<>(doubleCutIntCharge));
+                BigDecimal neoQ=absQ.multiply(new BigDecimal(10).pow(23));
+                neoQ=neoQ.setScale(0,RoundingMode.HALF_UP);
+                System.out.println("neoQ="+neoQ);
+                BigInteger integerQ=neoQ.toBigInteger();
+                System.out.println("integerQ="+integerQ);
+                charges_int.add(integerQ);
+//                frame.ListView(frame.getListPanel(), new chargeVariable<>(charges),potega_q);
+                //   frame.ListView(frame.getListPanel(),new chargeVariable<>(charge));
+
 //            }
                 }
             }
@@ -199,7 +218,10 @@ public class Charges {
         //System.err.println("NIE ZMIERZONO OBU PREDKOSCI!!!");
     }
 
-
+    public ArrayList<BigInteger> getCharges_int()
+    {
+        return charges_int;
+    }
 //    public double getQ() {
 //        return q;
 //    }
@@ -216,14 +238,14 @@ public class Charges {
 //        return charges_int;
 //    }
 
-//    public int gcd(int a, int b) {
-//        if (b == 0) {
-//            return a;
-//        } else {
-//            return gcd(b, a % b);
-//        }
-//    }
-//
+    public BigInteger gcd(BigInteger a, BigInteger b) {
+        if (b.compareTo(BigInteger.ZERO)==0) {
+            return a;
+        } else {
+            return gcd(b, a.mod( b));
+        }
+    }
+
 //    public ArrayList<Integer> getCharges_int() {
 //        return charges_int;
 //    }
