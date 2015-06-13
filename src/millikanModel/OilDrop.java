@@ -27,6 +27,7 @@ public class OilDrop {
     double w;
     double w2;
     int counter;
+    double poleElektryczne;
 
     public OilDrop(MillikanFrame mf) {
         frame = mf;
@@ -40,7 +41,8 @@ public class OilDrop {
         oilDensity = 820;
         Random generator = new Random();
         //już w metrach
-        radius = 0.5 * 10E-7 + Math.abs(1 * 10E-7 - 0.5 * 10E-7) * generator.nextDouble();
+       // radius = 0.5 * 10E-7 + Math.abs(1 * 10E-7 - 0.5 * 10E-7) * generator.nextDouble();
+        radius=0.5E-6;
         y = radius;
         System.out.println("Lista intów: "+mf.getNumbers());
 //            charge = Constants.e
@@ -50,7 +52,8 @@ public class OilDrop {
         System.out.println("Losowany nextint od charge: "+(charge/Constants.e));
         System.out.println("size: "+mf.getNumbers().size());
         int losowy=generator.nextInt(mf.getNumbers().size());
-        charge=mf.getNumbers().get(losowy)*Constants.e;
+       // charge=mf.getNumbers().get(losowy)*Constants.e;
+        charge=Constants.e;
         mf.getNumbers().remove(losowy);
 
         frame.currentDrop = this;
@@ -66,7 +69,7 @@ public class OilDrop {
         y += (0.1 * v);
         counter++;
 
-
+            System.out.println("Predkosc z move "+v);
 //        isMoving = true;
         if (y < 0) {
             y = radius;
@@ -85,6 +88,7 @@ public class OilDrop {
 //            }
             if (Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd1().getY1()) < 2) {
                 frame.getP1().getPd1().setT1(counter * 0.1);
+
                 //frame.getP1().getPd1().setT1(0);
             }
 
@@ -109,6 +113,7 @@ public class OilDrop {
             //WARUNKI SPRAWDZAJACE ODLEGLOSC OD WIAZKI LASERA W DRUGIEJ FOTOKOMORCE
             if (Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd2().getY1()) < 2) {
                 frame.getP1().getPd2().setT1(counter * 0.1);
+                poleElektryczne=frame.getP1().getC().getE();
             }
             if (Math.abs((y * Constants.normalizationConst) - frame.getP1().getPd2().getY2()) < 2) {
                 frame.getP1().getPd2().setT2(counter * 0.1);
