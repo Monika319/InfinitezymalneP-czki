@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 
 public class AnimationFrame extends JPanel {
@@ -16,6 +17,7 @@ public class AnimationFrame extends JPanel {
     private Capacitor C;
     private int ballDiameter;
     protected boolean initialize =true;
+
     Timer timer;
    // private OilDrop oilDrop;
 
@@ -80,6 +82,7 @@ public class AnimationFrame extends JPanel {
         return ballDiameter;
     }
 
+
     public Photodetector getPd2() {
         return pd2;
     }
@@ -87,7 +90,6 @@ public class AnimationFrame extends JPanel {
     public Capacitor getC() {
         return C;
     }
-
 //    public void setOilDrop(OilDrop oilDrop)
 //    {
 //        this.oilDrop = oilDrop;

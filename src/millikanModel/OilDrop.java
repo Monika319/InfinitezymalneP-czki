@@ -1,6 +1,7 @@
 package millikanModel;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 import gui.ElectricField;
@@ -16,6 +17,8 @@ public class OilDrop {
     private double v2;
     private double y;
     private double v;
+
+
     //private final static double normalizationConst = 1;
     private MillikanFrame frame;
     //    public boolean isMoving = false;
@@ -39,10 +42,17 @@ public class OilDrop {
         //już w metrach
         radius = 0.5 * 10E-7 + Math.abs(1 * 10E-7 - 0.5 * 10E-7) * generator.nextDouble();
         y = radius;
+        System.out.println("Lista intów: "+mf.getNumbers());
 //            charge = Constants.e
 //                    * (100 + generator.nextInt(Math.abs(10000 - 1000)));
-        charge=Constants.e*generator.nextInt(10);
+
+       // charge=Constants.e*generator.nextInt(20);
         System.out.println("Losowany nextint od charge: "+(charge/Constants.e));
+        System.out.println("size: "+mf.getNumbers().size());
+        int losowy=generator.nextInt(mf.getNumbers().size());
+        charge=mf.getNumbers().get(losowy)*Constants.e;
+        mf.getNumbers().remove(losowy);
+
         frame.currentDrop = this;
     }
 

@@ -33,6 +33,8 @@ public class MillikanFrame extends JFrame {
     private JPanel listPanel;
     private ValuePanel valuePanel;
     private JScrollPane scrollPane;
+    public ArrayList<Integer> numbers = new ArrayList<Integer>();
+
     //private ListView lv;
 
     public static void main(String[] args) {
@@ -45,7 +47,11 @@ public class MillikanFrame extends JFrame {
     }
 
     public MillikanFrame() {
+        for (int i = 1; i <= 20; i++) {
+            numbers.add(i);
+        }
         initialize();
+
 
     }
 
@@ -69,7 +75,7 @@ public class MillikanFrame extends JFrame {
         listPanel.setPreferredSize(new Dimension(170, 700));
 
 
-          charges= new Charges(this);
+        charges = new Charges(this);
 //        int ile = chargee.gcd(64088, 16022);
 //        ArrayList<Integer> charges = new ArrayList<>();
 //        ArrayList<chargeVariable<Integer>> testCharges;
@@ -102,10 +108,9 @@ public class MillikanFrame extends JFrame {
 //        for (int i = 0; i < 100; i++) {
 //           // ListView(listPanel, emptyValue);
 //        }
-         scrollPane = new JScrollPane(listPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane = new JScrollPane(listPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setPreferredSize(new Dimension(170, 350));
         p3.add(scrollPane);
-
 
 
         Button ask = new Button("res/ask.png", 20, 20);
@@ -114,7 +119,7 @@ public class MillikanFrame extends JFrame {
 
         onOff.addActionListener(listeners.plotListener);
         ask.addActionListener(listeners.askButtonListener);
-        valuePanel=new ValuePanel();
+        valuePanel = new ValuePanel();
 //        valuePanel = new JPanel();
 //        valuePanel.setMaximumSize(new Dimension(1000, 25));
 //
@@ -159,6 +164,7 @@ public class MillikanFrame extends JFrame {
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
+
         WindowListener exitListener = new WindowAdapter() {
 
             @Override
@@ -181,54 +187,59 @@ public class MillikanFrame extends JFrame {
         //zamiast tego bedzie dodawanie poprzez actionlistener
         currentDrop = new OilDrop(this);
 /********************
-        int charge=0;
-        GCDCalculator calculator=new GCDCalculator();
-        charges.getCharges_int().add(4);
-        charges.getCharges_int().add(64);
-        charges.getCharges_int().add(127);
-            charge = calculator.chargeCalcNew(charges);
+ int charge=0;
+ GCDCalculator calculator=new GCDCalculator();
+ charges.getCharges_int().add(4);
+ charges.getCharges_int().add(64);
+ charges.getCharges_int().add(127);
+ charge = calculator.chargeCalcNew(charges);
 
-        valuePanel.geteValueLabel().setText(Double.toString(charge / Math.pow(10, 23)));
-        System.out.println(Double.toString(charge / Math.pow(10, 23)));
+ valuePanel.geteValueLabel().setText(Double.toString(charge / Math.pow(10, 23)));
+ System.out.println(Double.toString(charge / Math.pow(10, 23)));
  */
     }
 
-//    public void resume() {
+    //    public void resume() {
 //        if (th != null) {
 //
 //            th = null;
 //        }
 //        th.start();
 //    }
-    public void setEValue()
-    {
-        int charge=0;
-        double chargeDouble=0;
-        GCDCalculator calculator=new GCDCalculator();
-        if(charges.getCharges_int().size()>1) {
+    public void setEValue() {
+        int charge = 0;
+        double chargeDouble = 0;
+        GCDCalculator calculator = new GCDCalculator();
+        if (charges.getCharges_int().size() > 1) {
 //            charge = calculator.chargeCalc(charges);
-         //   charge=calculator.chargeCalc(charges);
-         charge = calculator.chargeCalcNew(charges);
-            chargeDouble=calculator.linestFit(charges);
-           // System.out.println("Charge from gcd: "+charge);
-            System.out.println("chargeDouble from linest: "+chargeDouble);
-        }
-        else if(charges.getCharges_int().size()==0){
-        System.out.println("Dziwnie wchodzę do chargecalc");
-        }else {
+            //   charge=calculator.chargeCalc(charges);
+            charge = calculator.chargeCalcNew(charges);
+            chargeDouble = calculator.linestFit(charges);
+            // System.out.println("Charge from gcd: "+charge);
+            System.out.println("chargeDouble from linest: " + chargeDouble);
+        } else if (charges.getCharges_int().size() == 0) {
+            System.out.println("Dziwnie wchodzę do chargecalc");
+        } else {
             //charge = charges.getCharges_int().get(0);
         }
-      Double dCharge=new Double(charge);
+        Double dCharge = new Double(charge);
 //        for(int i=0;i<23;i++)
 //            dCharge/=10;
 //        valuePanel.geteValueLabel().setText(dCharge.toString());
-       // valuePanel.geteValueLabel().setText(Double.toString(dCharge));
-        valuePanel.geteValueLabel().setText(Double.toString(chargeDouble));
-      //  valuePanel.geteValueLabel().setText(Double.toString(charge / Math.pow(10, 23)));
-        System.out.println("double bez rzutowania na string "+dCharge);
-        System.out.println("Ciekawe miejsce: "+Double.toString(charge / Math.pow(10, 23)));
+        // valuePanel.geteValueLabel().setText(Double.toString(dCharge));
+        double chargePower = 0;
+        double chargeForPower = chargeDouble;
+        do {
+            chargeForPower = chargeForPower * 10;
+            chargePower = chargePower + 1;
+        } while (chargeForPower < 1);
+        valuePanel.geteValueLabel().setText(Double.toString(chargeDouble).substring(0, 6) + "E-" + chargePower);
+        //  valuePanel.geteValueLabel().setText(Double.toString(charge / Math.pow(10, 23)));
+        System.out.println("double bez rzutowania na string " + dCharge);
+        System.out.println("Ciekawe miejsce: " + Double.toString(charge / Math.pow(10, 23)));
 
     }
+
     public void ListView(JPanel columnpanel, chargeVariable charge, int chargePower) {
         JPanel rowPanel = new JPanel();
 
@@ -247,16 +258,16 @@ public class MillikanFrame extends JFrame {
 //        if (charge.getClass()==double){
 //
 //        }
-        int variableForPower=0;
+        int variableForPower = 0;
 //        double castChargeVariable= charge;
 //        while(){
 //
 //        }
         if (charge.checkIfString()) {
-            dataList.setText(charge.setString().substring(0,6)+"E-"+chargePower);
+            dataList.setText(charge.setString().substring(0, 6) + "E-" + chargePower);
         } else {
 
-            dataList.setText("Q_" + columnpanel.getComponentCount() + "=" + charge.setString().substring(0,6)+"E-"+chargePower + "C");
+            dataList.setText("Q_" + columnpanel.getComponentCount() + "=" + charge.setString().substring(0, 6) + "E-" + chargePower + "C");
         }
 
         dataList.setVisible(true);
@@ -269,6 +280,12 @@ public class MillikanFrame extends JFrame {
         scrollPane.getHorizontalScrollBar().setValue(0);
 
     }
+
+    public ArrayList<Integer> getNumbers() {
+        return numbers;
+    }
+
+    ;
 
     public Thread getThread() {
         return th;
@@ -286,13 +303,11 @@ public class MillikanFrame extends JFrame {
         p1 = animationFrame;
     }
 
-    public Charges getCharges()
-    {
+    public Charges getCharges() {
         return charges;
     }
 
-    public JPanel getListPanel()
-    {
+    public JPanel getListPanel() {
         return listPanel;
     }
 }
