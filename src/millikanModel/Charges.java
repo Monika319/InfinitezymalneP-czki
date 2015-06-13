@@ -15,7 +15,7 @@ import java.util.List;
 
 public class Charges {
     private ArrayList<BigDecimal> charges = new ArrayList<BigDecimal>();
-    private ArrayList<Integer> charges_int = new ArrayList<Integer>();
+    private ArrayList<BigInteger> charges_int = new ArrayList<BigInteger>();
 //    private double q;
     private BigDecimal q;
     private BigInteger intCharge;
@@ -25,7 +25,7 @@ public class Charges {
         frame = mf;
     }
 
-    public Charges(ArrayList<Integer> charges_g) {
+    public Charges(ArrayList<BigInteger> charges_g) {
         charges_int = charges_g;
     }
 
@@ -65,63 +65,24 @@ public class Charges {
         // GCDCalculator calculator = new GCDCalculator();
         double E=drop.getE();
         if ((drop.getV1().compareTo(new BigDecimal(10E6)) < 0) && (drop.getV2().compareTo(new BigDecimal(10E6)) < 0)) {
-//            double f = (4 / 3) * Math.PI * Math.pow(drop.getRadius(), 3) * ((drop.getOilDensity() - Constants.airDensity) * Constants.g);
             double f=(4 / 3) * Math.PI * Math.pow((9 * Constants.airViscosity / 2), (3 / 2));
             BigDecimal ff= new BigDecimal(1.0);
-            ff=ff.divide(new BigDecimal(Constants.g * (drop.getOilDensity() - Constants.airDensity)),40,RoundingMode.HALF_UP);
+            ff=ff.divide(new BigDecimal(Constants.g * (drop.getOilDensity() - Constants.airDensity)), 40, RoundingMode.HALF_UP);
             ff=bigSqrt(ff, MathContext.DECIMAL128);
             ff=ff.multiply(new BigDecimal(f));
-            System.out.println("f="+f);
-            q =ff; //new BigDecimal((4 / 3) * Math.PI * Math.pow((9 * Constants.airViscosity / 2), (3 / 2))
-//                    * Math.sqrt(1 / (Constants.g * (drop.getOilDensity() - Constants.airDensity))));
-            System.out.println("pierwsze podejscie"+q);
-             // q *= (drop.getV1() + drop.getV2()) * Math.sqrt(drop.getV1()) / E;
-            //tutaj powinien byc wspolczynnik E/10, zeby odpowiednio liczylo ladnek!
-          //  q = (f / (E/10)) * (Math.abs(drop.getV2() / drop.getV1()) - 1);
-//            BigDecimal zmiennaPom=drop.getV2().divide(drop.getV1(),30, RoundingMode.HALF_UP);
-//            zmiennaPom.subtract(new BigDecimal(1.0));
-//            zmiennaPom.abs();
-//            BigDecimal zmiennaPom=( (.subtract(new BigDecimal(1.0))).abs());
-//            q =new BigDecimal ((f / (E)));
+            q =ff;
             BigDecimal zmiennaPom=drop.getV1().add(drop.getV2());
-            System.out.println("zmienna Pom="+zmiennaPom);
-//            System.out.println(drop.getV1(),drop.getV1(),RoundingMode.HALF_UP);
             BigDecimal pierw=(bigSqrt(drop.getV1(),MathContext.DECIMAL128));
-            System.out.println("sqrt=" + pierw);
-//            zmiennaPom.multiply(pierw);
-//            System.out.println("zmienna Pom*pierw="+zmiennaPom);
             q=q.multiply(zmiennaPom);
             q=q.multiply(pierw);
-            System.out.println("drugie podejscie"+q);
-            System.out.println("E:" + E);
             q=q.divide(new BigDecimal(E),30,RoundingMode.HALF_UP);
-            //TO JEST ROZPACZ
+            //TO JEST MAGICZNY WSPOLCZYNNIK MILLIKANA
             q=q.divide(new BigDecimal(-70.9952292808831),40,RoundingMode.HALF_UP);
-            System.out.println("trzecie podejscie"+q);
             BigDecimal absQ = q.abs();
-            int potega_q = 0;
+                System.out.println("obliczone q=" + absQ);
+                System.out.println("prawdziwe q=" + frame.currentDrop.getCharge());
+                System.out.println("stosunek"+q.divide((new BigDecimal(frame.currentDrop.getCharge())),40,RoundingMode.HALF_UP));
 
-//            while(q<1){
-//                q=q*10;
-//                potega_q++;
-//            }
-            System.out.println("Potega q: " + potega_q);
-            System.out.println("obliczone q=" + q);
-            System.out.println("prawdziwe q=" + frame.currentDrop.getCharge());
-            System.out.println("stosunek"+q.divide((new BigDecimal(frame.currentDrop.getCharge())),40,RoundingMode.HALF_UP));
-            BigDecimal power=new BigDecimal(10);
-            power.pow(23);
-            intCharge =  (absQ.multiply(power)).toBigInteger();
-            System.out.println("intCharge=" + intCharge);
-//            q. = (double) intCharge * Math.pow(10., -23.);
-//            if (q < 1.6E-19)
-//            {
-//                    JOptionPane.showMessageDialog(frame,
-//                            Messages.getString("unexpectedError"),
-//                            Messages.getString("tryAgain"),
-//                            JOptionPane.ERROR_MESSAGE);
-//            }
-//            else if (q >= 1.6E-19) {
                 System.out.println("nowe q=" + q);
                 charges.add(q);
 //                int cutIntCharge = decimalCut(intCharge);
@@ -156,7 +117,13 @@ public class Charges {
 
 //                charges_int.add(cutIntCharge);
                 //  frame.ListView(frame.getListPanel(), new chargeVariable<>(doubleCutIntCharge));
-                frame.ListView(frame.getListPanel(), new chargeVariable<>(charges),potega_q);
+                BigDecimal neoQ=absQ.multiply(new BigDecimal(10).pow(23));
+                neoQ=neoQ.setScale(0,RoundingMode.HALF_UP);
+                System.out.println("neoQ="+neoQ);
+                BigInteger integerQ=neoQ.toBigInteger();
+                System.out.println("integerQ="+integerQ);
+                charges_int.add(integerQ);
+//                frame.ListView(frame.getListPanel(), new chargeVariable<>(charges),potega_q);
                 //   frame.ListView(frame.getListPanel(),new chargeVariable<>(charge));
 //            }
         } else
@@ -168,7 +135,10 @@ public class Charges {
         //System.err.println("NIE ZMIERZONO OBU PREDKOSCI!!!");
     }
 
-
+    public ArrayList<BigInteger> getCharges_int()
+    {
+        return charges_int;
+    }
 //    public double getQ() {
 //        return q;
 //    }
@@ -185,14 +155,14 @@ public class Charges {
 //        return charges_int;
 //    }
 
-//    public int gcd(int a, int b) {
-//        if (b == 0) {
-//            return a;
-//        } else {
-//            return gcd(b, a % b);
-//        }
-//    }
-//
+    public BigInteger gcd(BigInteger a, BigInteger b) {
+        if (b.compareTo(BigInteger.ZERO)==0) {
+            return a;
+        } else {
+            return gcd(b, a.mod( b));
+        }
+    }
+
 //    public ArrayList<Integer> getCharges_int() {
 //        return charges_int;
 //    }

@@ -29,7 +29,7 @@ public class Capacitor {
         //przeliczenie na metry
 
         //Tutaj popatrzeć!!!!
-        d = Math.abs(h2 - h1);//Constants.normalizationConst*10E4;
+        d = Math.abs(h2 - h1)/10E3;
         // System.out.println("odleglosc miedzy plytkami C: "+d);
         voltage = 0;
         makeField();
