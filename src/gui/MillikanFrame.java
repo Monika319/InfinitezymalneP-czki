@@ -220,9 +220,10 @@ public class MillikanFrame extends JFrame {
             charge = charges.getCharges_int().get(0);
         }
         BigDecimal dCharge = new BigDecimal(charge);
-        dCharge.divide(new BigDecimal(10).pow(23), 40, RoundingMode.HALF_UP);
+        dCharge=dCharge.divide(new BigDecimal(10).pow(23), 40, RoundingMode.HALF_UP);
         System.out.println("DCharge"+dCharge);
-        valuePanel.geteValueLabel().setText(dCharge.toString());
+//        dCharge.scale()
+        valuePanel.geteValueLabel().setText(dCharge.toEngineeringString());
 //        System.out.println("double bez rzutowania na string "+dCharge);
 //        System.out.println("Ciekawe miejsce: "+Double.toString(charge / Math.pow(10, 23)));
     }
