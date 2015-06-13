@@ -65,7 +65,7 @@ public class Charges {
             System.out.println("Potega q: " + potega_q);
             System.out.println("obliczone q=" + q);
 
-            chargesDouble.add(q);
+            chargesDouble.add(Math.abs(q));
             //sortuje za kazdym razem po dodaniu ladunku
             Collections.sort(chargesDouble);
 

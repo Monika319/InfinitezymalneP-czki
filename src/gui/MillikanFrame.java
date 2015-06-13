@@ -210,14 +210,17 @@ public class MillikanFrame extends JFrame {
         int charge = 0;
         double chargeDouble = 0;
         GCDCalculator calculator = new GCDCalculator();
-        if (charges.getCharges_int().size() > 1) {
+       // if (charges.getCharges_int().size() > 1) {
+        if (charges.getChargesDouble().size() > 1) {
 //            charge = calculator.chargeCalc(charges);
             //   charge=calculator.chargeCalc(charges);
             charge = calculator.chargeCalcNew(charges);
             chargeDouble = calculator.linestFit(charges);
             // System.out.println("Charge from gcd: "+charge);
             System.out.println("chargeDouble from linest: " + chargeDouble);
-        } else if (charges.getCharges_int().size() == 0) {
+        }
+        //else if (charges.getCharges_int().size() == 0) {
+        else if (charges.getChargesDouble().size() == 0) {
             System.out.println("Dziwnie wchodzę do chargecalc");
         } else {
             //charge = charges.getCharges_int().get(0);
@@ -229,12 +232,12 @@ public class MillikanFrame extends JFrame {
         // valuePanel.geteValueLabel().setText(Double.toString(dCharge));
         double chargePower = 0;
         double chargeForPower = chargeDouble;
-        do {
-            chargeForPower = chargeForPower * 10;
-            chargePower = chargePower + 1;
-        } while (chargeForPower < 1);
-        valuePanel.geteValueLabel().setText(Double.toString(chargeDouble).substring(0, 6) + "E-" + chargePower);
-        //  valuePanel.geteValueLabel().setText(Double.toString(charge / Math.pow(10, 23)));
+//        do {
+//            chargeForPower = chargeForPower * 10;
+//            chargePower = chargePower + 1;
+//        } while (chargeForPower < 1);
+//        valuePanel.geteValueLabel().setText(Double.toString(chargeDouble).substring(0, 6) + "E-" + chargePower);
+         valuePanel.geteValueLabel().setText(Double.toString(charge / Math.pow(10, 23)));
         System.out.println("double bez rzutowania na string " + dCharge);
         System.out.println("Ciekawe miejsce: " + Double.toString(charge / Math.pow(10, 23)));
 
