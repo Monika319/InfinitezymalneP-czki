@@ -36,7 +36,7 @@ public class AnimationFrame extends JPanel {
 
         final Test test=new Test(new OilDrop(frame),C,pd1,pd2);
 
-        timer = new Timer(100, new ActionListener() {
+        timer = new Timer(10, new ActionListener() {
             int i=0;
             @Override
             public void actionPerformed(ActionEvent ae)
