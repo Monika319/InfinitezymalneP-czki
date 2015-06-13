@@ -28,4 +28,14 @@ public class ValuePanel extends JPanel
     {
         return eValueLabel;
     }
+
+    public JLabel geteLabel()
+    {
+        return eLabel;
+    }
+
+    public void seteLabel(JLabel eLabel)
+    {
+        this.eLabel = eLabel;
+    }
 }

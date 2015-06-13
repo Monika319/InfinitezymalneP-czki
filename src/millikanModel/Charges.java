@@ -1,5 +1,6 @@
 package millikanModel;
 
+import gui.Messages;
 import gui.MillikanFrame;
 import gui.chargeVariable;
 
@@ -65,12 +66,14 @@ public class Charges {
             intCharge = (int) (absQ * Math.pow(10., 23.));
             System.out.println("intCharge=" + intCharge);
             q = (double) intCharge * Math.pow(10., -23.);
-            if (q < 1.6E-19) {
-                JOptionPane.showMessageDialog(frame,
-                        "An unexpected measurement error occured!",
-                        "Try again",
-                        JOptionPane.ERROR_MESSAGE);
-            } else if (q >= 1.6E-19) {
+            if (q < 1.6E-19)
+            {
+                    JOptionPane.showMessageDialog(frame,
+                            Messages.getString("unexpectedError"),
+                            Messages.getString("tryAgain"),
+                            JOptionPane.ERROR_MESSAGE);
+            }
+            else if (q >= 1.6E-19) {
                 System.out.println("nowe q=" + q);
                 charges.add(q);
                 int cutIntCharge = decimalCut(intCharge);
@@ -109,9 +112,10 @@ public class Charges {
                 //   frame.ListView(frame.getListPanel(),new chargeVariable<>(charge));
             }
         } else
+
             JOptionPane.showMessageDialog(frame,
-                    "You have to measure both velocities",
-                    "Try again",
+                    Messages.getString("twoVelocities"),
+                    Messages.getString("tryAgain"),
                     JOptionPane.ERROR_MESSAGE);
         //System.err.println("NIE ZMIERZONO OBU PREDKOSCI!!!");
     }

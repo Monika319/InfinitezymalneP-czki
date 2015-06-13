@@ -20,9 +20,11 @@ public class Messages {
         bundleName = PREFIX + "_" + loc.getLanguage() + "_" + loc.getCountry();
         try {
             resourceBundle = ResourceBundle.getBundle(bundleName);
+//            System.out.println("ustawiam jezyk"+bundleName);
         } catch (Exception e) {
-            //domyslnie ustawiamy angielski
-            resourceBundle = ResourceBundle.getBundle(PREFIX + "_en_US");
+            //domyslnie ustawiamy polski
+//            System.out.println("WYJATEK W MESSAGES");
+            resourceBundle = ResourceBundle.getBundle(PREFIX + "_pl_PL");
         }
     }
 

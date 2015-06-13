@@ -1,3 +1,19 @@
-1)Click green start button to start the animation.
-2)While oil drop is falling down click on the white lightbulb in order to measure v1.
-First click when the drop is crossing first bunch of photocell1, then click when drop is crossing 2nd bunch of the same photocell.
+Buttons:
+GREEN ARROW - start measurement
+RED ARROW - stop measurement and calculate charge of a drop
+FLOPPY DISK-
+FLAG - change language
+LIGHT BULB - activate/deactivate one of the photodetectors
+
+SLIDER AND TEXT FIELD setting the values of voltage of the capacitor
+
+1) Start a measurement by clicking green arrow button
+2) Activate first photodetector by clicking left light bulb button
+3) The free fall velocity will be measured, you will know if its complete when two small diodes on photodetector
+   turn blue
+4) Allow the drop to fall into the capacitor
+5) By adjusting voltage of the capacitor increase the electric field and force the drop to move upwards
+6) Activate second photodetector by clicking on the right light bulb button
+7) Measure the upward velocity of the drop
+8) When both velocities are measured click on the red arrow button to calculate the charge of the drop
+9) Repeat all over again and observe estimated unitary charge value

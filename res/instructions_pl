@@ -1,0 +1,18 @@
+Przyciski:
+ZIELONA STRZAŁKA - rozpoczyna pomiar
+CZERWONA STRZAŁKA - kończy pomiar i oblicza ładunek kropli
+DYSKIETKA-
+FLAGA - zmiania język
+ŻARÓWKA - włącza/wyłącza fotodetektor
+
+SUWAK I POLE TEKSTOWE - ustawiają napięcie na kondensatorze
+
+1) Rozpocznij pomiar przez kliknięcie na zieloną strzałkę
+2) Aktywuj górny fotodetektor poprzez kliknięcie na lewy przycisk z żarówką
+3) Prędkość spadku swobodnego zostanie zmierzona, gdy obie małe lampki na fotodetektorze zapalą się na niebiesko
+4) Pozwól kropli wlecieć do kondensatora
+5) Poprzez regulację napięcia na kondensatorze zmuś kroplę do ruchu w górę
+6) Aktywuj dolny fotodetektor poprzez kliknięcie na lewy przycisk z żarówką
+7) Zmierz prędkość wznoszenia
+8) Kiedy obie prędkości zostaną zmierzone kliknij czerwoną strzałkę, aby obliczyć ładunek kropli
+9) Powtórz całą procedurę i obserwuj estymowaną wartość ładunku elementarnego

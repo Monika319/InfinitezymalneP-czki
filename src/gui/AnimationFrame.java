@@ -22,7 +22,7 @@ public class AnimationFrame extends JPanel {
     AnimationFrame(MillikanFrame mf) {
         super(new FlowLayout(FlowLayout.CENTER));
         this.setBackground(Color.WHITE);
-        this.setPreferredSize(new Dimension(500, 500));
+        this.setPreferredSize(new Dimension(500, 470));
         this.add(new java.awt.Container());
 
 

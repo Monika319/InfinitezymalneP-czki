@@ -33,6 +33,7 @@ public class MillikanFrame extends JFrame {
     private JPanel listPanel;
     private ValuePanel valuePanel;
     private JScrollPane scrollPane;
+    public String language;
     //private ListView lv;
 
     public static void main(String[] args) {
@@ -50,6 +51,7 @@ public class MillikanFrame extends JFrame {
     }
 
     private void initialize() {
+        language="polish";
         condition = true;
         listeners = new Listeners(this);
         setLayout(new GridBagLayout());
@@ -60,8 +62,8 @@ public class MillikanFrame extends JFrame {
         p2.setBackground(Color.lightGray);
 
         JPanel p3 = new JPanel();
-        p3.setMinimumSize(new Dimension(150, 500));
-        p3.setPreferredSize(new Dimension(170, 500));
+        p3.setMinimumSize(new Dimension(150, 450));
+        p3.setPreferredSize(new Dimension(170, 450));
 
 
         listPanel = new JPanel();
@@ -110,7 +112,7 @@ public class MillikanFrame extends JFrame {
 
         Button ask = new Button("res/ask.png", 20, 20);
         JToggleButton onOff = new JToggleButton("on/off");
-        onOff.setSize(30, 30);
+        onOff.setSize(30, 20);
 
         onOff.addActionListener(listeners.plotListener);
         ask.addActionListener(listeners.askButtonListener);
@@ -285,6 +287,11 @@ public class MillikanFrame extends JFrame {
     public Charges getCharges()
     {
         return charges;
+    }
+
+    public ValuePanel getValuePanel()
+    {
+        return valuePanel;
     }
 
     public JPanel getListPanel()

@@ -23,10 +23,10 @@ public class makeButtonsPanel extends JPanel
         startButton.setName("start");
         Button pomiarButton = new Button("res/measurement.png", 20, 20);
         Button saveButton = new Button("res/save.png", 20, 20);
-        Button languageButton = new Button("res/globe.png", 20, 20);
-        Button photocell1 = new Button("res/lightoff.jpg", 20, 20);
+        Button languageButton = new Button("res/english_new.png", 20, 20);
+        Button photocell1 = new Button("res/light_off_new.png", 20, 20);
         photocell1.setName("photocell1");
-        Button photocell2 = new Button("res/lighton.png", 20, 20);
+        Button photocell2 = new Button("res/light_off_new.png", 20, 20);
         photocell2.setName("photocell2");
 
 

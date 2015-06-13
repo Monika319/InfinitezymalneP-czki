@@ -126,14 +126,23 @@ public class Listeners {
 
         void initialize() {
             JFrame askFrame = new JFrame();
-            askFrame.setTitle("Instructions");
+
             JPanel instructionsPanel = new JPanel();
             askFrame.setContentPane(instructionsPanel);
             askFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             BufferedReader in = null;
             JTextArea instructions = new JTextArea();
             try {
-                in = new BufferedReader(new FileReader("res/instructions"));
+                if(frame.language=="english")
+                {
+                    askFrame.setTitle("Instructions");
+                    in = new BufferedReader(new FileReader("res/instructions"));
+                }
+                else if (frame.language=="polish")
+                {
+                    askFrame.setTitle("Instrukcje");
+                    in = new BufferedReader(new FileReader("res/instructions_pl"));
+                }
                 String str;
                 while ((str = in.readLine()) != null) {
                     instructions.append("\n" + str);
@@ -163,23 +172,28 @@ public class Listeners {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
 
-            String name = ((Button) actionEvent.getSource()).getName();
+            Button button=(Button)actionEvent.getSource();
+            String name = button.getName();
             //wypisujemy, który przycisk jest włączony
             System.out.println(name);
             if (name == "photocell1")
 
                 if (frame.getP1().getPd1().isOn()) {
                     frame.getP1().getPd1().setOn(false);
+                    button.setIcon(new ImageIcon("res/light_off_new.png"));
                     // frame.getP1().getPd1().setT2();
                 } else {
                     frame.getP1().getPd1().setOn(true);
+                    button.setIcon(new ImageIcon("res/light_on_new.png"));
                     //frame.getP1().getPd1().setT1();
                 }
             else if (frame.getP1().getPd2().isOn()) {
                 frame.getP1().getPd2().setOn(false);
+                button.setIcon(new ImageIcon("res/light_off_new.png"));
                 //frame.getP1().getPd2().setT2();
             } else {
                 frame.getP1().getPd2().setOn(true);
+                button.setIcon(new ImageIcon("res/light_on_new.png"));
                 //frame.getP1().getPd2().setT1();
             }
 
@@ -294,14 +308,22 @@ public class Listeners {
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            if (Locale.getDefault() == Locale.ENGLISH) {
+//            if (Locale.getDefault() == Locale.ENGLISH) {
+            Button button=(Button)actionEvent.getSource();
+            if(frame.language=="english"){
+                frame.language="polish";
+                button.setIcon(new ImageIcon("res/english_new.png"));
                 Locale locale = new Locale.Builder().setLanguage("pl").setRegion("PL").build();
                 Messages.setLocale(locale);
+
             } else {
+                frame.language="english";
+                button.setIcon(new ImageIcon("res/polish_new.png"));
                 Locale locale = new Locale.Builder().setLanguage("en").setRegion("US").build();
                 Messages.setLocale(locale);
             }
-
+            frame.setTitle(Messages.getString("title"));
+            frame.getValuePanel().geteLabel().setText(Messages.getString("estimation"));
             frame.repaint();
 
 
