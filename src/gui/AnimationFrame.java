@@ -57,7 +57,7 @@ public class AnimationFrame extends JPanel {
         pd1.paintPhotoDetector(g, this);
         pd2.paintPhotoDetector(g, this);
         g.setColor(Color.yellow);
-        Double y=new Double(frame.currentDrop.getY()* Constants.normalizationConst);
+        Double y=new Double(frame.currentDrop.getY().doubleValue()* Constants.normalizationConst);
         g.fillOval(((this.getWidth() / 2) - ballDiameter / 2), y.intValue()-ballDiameter/2, ballDiameter, ballDiameter);
 //        System.out.println("Frame y = " + y.intValue());
         C.paintCapacitor(g, this);

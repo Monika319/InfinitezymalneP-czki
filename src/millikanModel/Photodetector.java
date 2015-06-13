@@ -3,6 +3,8 @@ package millikanModel;
 import gui.AnimationFrame;
 
 import java.awt.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Photodetector {
 
@@ -13,6 +15,8 @@ public class Photodetector {
     private boolean on;
     private static int photoCounter = 0;
     private int myCounter;
+    private BigDecimal yBall1;
+    private BigDecimal yBall2;
 
 
     public Photodetector(int h1, int h2) {
@@ -44,11 +48,11 @@ public class Photodetector {
         }
 
         g.fillOval((int) (9.5 * af.getWidth() / 10), (int) Math.abs((y2 + y1) / 2), (int) Math.abs((y2 - y1) / 2), (int) Math.abs((y2 - y1) / 2));
-        if (t1 > 0)
+        if (t1 > 0.1)
             g.setColor(Color.blue);
         else g.setColor(Color.gray);
         g.fillOval((int) (9.1 * af.getWidth() / 10), y1 - 2, (int) Math.abs((y2 - y1) / 5), (int) Math.abs((y2 - y1) / 5));
-        if (t2 > 0)
+        if (t2 > 0.1)
             g.setColor(Color.blue);
         else g.setColor(Color.gray);
         g.fillOval((int) (9.1 * af.getWidth() / 10), y2 - 6, (int) Math.abs((y2 - y1) / 5), (int) Math.abs((y2 - y1) / 5));
@@ -57,13 +61,15 @@ public class Photodetector {
 
     public void calculateV(OilDrop drop) {
         //LICZY WARTOSC BEZ ZNAKU
+        double dt=t2-t1;
         if (myCounter == 1) {
-            drop.setV1(Math.abs(((y2 - y1) / Constants.normalizationConst / (t2 - t1))));
+
+            drop.setV1(yBall2.subtract(yBall1).divide(new BigDecimal(dt),40, RoundingMode.HALF_UP).abs());
             // drop.setV1(Math.abs(((y2 - y1) *10E-4 / (t2 - t1))));
-            System.out.println("Przy liczeniu V1 odpowiednio mamy (y2-y1) znormalizowane i różnica czasów:" + (Math.abs((y2 - y1) / Constants.normalizationConst) + " " + (t2 - t1)));
+//            System.out.println("Przy liczeniu V1 odpowiednio mamy (y2-y1) znormalizowane i różnica czasów:" + (Math.abs((y2 - y1) / Constants.normalizationConst) + " " + (t2 - t1)));
             System.out.println("Wyznaczona predkosc v1: " + drop.getV1());
         } else {
-            drop.setV2(Math.abs(((y2 - y1) / Constants.normalizationConst / (t2 - t1))));
+            drop.setV2(((((yBall2.subtract(yBall1)).divide(new BigDecimal(dt), 40, RoundingMode.HALF_UP))).abs()));
             //  drop.setV2(Math.abs(((y2 - y1)*10E-4 / (t2 - t1))));
             System.out.println("Wyznaczona predkosc v2: " + drop.getV2());
         }
@@ -98,6 +104,8 @@ public class Photodetector {
     public void reset() {
         t1 = 0.0;
         t2 = 0.0;
+        yBall1=BigDecimal.ZERO;
+        yBall2=BigDecimal.ZERO;
         on = false;
     }
 
@@ -107,6 +115,16 @@ public class Photodetector {
 
     public int getY2() {
         return y2;
+    }
+
+    public void setyBall1(BigDecimal yBall1)
+    {
+        this.yBall1 = yBall1;
+    }
+
+    public void setyBall2(BigDecimal yBall2)
+    {
+        this.yBall2 = yBall2;
     }
 
     public boolean isOn() {

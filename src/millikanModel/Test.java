@@ -1,6 +1,7 @@
 package millikanModel;
 
 import java.io.*;
+import java.math.BigDecimal;
 
 /**
  * Created by rafal on 16.05.15.
@@ -10,13 +11,13 @@ public class Test
 
     private double q;
     private double u;
-    private double u1;
-    private double u2;
+    private BigDecimal u1;
+    private BigDecimal u2;
     private double pd1T1;
     private double pd1T2;
     private double pd2T1;
     private double pd2T2;
-    private double y;
+    private BigDecimal y;
     private double E;
     private double a;
     private double A;

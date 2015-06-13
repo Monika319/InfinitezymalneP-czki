@@ -288,8 +288,8 @@ public class Listeners {
             frame.getP1().getPd1().calculateV(frame.currentDrop);
 
             frame.getP1().getPd2().calculateV(frame.currentDrop);
-            frame.getCharges().addCharge(frame.currentDrop, frame.getP1().getC().getE());
-            frame.setEValue();
+            frame.getCharges().addCharge(frame.currentDrop);
+//            frame.setEValue();
             frame.currentDrop = new OilDrop(frame);
             frame.getP1().reset();
             frame.getP1().repaint();
