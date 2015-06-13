@@ -91,8 +91,8 @@ public class MillikanFrame extends JFrame {
 //        System.out.println("ILE: " + ile + "wynik" + wynik);
 //        System.out.println(Integer.toString(ladunek));
 
-        chargeVariable<String> emptyValue;
-        emptyValue = new chargeVariable<>(" ");
+//        chargeVariable<String> emptyValue;
+//        emptyValue = new chargeVariable<>(" ");
 //        for (int i = 0; i < 4; i++) {
 //            //ListView(listPanel, (double) charges.get(i));
 //            System.out.println("Wypisuję:" + testCharges.get(i).setString());
@@ -223,7 +223,8 @@ public class MillikanFrame extends JFrame {
 //        System.out.println("Ciekawe miejsce: "+Double.toString(charge / Math.pow(10, 23)));
 //
 //    }
-    public void ListView(JPanel columnpanel, chargeVariable charge, int chargePower) {
+    //public void ListView(JPanel columnpanel, chargeVariable charge, int chargePower) {
+public void ListView(JPanel columnpanel, double charge, int chargePower) {
         JPanel rowPanel = new JPanel();
 
         rowPanel.setMinimumSize(new Dimension(170, 30));
@@ -246,12 +247,12 @@ public class MillikanFrame extends JFrame {
 //        while(){
 //
 //        }
-        if (charge.checkIfString()) {
-            dataList.setText(charge.setString().substring(0,6)+"E-"+chargePower);
-        } else {
+//        if (charge.checkIfString()) {
+//            dataList.setText(charge.setString().substring(0,6)+"E-"+chargePower);
+//        } else {
 
-            dataList.setText("Q_" + columnpanel.getComponentCount() + "=" + charge.setString().substring(0,6)+"E-"+chargePower + "C");
-        }
+            dataList.setText("Q_" + columnpanel.getComponentCount() + "=" + Double.toString(charge).substring(0, 6)+"E-"+chargePower + "C");
+       // }
 
         dataList.setVisible(true);
         rowPanel.add(dataList);
