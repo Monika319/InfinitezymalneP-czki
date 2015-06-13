@@ -39,8 +39,10 @@ public class OilDrop {
         //już w metrach
         radius = 0.5 * 10E-7 + Math.abs(1 * 10E-7 - 0.5 * 10E-7) * generator.nextDouble();
         y = radius;
-        charge = Constants.e
-                * (100 + generator.nextInt(Math.abs(10000 - 1000)));
+//            charge = Constants.e
+//                    * (100 + generator.nextInt(Math.abs(10000 - 1000)));
+        charge=Constants.e*generator.nextInt(10);
+        System.out.println("Losowany nextint od charge: "+(charge/Constants.e));
         frame.currentDrop = this;
     }
 

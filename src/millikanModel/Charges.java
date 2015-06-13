@@ -5,11 +5,13 @@ import gui.chargeVariable;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Charges {
     private ArrayList<Double> charges = new ArrayList<Double>();
     private ArrayList<Integer> charges_int = new ArrayList<Integer>();
+    private ArrayList<Double> chargesDouble = new ArrayList<Double>();
     private double q;
     private int intCharge;
     private MillikanFrame frame;
@@ -49,8 +51,10 @@ public class Charges {
 //                    * Math.sqrt(1 / (Constants.g * (drop.getOilDensity() - Constants.airDensity)));
             // q *= (drop.getV1() + drop.getV2()) * Math.sqrt(drop.getV1()) / E;
             //tutaj powinien byc wspolczynnik E/10, zeby odpowiednio liczylo ladnek!
-          //  q = (f / (E/10)) * (Math.abs(drop.getV2() / drop.getV1()) - 1);
-            q = (f / (E/10)) * (Math.abs(drop.getV2() / drop.getV1()) - 1)/10;
+            //  q = (f / (E/10)) * (Math.abs(drop.getV2() / drop.getV1()) - 1);
+
+      //      q = (f / (E / 10)) * (Math.abs(drop.getV2() / drop.getV1()) - 1) / 10;
+            q = (f / E ) * (Math.abs(drop.getV2() / drop.getV1()) - 1) ;
             double absQ = Math.abs(q);
             int potega_q = 0;
 
@@ -60,17 +64,33 @@ public class Charges {
 //            }
             System.out.println("Potega q: " + potega_q);
             System.out.println("obliczone q=" + q);
+
+            chargesDouble.add(q);
+            //sortuje za kazdym razem po dodaniu ladunku
+            Collections.sort(chargesDouble);
+
+
+            System.out.println("chargesDouble: " + chargesDouble);
+
             System.out.println("prawdziwe q=" + frame.currentDrop.getCharge());
 
             intCharge = (int) (absQ * Math.pow(10., 23.));
             System.out.println("intCharge=" + intCharge);
             q = (double) intCharge * Math.pow(10., -23.);
-            if (q < 1.6E-19) {
+//            if (q < 1.6E-19) {
+//                JOptionPane.showMessageDialog(frame,
+//                        "An unexpected measurement error occured!",
+//                        "Try again",
+//                        JOptionPane.ERROR_MESSAGE);
+//            } else
+            if (Double.isInfinite(q)) {
                 JOptionPane.showMessageDialog(frame,
-                        "An unexpected measurement error occured!",
+                        "You have to measure both velocities",
                         "Try again",
                         JOptionPane.ERROR_MESSAGE);
-            } else if (q >= 1.6E-19) {
+                //System.err.println("NIE ZMIERZONO OBU PREDKOSCI!!!");
+            } else {
+                //if (q >= 1.6E-19) {
                 System.out.println("nowe q=" + q);
                 charges.add(q);
                 int cutIntCharge = decimalCut(intCharge);
@@ -84,7 +104,7 @@ public class Charges {
                 while (doubleCutIntCharge > 1) {
                     doubleCutIntCharge = doubleCutIntCharge / 10;
                 }
-               // System.out.println("Blad wzgledny pomiaru q:" + (q - doubleCutIntCharge) / q * 100);
+                // System.out.println("Blad wzgledny pomiaru q:" + (q - doubleCutIntCharge) / q * 100);
                 do {
                     q = q * 10;
                     potega_q = potega_q + 1;
@@ -98,22 +118,27 @@ public class Charges {
 //                for (int i = 0; i < 23; i++) {
 //                    doubleCutIntCharge /= 1000;
 //                }
-               // double cutChargeforList = cutIntCharge * Math.pow(10., -(7 + potega_q));
+                // double cutChargeforList = cutIntCharge * Math.pow(10., -(7 + potega_q));
                 double cutChargeforList = cutIntCharge * Math.pow(10., -(4 + potega_q));
                 System.out.println("Double cut int charge:  " + doubleCutIntCharge);
                 System.out.println("Cut charge for list: " + cutChargeforList);
 
                 charges_int.add(cutIntCharge);
                 //  frame.ListView(frame.getListPanel(), new chargeVariable<>(doubleCutIntCharge));
-                frame.ListView(frame.getListPanel(), new chargeVariable<>(cutChargeforList),potega_q);
+
+                //frame.ListView(frame.getListPanel(),);
+                frame.ListView(frame.getListPanel(), new chargeVariable<>(cutChargeforList), potega_q);
                 //   frame.ListView(frame.getListPanel(),new chargeVariable<>(charge));
             }
-        } else
-            JOptionPane.showMessageDialog(frame,
-                    "You have to measure both velocities",
-                    "Try again",
-                    JOptionPane.ERROR_MESSAGE);
-        //System.err.println("NIE ZMIERZONO OBU PREDKOSCI!!!");
+        }
+        //  } else
+//        if() {
+//            JOptionPane.showMessageDialog(frame,
+//                    "You have to measure both velocities",
+//                    "Try again",
+//                    JOptionPane.ERROR_MESSAGE);
+//            //System.err.println("NIE ZMIERZONO OBU PREDKOSCI!!!");
+//        }
     }
 
 
@@ -137,7 +162,8 @@ public class Charges {
         if (b == 0) {
             return a;
         } else {
-            return gcd(b, a % b);
+            return
+                    gcd(b, a % b);
         }
     }
 
@@ -145,19 +171,23 @@ public class Charges {
         return charges_int;
     }
 
+    public ArrayList<Double> getChargesDouble() {
+        return chargesDouble;
+    }
+
     public int decimalCut(int charge) {
         int digits[] = new int[5];
         Integer newCharge = new Integer(charge);
         System.out.println("newCharge: " + newCharge);
         int len = newCharge.toString().length();
-      //  System.out.println("len: " + len);
+        //  System.out.println("len: " + len);
 
         for (int i = 0; i < digits.length; i++) {
             digits[i] = (int) Math.floor(newCharge / Math.pow(10, len - i - 1));
             newCharge = newCharge - digits[i] * (int) Math.pow(10, len - i - 1);
-          //  System.out.println(digits[i]);
+            //  System.out.println(digits[i]);
         }
-       // System.out.println("digits.length: " + digits.length);
+        // System.out.println("digits.length: " + digits.length);
         int newerCharge = 0;
         for (int j = 0; j < digits.length; j++)
         //for(int j=0;j<len;j++)

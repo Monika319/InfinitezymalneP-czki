@@ -94,4 +94,35 @@ public class GCDCalculator {
             return 0;
     }
 
+    public double linestFit(Charges unitCharge) {
+        double estimatedCharge = 0;
+        double xMean = 0;
+        double yMean = 0;
+        int numberOfCharges = 0;
+        double denominatorSum = 0;
+        ArrayList<Double> chargesList = new ArrayList<Double>(unitCharge.getChargesDouble());
+        numberOfCharges = chargesList.size();
+        if (numberOfCharges == 1) {
+            //jesli mamy 1 pomiar
+            estimatedCharge = 0;
+
+        } else {
+            xMean = (double) ((numberOfCharges + 2) / 2) * numberOfCharges;
+
+            for (int i = 0; i < numberOfCharges; i++) {
+                yMean += chargesList.get(i);
+
+            }
+            yMean = yMean / numberOfCharges;
+
+            for (int j = 0; j < numberOfCharges; j++) {
+                estimatedCharge += (chargesList.get(j) - yMean) * (j + 1 - xMean);
+                denominatorSum = (j + 1 - xMean) * (j + 1 - xMean);
+            }
+            estimatedCharge = (estimatedCharge / denominatorSum);
+        }
+        return estimatedCharge;
+    }
+
+
 }

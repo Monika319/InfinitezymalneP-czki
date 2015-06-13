@@ -22,7 +22,7 @@ public class ElectricField extends JPanel
         String[] fieldUnits = {"mV", "V", "kV","MV","GV","TV"};
         valueField = new JFormattedTextField(voltageValue);
         valueField.setEditable(true);
-        valueSlider = new JSlider(0,1000);
+        valueSlider = new JSlider(0,10000   );
         valueSlider.setValue(0);
         valueSlider.addChangeListener(frame.listeners.change);
         valueField.addActionListener(frame.listeners.electricTextListener);
