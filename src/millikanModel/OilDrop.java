@@ -9,6 +9,10 @@ import gui.MillikanFrame;
 
 import javax.swing.*;
 
+/**
+ * Class with information about oil drop painted in simulation
+ * and used for calculations.
+ */
 public class OilDrop {
     private double radius;
     private double charge;
@@ -25,6 +29,10 @@ public class OilDrop {
     double w2;
     int counter;
 
+    /**
+     * Oil drop with random parameters
+     * @param mf - Main frame
+     */
     public OilDrop(MillikanFrame mf) {
         frame = mf;
         v1 = new BigDecimal(0.0);
@@ -43,6 +51,9 @@ public class OilDrop {
         frame.currentDrop = this;
     }
 
+    /**
+     * Counting oil drop velocities for simulation and managing oil drop movement in simulation.
+     */
     public void move() {
         double k = 6 * Math.PI * Constants.airViscosity * radius;
         double m = (4 / 3) * Math.PI * Math.pow(radius, 3) * oilDensity;
@@ -125,35 +136,58 @@ public class OilDrop {
 
     }
 
-
+    /**
+     * Getting charge of oild drop
+     * @return oil drops charge
+     */
     public double getCharge() {
         return charge;
     }
-
+    /**
+     * Getting density of oild drop
+     * @return oil drops density
+     */
     public double getOilDensity() {
         return oilDensity;
     }
-
+    /**
+     * Getting free fall velocity
+     * @return free fall velocity
+     */
     public BigDecimal getV1() {
         return v1;
     }
-
+    /**
+     * Setting free fall velocity
+     */
     public void setV1(BigDecimal v1) {
         this.v1 = v1;
     }
-
+    /**
+     * Getting velocity considering impact of electric field
+     * @return velocity in electric field
+     */
     public BigDecimal getV2() {
         return v2;
     }
-
+    /**
+     * Setting velocity considering impact of electric field
+     */
     public void setV2(BigDecimal v2) {
         this.v2 = v2;
     }
 
+    /**
+     * Getting oil drop y coordinate from simulation
+     * @return oil drop y coordinate
+     */
     public BigDecimal getY() {
         return y;
     }
-
+    /**
+     * Getting oil drop free fall velocity
+     * @return oil drop free fall velocity
+     */
     public double getV() {
         return v;
     }

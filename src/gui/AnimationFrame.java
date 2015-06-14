@@ -7,8 +7,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
+/**
+  * Responsible for Animation visualisation.
+  * Paints Capacitor, 2 Photodetectors for measuring times, Oild drop with given radius.
+  * Animations work is based on timer. Every 100ms the view is refreshed.
+  */
 public class AnimationFrame extends JPanel {
+
     private MillikanFrame frame;
     private Photodetector pd1;
     private Photodetector pd2;
@@ -17,6 +22,10 @@ public class AnimationFrame extends JPanel {
     protected boolean initialize =true;
     Timer timer;
 
+    /**
+     * Class for initializing painted objects and managing oil drop movement(Timer used).
+     * @param mf-Millian Frame-main frame of the program
+     */
     AnimationFrame(MillikanFrame mf) {
 
         super(new FlowLayout(FlowLayout.CENTER));
@@ -49,6 +58,10 @@ public class AnimationFrame extends JPanel {
 
     }
 
+    /**
+     * Paints Photodetectors and oil drop.
+     * @param g- Object of Class Graphics for painting photodetectors
+     */
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
@@ -66,18 +79,34 @@ public class AnimationFrame extends JPanel {
         pd2.reset();
     }
 
+    /**
+     *
+     * @return Photodetector 1 in free fall.
+     */
     public Photodetector getPd1() {
         return pd1;
     }
 
+    /**
+     *
+     * @return Oil drop diameter
+     */
     public int getBallDiameter() {
         return ballDiameter;
     }
 
+    /**
+     *
+     * @return Photodetector 2 in electric field
+     */
     public Photodetector getPd2() {
         return pd2;
     }
 
+    /**
+     *
+     * @return Painted capacitor.
+     */
     public Capacitor getC() {
         return C;
     }

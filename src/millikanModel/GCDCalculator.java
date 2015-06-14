@@ -4,9 +4,18 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
+/**
+ * Class contains Greatest Common divider calculator for finding elementary charge value.
+ */
 public class GCDCalculator {
 
     public GCDCalculator() {}
+
+    /**
+     * Greatest Common divider calculator
+     * @param unitCharge list of charges
+     * @return evaluated elementary charge
+     */
  public BigInteger chargeCalcNew(Charges unitCharge) {
         ArrayList<BigInteger> listdemo = new ArrayList<BigInteger>(unitCharge.getCharges_int());
         ArrayList<BigInteger> list = new ArrayList<BigInteger>(unitCharge.getCharges_int());

@@ -1,5 +1,8 @@
 package millikanModel;
 
+/**
+ * Class containing constant values used in program.
+ */
 public class Constants
 {
     public static final double e = 1.6022E-19;

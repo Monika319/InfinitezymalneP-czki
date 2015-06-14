@@ -21,7 +21,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Locale;
 
-
+/**
+ *  Class that contains all listeners used in program.
+ */
 public class Listeners {
     MillikanFrame frame;
     StartListener start;
@@ -38,6 +40,10 @@ public class Listeners {
     long finishAnimationTime;
     private ElectricField ef;
 
+    /**
+     * Implements listeners used in program
+     * @param mf -main frame
+     */
     Listeners(MillikanFrame mf) {
         frame = mf;
 
@@ -53,6 +59,9 @@ public class Listeners {
         unitBoxListener = new UnitBoxListener();
     }
 
+    /**
+     * Animation start button listener responsible for starting measurement.
+     */
     class StartListener implements ActionListener {
         StartListener() {
             super();
@@ -102,6 +111,9 @@ public class Listeners {
 //        }
 //    }
 
+    /**
+     * Listener for button to open user manual of the program.
+     */
     class AskButtonListener implements ActionListener {
         AskButtonListener() {
             super();
@@ -113,7 +125,9 @@ public class Listeners {
         }
     }
 
-
+    /**
+     *  JPanel to view the user manual of the program.
+     */
     class InstructionsRead {
         InstructionsRead() {
             initialize();
@@ -158,7 +172,10 @@ public class Listeners {
         }
     }
 
-
+    /**
+     *  Photodetector listener to register falling times in order
+     +      to find velocities v1 and v2.
+     */
     class PhotoListener implements ActionListener {
         PhotoListener() {
             super();
@@ -195,6 +212,9 @@ public class Listeners {
         }
     }
 
+    /**
+     * Listener responsible for changing electric field value.
+     */
     class ElectricListener implements ChangeListener {
         ElectricListener() {
             super();
@@ -210,6 +230,10 @@ public class Listeners {
             ef.setAll();
         }
     }
+
+    /**
+     *  Listener responsible for changing units of electric field.
+     */
 
     class UnitBoxListener implements ActionListener {
         UnitBoxListener() {
@@ -241,6 +265,9 @@ public class Listeners {
         }
     }
 
+    /**
+     * Listener responsible for setting electric field value.
+     */
     class ElectricTextListener implements ActionListener {
         ElectricTextListener() {
             super();
@@ -262,6 +289,8 @@ public class Listeners {
 
     /**
      * Created by monika03 on 17.05.15.
+     * Responsible for finishing animation, calculating velocities v1and v2, measuring new charge
+     * and evaluating the elementary charge from set of measurements.
      */
     class MeasureListener implements ActionListener {
         MeasureListener() {
@@ -298,6 +327,7 @@ public class Listeners {
 
     /**
      * Created by monika03 on 17.05.15.
+     *  Listener for multilanguage program: possible English and Polish versions
      */
     class LanguageListener implements ActionListener {
         LanguageListener() {
@@ -328,6 +358,10 @@ public class Listeners {
         }
     }
 
+    /**
+     * Setting balue of electric field, used in calculations
+     * @param ef - electric field value set by user
+     */
     public void setEf(ElectricField ef) {
         this.ef = ef;
     }

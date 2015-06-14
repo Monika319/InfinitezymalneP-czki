@@ -6,6 +6,9 @@ import java.awt.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+/**
+ * Class containing information about photodetector.
+ */
 public class Photodetector {
 
     private double t1;
@@ -18,7 +21,11 @@ public class Photodetector {
     private BigDecimal yBall1;
     private BigDecimal yBall2;
 
-
+    /**
+     * Setting capacitor position.
+     * @param h1 - upper boundary of photodetector in pixels
+     * @param h2 - lower boundary of photodetector in pixels
+     */
     public Photodetector(int h1, int h2) {
         photoCounter += 1;
         myCounter = photoCounter;
@@ -31,6 +38,11 @@ public class Photodetector {
 
     /**
      * Created by monika03 on 17.05.15.
+     */
+    /**
+     * Painting photodetector.
+     * @param g - Graphics object for visualisation.
+     * @param af - Animation frame
      */
     public void paintPhotoDetector(Graphics g, AnimationFrame af) {
 
@@ -58,7 +70,10 @@ public class Photodetector {
         g.fillOval((int) (9.1 * af.getWidth() / 10), y2 - 6, (int) Math.abs((y2 - y1) / 5), (int) Math.abs((y2 - y1) / 5));
     }
 
-
+    /**
+     * Counting oil drop velocity from times and positions measured in simulation.
+     * @param drop - oil drop
+     */
     public void calculateV(OilDrop drop) {
         //LICZY WARTOSC BEZ ZNAKU
         double dt=t2-t1;

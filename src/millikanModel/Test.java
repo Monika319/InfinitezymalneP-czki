@@ -4,7 +4,7 @@ import java.io.*;
 import java.math.BigDecimal;
 
 /**
- * Created by rafal on 16.05.15.
+ * Test class for getting data from simulation and calculations.
  */
 public class Test
 {

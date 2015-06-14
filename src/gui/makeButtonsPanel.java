@@ -4,11 +4,17 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by rafal on 24.05.15.
+ * Panel containing buttons necessary for controlling the program.
  */
 public class makeButtonsPanel extends JPanel
 {
+
     private Listeners listeners;
+
+    /**
+     * method filling buttons panel with buttons and necessary elements
+     * @param frame - main frame of the program
+     */
     public makeButtonsPanel(MillikanFrame frame)
     {
 

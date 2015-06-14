@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by rafal on 12.05.15.
+ * Class containing data from oil drop movement in electric field.
  */
 public class Capacitor {
     private double voltage;
@@ -18,7 +18,12 @@ public class Capacitor {
     private int y2;
     private int power;
 
-
+    /**
+     * Constructor for setting capacitor dimensions, counting distance between capacitor plates
+     * and setting electric field voltage to 0 as default.
+     * @param h1 - upper capacitor plate y coordinate in pixels
+     * @param h2 - lower capacitor plate y coordinate in pixels
+     */
     public Capacitor(int h1, int h2) {
         power = -3;
         y1 = h1;
@@ -28,10 +33,19 @@ public class Capacitor {
         makeField();
     }
 
+    /**
+     * Counting electric field value from distance between capacitor plates
+     * and electric field voltage, set by user.
+     */
     void makeField() {
         E = -voltage / d;
     }
 
+    /**
+     * Painting Capacitor in given frame
+     * @param g - Graphics object
+     * @param af - Animation frame
+     */
     public void paintCapacitor(Graphics g, AnimationFrame af) {
         Double yWidthDoubleValue = new Double((af.getWidth() / 2));
         int yWidthIntValue = yWidthDoubleValue.intValue();
@@ -41,25 +55,46 @@ public class Capacitor {
         g.drawLine(0, y2, (int) (af.getWidth()), y2);
     }
 
+    /**
+     * Getting electric field value
+     * @return electric fieldvalue
+     */
 
     public double getE() {
         //dodano dzielenie przez 10, żeby zgadzaly sie obliczenia i jednostki
         return E;
     }
 
+    /**
+     * Setting electric field voltage in SI
+     * @param val - relative electric field value(without power)
+     */
+
     public void setVoltage(int val) {
         voltage = val * Math.pow(10, power);
         makeField();
     }
 
+    /**
+     *
+     * @return  upper capacitor plate y coordinate in SI
+     */
     public int getY1() {
         return y1;
     }
 
+    /**
+     *
+     * @return  lower capacitor plate y coordinate in SI
+     */
     public int getY2() {
         return y2;
     }
 
+    /**
+     * Settin power for electric field(depending on units)
+     * @param power Electric field power
+     */
     public void setPower(int power) {
         this.power = power;
     }

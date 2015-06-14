@@ -4,16 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by rafal on 01.06.15.
+ * Class for initializing panel to show elementary charge counted frm gcd.
  */
-public class ValuePanel extends JPanel
-{
+public class ValuePanel extends JPanel {
     private JLabel eValueLabel;
     private JLabel eLabel;
-    public ValuePanel()
-    {
+
+    public ValuePanel() {
         super();
-        eValueLabel=new JLabel(Integer.toString(0));
+        eValueLabel = new JLabel(Integer.toString(0));
 
         this.setMaximumSize(new Dimension(1000, 25));
 
@@ -24,13 +23,21 @@ public class ValuePanel extends JPanel
         this.add(eValueLabel);
     }
 
-    public JLabel geteValueLabel()
-    {
+    /**
+     * Getting elementary charge(counted from gcd)
+     *
+     * @return elementary charge value Label
+     */
+    public JLabel geteValueLabel() {
         return eValueLabel;
     }
 
-    public JLabel geteLabel()
-    {
+    /**
+     * Getting name of panel, which contains elementary charge value
+     *
+     * @return name of panel, storing elementary charge value
+     */
+    public JLabel geteLabel() {
         return eLabel;
     }
 }

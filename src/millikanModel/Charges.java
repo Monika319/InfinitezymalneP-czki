@@ -14,6 +14,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class containg and managing list of charges which we get from simulation as Bigdecilmal/BigInteger
+ * depending on usage.
+ */
 public class Charges {
 
     private ArrayList<BigDecimal> charges = new ArrayList<>();
@@ -29,13 +33,16 @@ public class Charges {
         frame = mf;
     }
 
+    /**
+     * Initializing list of charges
+     * @param charges_g - list of charges as BigIntegers
+     */
     public Charges(ArrayList<BigInteger> charges_g) {
         charges_int = charges_g;
     }
 
     public boolean elementsEqual(ArrayList<Integer> checkList) {
-        // TODO: Można ładniej- po jednym elem.
-        // FIXME: SDakask
+
         ArrayList<Integer> listdemo = new ArrayList<>(checkList);
         ArrayList<Integer> list = new ArrayList<>(checkList);
         listdemo.remove(0);
@@ -50,8 +57,12 @@ public class Charges {
 
     }
 
+    /**
+     * Adding charge to a list(counted from derived formulas)
+     * @param drop -oil drop
+     */
     public void addCharge(OilDrop drop) {
-        //FIXME:napisz to funkcyjnie
+
         double E = drop.getE();
         if ((drop.getV1().compareTo(new BigDecimal(10E6)) < 0) && (drop.getV2().compareTo(new BigDecimal(10E6)) < 0)) {
             double f = (4 / 3) * Math.PI * Math.pow((9 * Constants.airViscosity / 2), (3 / 2));
@@ -116,6 +127,10 @@ public class Charges {
         //System.err.println("NIE ZMIERZONO OBU PREDKOSCI!!!");
     }
 
+    /**
+     * Getting int list of charges.
+     * @return list of charges as integers
+     */
     public ArrayList<BigInteger> getCharges_int()
     {
         return charges_int;
@@ -128,6 +143,10 @@ public class Charges {
         }
     }
 
+    /**
+     * Getting double list of charges.
+     * @return list of charges as doubles
+     */
     public ArrayList<Double> charge_doubleList() {
         return chargesDouble;
     }
@@ -136,7 +155,7 @@ public class Charges {
      * This class is from Internet and it calculates sqrt of BigDecimal
      * @param squarD
      * @param rootMC
-     * @return
+     * @return square root of BigDecimal
      */
     public static BigDecimal bigSqrt(BigDecimal squarD, MathContext rootMC) {
         // Static constants - perhaps initialize in class Vladimir!

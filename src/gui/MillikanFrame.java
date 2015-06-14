@@ -20,6 +20,9 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Locale;
 
+/**
+ * Main frame of the program containg 3 Panels, Layouts and other visual components.
+ */
 public class MillikanFrame extends JFrame {
 
     private static final long serialVersionUID = 1L;
@@ -46,11 +49,15 @@ public class MillikanFrame extends JFrame {
         });
     }
 
+
     public MillikanFrame() {
         initialize();
 
     }
 
+    /**
+     * Initializing main frame of the program, setting Layout and other important stuff for visual view
+     */
     private void initialize() {
         estimated=new ArrayList<Double>();
         language="polish";
@@ -148,6 +155,9 @@ public class MillikanFrame extends JFrame {
 
     }
 
+    /**
+     * Setting Elementary charge value counted from gcd for list of charges from simulation.
+     */
     public void setEValue() {
         BigInteger charge = BigInteger.ZERO;
         GCDCalculator calculator = new GCDCalculator();
@@ -173,6 +183,13 @@ public class MillikanFrame extends JFrame {
         estimated.add(bd.doubleValue());
         valuePanel.geteValueLabel().setText( Double.toString(chargeForString).substring(0, 6)+"E-"+chargePower + "C");
     }
+
+    /**
+     * Displays counted charges as a list in column
+     * @param columnpanel -Columin for storing list of charges from simulation
+     * @param charge - counted charge from simulation
+     * @param chargePower - the power of counted charge
+     */
     public void ListView(JPanel columnpanel, double charge, int chargePower) {
 
 
@@ -204,22 +221,36 @@ public class MillikanFrame extends JFrame {
     }
 
 
-
+    /**
+     * Getting animation frame
+     * @return p1 - animation frame
+     */
     public AnimationFrame getP1() {
         return p1;
     }
 
-
+    /**
+     * Getting list of counted charges
+     * @return Charges class object
+     */
     public Charges getCharges()
     {
         return charges;
     }
 
+    /**
+     * Getting panel with e value
+     * @return evaluePanel
+     */
     public ValuePanel getValuePanel()
     {
         return valuePanel;
     }
 
+    /**
+     * Getting list of charges in a Jpanel
+     * @return listPanel
+     */
     public JPanel getListPanel()
     {
         return listPanel;

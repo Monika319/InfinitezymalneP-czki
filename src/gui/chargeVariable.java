@@ -1,11 +1,9 @@
 package gui;
 
-/**
- * Created by monika03 on 12.05.15.
- */
+
 /**
  * Generic version of the Charge class.
- * For adding to listview
+ * For adding charges to listview
  *
  * @param <T> the type of the value
  */
