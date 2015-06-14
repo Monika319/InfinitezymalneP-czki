@@ -6,18 +6,29 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * Responsible for Animation visualisation.
+ * Paints Capacitor, 2 Photodetectors for measuring times, Oild drop with given radius.
+ * Animations work is based on timer. Every 100ms the view is refreshed.
+ */
 
 public class AnimationFrame extends JPanel {
-    // private JPanel animationPanel;
+    /**
+     * The main frame of the program.
+     */
     private MillikanFrame frame;
+    /**
+     * Photodetector pd1 in free fall and photodetector pd2 in electric field.
+     */
     private Photodetector pd1;
     private Photodetector pd2;
+    /**
+     * Capacitor.
+     */
     private Capacitor C;
     private int ballDiameter;
     protected boolean initialize =true;
     Timer timer;
-   // private OilDrop oilDrop;
 
     AnimationFrame(MillikanFrame mf) {
         super(new FlowLayout(FlowLayout.CENTER));
@@ -50,7 +61,9 @@ public class AnimationFrame extends JPanel {
 
 
     }
-
+    /**
+     * Paints Photodetectors and oil drop.
+     */
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
@@ -88,8 +101,4 @@ public class AnimationFrame extends JPanel {
         return C;
     }
 
-//    public void setOilDrop(OilDrop oilDrop)
-//    {
-//        this.oilDrop = oilDrop;
-//    }
 }

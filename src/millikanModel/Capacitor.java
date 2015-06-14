@@ -20,24 +20,20 @@ public class Capacitor {
 
 
     public Capacitor(int h1, int h2) {
-        //frame=mf;
 
         power = -3;
         y1 = h1;
         y2 = h2;
-        // d = Math.abs(h2 - h1)*0.00025;
-        //przeliczenie na metry
 
-        //Tutaj popatrzeć!!!!
-        d = Math.abs(h2 - h1)/10E3;
-        // System.out.println("odleglosc miedzy plytkami C: "+d);
+        d = Math.abs(h2 - h1) / 10E3;
+
         voltage = 0;
         makeField();
     }
 
     void makeField() {
         E = -voltage / d;
-//        System.out.println("Pole E: " + Double.toString(E));
+
     }
 
     public void paintCapacitor(Graphics g, AnimationFrame af) {
@@ -46,7 +42,7 @@ public class Capacitor {
         g.setColor(Color.GRAY);
         g.drawLine(0, y1, yWidthIntValue - af.getBallDiameter(), y1);
         g.drawLine(yWidthIntValue + af.getBallDiameter(), y1, 2 * yWidthIntValue, y1);
-        g.drawLine(0, y2, (int) (af.getWidth()), y2);
+        g.drawLine(0, y2, af.getWidth(), y2);
     }
 
 

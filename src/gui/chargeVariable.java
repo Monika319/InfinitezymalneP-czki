@@ -1,11 +1,8 @@
 package gui;
 
 /**
- * Created by monika03 on 12.05.15.
- */
-/**
  * Generic version of the Charge class.
- * For adding to listview
+ * For adding charges(as various types) to listview
  *
  * @param <T> the type of the value
  */
@@ -25,14 +22,12 @@ public class chargeVariable<T> {
         return t;
     }
     public boolean checkIfString(){
-        if (this.t.getClass().getName().equals("java.lang.String")) return true;
-        else return  false;
+        return this.t.getClass().getName().equals("java.lang.String");
     }
 
 
     public String setString() {
         if (this.t.getClass().getName().equals("java.lang.String")) return (String) t;
         else return  t.toString();
-      //  else return (T) Integer.toString(0);
     }
 }

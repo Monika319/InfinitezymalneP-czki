@@ -35,42 +35,39 @@ public class Photodetector {
     public void paintPhotoDetector(Graphics g, AnimationFrame af) {
 
         g.setColor(Color.darkGray);
-        g.fillRoundRect(9 * af.getWidth() / 10, (int) y1 - 5, af.getWidth() / 10, (int) (y2 - y1) + 10, (int) ((y2 - y1) / 4), (int) ((y2 - y1) / 4));
+        g.fillRoundRect(9 * af.getWidth() / 10, y1 - 5, af.getWidth() / 10, y2 - y1 + 10, (y2 - y1) / 4, (y2 - y1) / 4);
 
         if (on) {
             g.setColor(Color.red);
-            g.drawLine(0, y1, (int) (9 * af.getWidth() / 10), y1);
-            g.drawLine(0, y2, (int) (9 * af.getWidth() / 10), y2);
+            g.drawLine(0, y1, 9 * af.getWidth() / 10, y1);
+            g.drawLine(0, y2, 9 * af.getWidth() / 10, y2);
             g.setColor(Color.green);
 
         } else {
             g.setColor(Color.red);
         }
 
-        g.fillOval((int) (9.5 * af.getWidth() / 10), (int) Math.abs((y2 + y1) / 2), (int) Math.abs((y2 - y1) / 2), (int) Math.abs((y2 - y1) / 2));
+        g.fillOval((int) (9.5 * af.getWidth() / 10), Math.abs((y2 + y1) / 2), Math.abs((y2 - y1) / 2), Math.abs((y2 - y1) / 2));
         if (t1 > 0.1)
             g.setColor(Color.blue);
         else g.setColor(Color.gray);
-        g.fillOval((int) (9.1 * af.getWidth() / 10), y1 - 2, (int) Math.abs((y2 - y1) / 5), (int) Math.abs((y2 - y1) / 5));
+        g.fillOval((int) (9.1 * af.getWidth() / 10), y1 - 2, Math.abs((y2 - y1) / 5), Math.abs((y2 - y1) / 5));
         if (t2 > 0.1)
             g.setColor(Color.blue);
         else g.setColor(Color.gray);
-        g.fillOval((int) (9.1 * af.getWidth() / 10), y2 - 6, (int) Math.abs((y2 - y1) / 5), (int) Math.abs((y2 - y1) / 5));
+        g.fillOval((int) (9.1 * af.getWidth() / 10), y2 - 6, Math.abs((y2 - y1) / 5), Math.abs((y2 - y1) / 5));
     }
 
 
     public void calculateV(OilDrop drop) {
         //LICZY WARTOSC BEZ ZNAKU
-        double dt=t2-t1;
+        double dt = t2 - t1;
         if (myCounter == 1) {
 
-            drop.setV1(yBall2.subtract(yBall1).divide(new BigDecimal(dt),40, RoundingMode.HALF_UP).abs());
-            // drop.setV1(Math.abs(((y2 - y1) *10E-4 / (t2 - t1))));
-//            System.out.println("Przy liczeniu V1 odpowiednio mamy (y2-y1) znormalizowane i różnica czasów:" + (Math.abs((y2 - y1) / Constants.normalizationConst) + " " + (t2 - t1)));
+            drop.setV1(yBall2.subtract(yBall1).divide(new BigDecimal(dt), 40, RoundingMode.HALF_UP).abs());
             System.out.println("Wyznaczona predkosc v1: " + drop.getV1());
         } else {
             drop.setV2(((((yBall2.subtract(yBall1)).divide(new BigDecimal(dt), 40, RoundingMode.HALF_UP))).abs()));
-            //  drop.setV2(Math.abs(((y2 - y1)*10E-4 / (t2 - t1))));
             System.out.println("Wyznaczona predkosc v2: " + drop.getV2());
         }
     }
@@ -84,28 +81,24 @@ public class Photodetector {
     }
 
     public void setT1(double time) {
-        if (on == true) {
+        if (on) {
             this.t1 = time;
-            // this.t1 = System.currentTimeMillis();
-         //   System.out.println("zmieniam czas t1: " + t1);
 
         }
     }
 
     public void setT2(double time) {
-        if (on == true) {
+        if (on) {
             this.t2 = time;
-            // this.t2 = System.currentTimeMillis();
-          //  System.out.println("zmieniam czas t2: " + t2);
-
+      
         }
     }
 
     public void reset() {
         t1 = 0.0;
         t2 = 0.0;
-        yBall1=BigDecimal.ZERO;
-        yBall2=BigDecimal.ZERO;
+        yBall1 = BigDecimal.ZERO;
+        yBall2 = BigDecimal.ZERO;
         on = false;
     }
 
@@ -117,13 +110,11 @@ public class Photodetector {
         return y2;
     }
 
-    public void setyBall1(BigDecimal yBall1)
-    {
+    public void setyBall1(BigDecimal yBall1) {
         this.yBall1 = yBall1;
     }
 
-    public void setyBall2(BigDecimal yBall2)
-    {
+    public void setyBall2(BigDecimal yBall2) {
         this.yBall2 = yBall2;
     }
 

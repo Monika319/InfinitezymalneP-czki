@@ -5,6 +5,7 @@ import java.awt.*;
 
 /**
  * Created by rafal on 24.05.15.
+ * Panel containing buttons necessary for controlling the program.
  */
 public class makeButtonsPanel extends JPanel
 {

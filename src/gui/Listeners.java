@@ -1,28 +1,22 @@
 package gui;
 
 import millikanModel.OilDrop;
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.xy.XYDataset;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * Created by rafal on 11.05.15.
+ * Class that contains all listeners used in program.
  */
 public class Listeners {
     MillikanFrame frame;
@@ -38,8 +32,6 @@ public class Listeners {
     UnitBoxListener unitBoxListener;
     private long startAnimationTime;
     long finishAnimationTime;
-    private static final int WINDOW_HEIGHT = 120;
-    private static final int WINDOW_WIDTH = 260;
     private static int plotCounter = 0;
     private ElectricField ef;
 
@@ -58,6 +50,9 @@ public class Listeners {
         unitBoxListener = new UnitBoxListener();
     }
 
+    /**
+     * Animation start button listener responsible for starting measurement.
+     */
     class StartListener implements ActionListener {
         StartListener() {
             super();
@@ -69,8 +64,6 @@ public class Listeners {
                 frame.getP1().timer.stop();
                 frame.getP1().initialize = false;
             }
-            OilDrop drop = new OilDrop(frame);
-            // frame.getP1().setOilDrop(drop);
             frame.getP1().reset();
             frame.getP1().initialize = true;
             frame.getP1().timer.start();
@@ -78,7 +71,9 @@ public class Listeners {
             System.out.println("start Animation Time: " + startAnimationTime);
         }
     }
-
+    /**
+     * Listener for plotting graph: evaluated elementary charge after N experiments.
+     */
     class PlotListener implements ActionListener {
         PlotListener() {
             super();
@@ -86,7 +81,6 @@ public class Listeners {
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            //actionEvent.
             plotCounter++;
             PlotGraph plotGraph = new PlotGraph();
             System.out.println(Integer.toString(plotCounter));
@@ -106,7 +100,9 @@ public class Listeners {
 
         }
     }
-
+    /**
+     * Listener for button to open user manual of the program.
+     */
     class AskButtonListener implements ActionListener {
         AskButtonListener() {
             super();
@@ -118,7 +114,9 @@ public class Listeners {
         }
     }
 
-
+    /**
+     * JPanel to view the user manual of the program.
+     */
     class InstructionsRead {
         InstructionsRead() {
             initialize();
@@ -133,12 +131,12 @@ public class Listeners {
             BufferedReader in = null;
             JTextArea instructions = new JTextArea();
             try {
-                if(frame.language=="english")
+                if(Objects.equals(frame.language, "english"))
                 {
                     askFrame.setTitle("Instructions");
                     in = new BufferedReader(new FileReader("res/instructions"));
                 }
-                else if (frame.language=="polish")
+                else if (Objects.equals(frame.language, "polish"))
                 {
                     askFrame.setTitle("Instrukcje");
                     in = new BufferedReader(new FileReader("res/instructions_pl"));
@@ -163,7 +161,10 @@ public class Listeners {
         }
     }
 
-
+    /**
+     * Photodetector listener to register falling times in order
+     * to fing velocities v1 and v2.
+     */
     class PhotoListener implements ActionListener {
         PhotoListener() {
             super();
@@ -176,29 +177,33 @@ public class Listeners {
             String name = button.getName();
             //wypisujemy, który przycisk jest włączony
             System.out.println(name);
-            if (name == "photocell1")
+            if (Objects.equals(name, "photocell1"))
 
                 if (frame.getP1().getPd1().isOn()) {
                     frame.getP1().getPd1().setOn(false);
                     button.setIcon(new ImageIcon("res/light_off_new.png"));
-                    // frame.getP1().getPd1().setT2();
+
                 } else {
                     frame.getP1().getPd1().setOn(true);
                     button.setIcon(new ImageIcon("res/light_on_new.png"));
-                    //frame.getP1().getPd1().setT1();
+
                 }
             else if (frame.getP1().getPd2().isOn()) {
                 frame.getP1().getPd2().setOn(false);
                 button.setIcon(new ImageIcon("res/light_off_new.png"));
-                //frame.getP1().getPd2().setT2();
+
             } else {
                 frame.getP1().getPd2().setOn(true);
                 button.setIcon(new ImageIcon("res/light_on_new.png"));
-                //frame.getP1().getPd2().setT1();
+
             }
 
         }
     }
+
+    /**
+     * Listener responsible for changing electric field value.
+     */
 
     class ElectricListener implements ChangeListener {
         ElectricListener() {
@@ -209,14 +214,16 @@ public class Listeners {
         public void stateChanged(ChangeEvent changeEvent) {
             JSlider slider = (JSlider) changeEvent.getSource();
             int value = slider.getValue();
-            //System.out.println("Value from slider: " + Integer.toString(value));
-            //frame.getP1().getC().setValue(value);
+
             frame.getP1().getC().setVoltage(value);
             ef.setVoltageValue(value);
             ef.setAll();
-            //System.out.println(value- frame.getP1().getC().getVoltage()*1000);
+
         }
     }
+    /**
+     * Listener responsible for changing units of electric field.
+     */
 
     class UnitBoxListener implements ActionListener {
         UnitBoxListener() {
@@ -227,19 +234,19 @@ public class Listeners {
         public void actionPerformed(ActionEvent e) {
             JComboBox unitBox = (JComboBox) e.getSource();
             String s = (String) unitBox.getSelectedItem();
-            if (s == "MV") {
+            if (Objects.equals(s, "MV")) {
                 frame.getP1().getC().setPower(6);
-            } else if (s == "V") {
-                //System.out.println("Przed zamianą jednostek: " + frame.getP1().getC().getVoltage());
+            } else if (Objects.equals(s, "V")) {
+
                 frame.getP1().getC().setPower(1);
-                //System.out.println("Po zamianie jednostek: " + frame.getP1().getC().getVoltage());
-            } else if (s == "kV") {
-                //System.out.println("Przed zamianą jednostek: " + frame.getP1().getC().getVoltage());
+
+            } else if (Objects.equals(s, "kV")) {
+
                 frame.getP1().getC().setPower(3);
-                // System.out.println("Po zamianie jednostek: " + frame.getP1().getC().getVoltage());
-            } else if (s == "GV") {
+
+            } else if (Objects.equals(s, "GV")) {
                 frame.getP1().getC().setPower(9);
-            } else if (s == "TV") {
+            } else if (Objects.equals(s, "TV")) {
                 frame.getP1().getC().setPower(12);
             } else {
                 frame.getP1().getC().setPower(-3);
@@ -249,6 +256,9 @@ public class Listeners {
 
         }
     }
+    /**
+     * Listener responsible for setting electric field value.
+     */
 
     class ElectricTextListener implements ActionListener {
         ElectricTextListener() {
@@ -263,7 +273,6 @@ public class Listeners {
                 frame.getP1().getC().setVoltage(value);
                 ef.setVoltageValue(value);
                 ef.setAll();
-                //System.out.println(electricField.getText());
 
             }
         }
@@ -271,6 +280,8 @@ public class Listeners {
 
     /**
      * Created by monika03 on 17.05.15.
+     * Responsible for finishing animation, calculating velocities v1and v2, measuring new charge
+     * and evaluating the elementary charge from set of measurements.
      */
     class MeasureListener implements ActionListener {
         MeasureListener() {
@@ -300,6 +311,7 @@ public class Listeners {
 
     /**
      * Created by monika03 on 17.05.15.
+     * Listener for multilanguage program: possible English and Polish versions.
      */
     class LanguageListener implements ActionListener {
         LanguageListener() {
@@ -310,7 +322,7 @@ public class Listeners {
         public void actionPerformed(ActionEvent actionEvent) {
 //            if (Locale.getDefault() == Locale.ENGLISH) {
             Button button=(Button)actionEvent.getSource();
-            if(frame.language=="english"){
+            if(Objects.equals(frame.language, "english")){
                 frame.language="polish";
                 button.setIcon(new ImageIcon("res/english_new.png"));
                 Locale locale = new Locale.Builder().setLanguage("pl").setRegion("PL").build();
