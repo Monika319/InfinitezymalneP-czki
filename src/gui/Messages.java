@@ -5,7 +5,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * Messages class for multilanguage version of the program.
+ * Created by monika03 on 17.05.15.
  */
 public class Messages {
     private static final String PREFIX = "gui.messages";
@@ -20,7 +20,10 @@ public class Messages {
         bundleName = PREFIX + "_" + loc.getLanguage() + "_" + loc.getCountry();
         try {
             resourceBundle = ResourceBundle.getBundle(bundleName);
+//            System.out.println("ustawiam jezyk"+bundleName);
         } catch (Exception e) {
+            //domyslnie ustawiamy polski
+//            System.out.println("WYJATEK W MESSAGES");
             resourceBundle = ResourceBundle.getBundle(PREFIX + "_pl_PL");
         }
     }
@@ -33,11 +36,4 @@ public class Messages {
         }
     }
 
-    public static char getChar(String key) {
-        try {
-            return resourceBundle.getString(key).charAt(0);
-        } catch (Exception e) {
-            return 0;
-        }
-    }
 }

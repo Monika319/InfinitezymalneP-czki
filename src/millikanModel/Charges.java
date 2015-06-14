@@ -1,5 +1,6 @@
 package millikanModel;
 
+import com.sun.corba.se.impl.protocol.giopmsgheaders.Message;
 import gui.Messages;
 import gui.MillikanFrame;
 import gui.chargeVariable;
@@ -15,12 +16,10 @@ import java.util.List;
 
 public class Charges {
 
-
+    private ArrayList<BigDecimal> charges = new ArrayList<>();
     private ArrayList<Double> chargesDouble = new ArrayList<>();
 
-
-    private ArrayList<BigInteger> charges_int = new ArrayList<>();
-
+    private ArrayList<BigInteger> charges_int = new ArrayList<BigInteger>();
 
     private BigDecimal q;
     private BigInteger intCharge;
@@ -35,7 +34,8 @@ public class Charges {
     }
 
     public boolean elementsEqual(ArrayList<Integer> checkList) {
-
+        // TODO: Można ładniej- po jednym elem.
+        // FIXME: SDakask
         ArrayList<Integer> listdemo = new ArrayList<>(checkList);
         ArrayList<Integer> list = new ArrayList<>(checkList);
         listdemo.remove(0);
@@ -50,90 +50,61 @@ public class Charges {
 
     }
 
-
     public void addCharge(OilDrop drop) {
-
+        //FIXME:napisz to funkcyjnie
         double E = drop.getE();
         if ((drop.getV1().compareTo(new BigDecimal(10E6)) < 0) && (drop.getV2().compareTo(new BigDecimal(10E6)) < 0)) {
-
-
             double f = (4 / 3) * Math.PI * Math.pow((9 * Constants.airViscosity / 2), (3 / 2));
             BigDecimal ff = new BigDecimal(1.0);
             ff = ff.divide(new BigDecimal(Constants.g * (drop.getOilDensity() - Constants.airDensity)), 40, RoundingMode.HALF_UP);
             ff = bigSqrt(ff, MathContext.DECIMAL128);
             ff = ff.multiply(new BigDecimal(f));
-            System.out.println("f=" + f);
             q = ff;
-            System.out.println("pierwsze podejscie" + q);
-
             BigDecimal zmiennaPom = drop.getV1().add(drop.getV2());
-            System.out.println("zmienna Pom=" + zmiennaPom);
-
             BigDecimal pierw = (bigSqrt(drop.getV1(), MathContext.DECIMAL128));
-            System.out.println("sqrt=" + pierw);
-
             q = q.multiply(zmiennaPom);
             q = q.multiply(pierw);
-            System.out.println("drugie podejscie" + q);
             System.out.println("E:" + E);
             if (E==0){
                 JOptionPane.showMessageDialog(frame,
-                        "Electric Field is 0!",
-                        "Try again",
+                        Messages.getString("ezero"),
+                        Messages.getString("tryAgain"),
                         JOptionPane.ERROR_MESSAGE);
 
             }else {
                 q = q.divide(new BigDecimal(E), 30, RoundingMode.HALF_UP);
-                //TO JEST ROZPACZ
                 q = q.divide(new BigDecimal(-70.9952292808831), 40, RoundingMode.HALF_UP);
 
-                System.out.println("trzecie podejscie" + q);
                 BigDecimal absQ = q.abs();
                 int potega_q = 0;
 
-
-                System.out.println("Potega q: " + potega_q);
-                System.out.println("obliczone q=" + q);
-
-                System.out.println("prawdziwe q=" + frame.currentDrop.getCharge());
-                System.out.println("stosunek" + q.divide((new BigDecimal(frame.currentDrop.getCharge())), 40, RoundingMode.HALF_UP));
+//                System.out.println("obliczone q=" + q);
+//                System.out.println("prawdziwe q=" + frame.currentDrop.getCharge());
+//                System.out.println("stosunek" + q.divide((new BigDecimal(frame.currentDrop.getCharge())), 40, RoundingMode.HALF_UP));
                 BigDecimal power = new BigDecimal(10);
                 power.pow(23);
                 intCharge = (absQ.multiply(power)).toBigInteger();
-                System.out.println("intCharge=" + intCharge);
-
-                BigDecimal bd = q;
+                BigDecimal bd = q; // the value you get
                 double chargeForList = bd.doubleValue();
 
                 if (Double.isInfinite(chargeForList)) {
                     JOptionPane.showMessageDialog(frame,
-                            "You have to measure both velocities",
-                            "Try again",
+                            Messages.getString("twoVelocities"),
+                            Messages.getString("tryAgain"),
                             JOptionPane.ERROR_MESSAGE);
-
                 } else {
-                    System.out.println("nowe q=" + q);
-                    System.out.println("Charge for list: " + chargeForList);
                     chargesDouble.add(chargeForList);
                     do {
                         chargeForList = chargeForList * 10;
                         potega_q = potega_q + 1;
                     } while (chargeForList < 1);
-
-
-                    System.out.println("Lista chargow z decimalami: " + chargesDouble);
-
-
-                    frame.ListView(frame.getListPanel(), chargeForList, potega_q);
-
-
+                frame.ListView(frame.getListPanel(), chargeForList, potega_q);
                 BigDecimal neoQ=absQ.multiply(new BigDecimal(10).pow(23));
                 neoQ=neoQ.setScale(0,RoundingMode.HALF_UP);
-                System.out.println("neoQ="+neoQ);
+//                System.out.println("neoQ="+neoQ);
                 BigInteger integerQ=neoQ.toBigInteger();
-                System.out.println("integerQ="+integerQ);
+//                System.out.println("integerQ="+integerQ);
                 charges_int.add(integerQ);
-
                 }
             }
         } else
@@ -149,9 +120,7 @@ public class Charges {
     {
         return charges_int;
     }
-
-
-    public BigInteger gcd(BigInteger a, BigInteger b) {
+     public BigInteger gcd(BigInteger a, BigInteger b) {
         if (b.compareTo(BigInteger.ZERO)==0) {
             return a;
         } else {
@@ -159,39 +128,20 @@ public class Charges {
         }
     }
 
-
     public ArrayList<Double> charge_doubleList() {
         return chargesDouble;
     }
-    public int decimalCut(int charge) {
-        int digits[] = new int[5];
-        Integer newCharge = charge;
-        System.out.println("newCharge: " + newCharge);
-        int len = newCharge.toString().length();
 
-        for (int i = 0; i < digits.length; i++) {
-            digits[i] = (int) Math.floor(newCharge / Math.pow(10, len - i - 1));
-            newCharge = newCharge - digits[i] * (int) Math.pow(10, len - i - 1);
-
-        }
-
-        int newerCharge = 0;
-        for (int j = 0; j < digits.length; j++)
-
-        {
-
-            newerCharge += digits[j] * (int) Math.pow(10, digits.length - j - 1);
-        }
-
-        return newerCharge;
-
-    }
-
+    /**
+     * This class is from Internet and it calculates sqrt of BigDecimal
+     * @param squarD
+     * @param rootMC
+     * @return
+     */
     public static BigDecimal bigSqrt(BigDecimal squarD, MathContext rootMC) {
-
+        // Static constants - perhaps initialize in class Vladimir!
         BigDecimal TWO = new BigDecimal(2);
         double SQRT_10 = 3.162277660168379332;
-
 
         // General number and precision checking
         int sign = squarD.signum();
@@ -211,8 +161,8 @@ public class Charges {
 
 
         // Iteration variables, for the square root x and the reciprocal v
-        BigDecimal x, e;              // initial x:  x0 ~ sqrt()
-        BigDecimal v, g;              // initial v:  v0 = 1/(2*x)
+        BigDecimal x = null, e = null;              // initial x:  x0 ~ sqrt()
+        BigDecimal v = null, g = null;              // initial v:  v0 = 1/(2*x)
 
         // Estimate the square root with the foremost 62 bits of squarD
         BigInteger bi = squarD.unscaledValue();     // bi and scale are a tandem
@@ -242,7 +192,7 @@ public class Charges {
 
 
         // Collect iteration precisions beforehand
-        ArrayList<Integer> nPrecs = new ArrayList<>();
+        ArrayList<Integer> nPrecs = new ArrayList<Integer>();
 
         assert nInit > 3 : "Never ending loop!";                // assume nInit = 16 <= prec
 

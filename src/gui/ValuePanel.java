@@ -17,7 +17,7 @@ public class ValuePanel extends JPanel
 
         this.setMaximumSize(new Dimension(1000, 25));
 
-        this.setBackground(Color.WHITE);
+//        this.setBackground(Color.WHITE);
         eLabel = new JLabel(Messages.getString("estimation"));
 
         this.add(eLabel);
@@ -32,10 +32,5 @@ public class ValuePanel extends JPanel
     public JLabel geteLabel()
     {
         return eLabel;
-    }
-
-    public void seteLabel(JLabel eLabel)
-    {
-        this.eLabel = eLabel;
     }
 }

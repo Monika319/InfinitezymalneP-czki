@@ -1,12 +1,13 @@
 package millikanModel;
 
-
+import java.awt.*;
 import java.math.BigDecimal;
 import java.util.Random;
 
-
+import gui.ElectricField;
 import gui.MillikanFrame;
 
+import javax.swing.*;
 
 public class OilDrop {
     private double radius;
@@ -34,7 +35,7 @@ public class OilDrop {
         http://www.engineeringtoolbox.com/liquids-densities-d_743.html*/
         oilDensity = 820;
         Random generator = new Random();
-        //in SI units
+        //już w metrach
         radius = 0.5 * 10E-7 + Math.abs(1 * 10E-7 - 0.5 * 10E-7) * generator.nextDouble();
         y = new BigDecimal(radius);
         charge = Constants.e
@@ -45,78 +46,70 @@ public class OilDrop {
     public void move() {
         double k = 6 * Math.PI * Constants.airViscosity * radius;
         double m = (4 / 3) * Math.PI * Math.pow(radius, 3) * oilDensity;
-        //velocity of lower downfall
+        //PREDKOSC WOLNIEJSZEGO SPADKU
         w2 = m * (Constants.g / k) * (1 - (Constants.airDensity / oilDensity)) - charge / k * Math.abs(frame.getP1().getC().getE());
-        //up velocity
+        //PREDKOSC WZNOSZENIA
         w = -1 * (m * (Constants.g / k) * ((Constants.airDensity / oilDensity) - 1) + (charge * Math.abs(frame.getP1().getC().getE()) / k));
-        y = y.add(new BigDecimal(0.1 * v));
+        y=y.add(new BigDecimal(0.1 * v));
         counter++;
-
 
         if (y.compareTo(BigDecimal.ZERO) < 0) {
             y = new BigDecimal(radius);
         }
-        //free fall velocity
+        //PREDKOSC SPADKU SWOBODNEGO
         double u = m * (Constants.g / k) * (1 - (Constants.airDensity / oilDensity));
-        //DROP UNDER CAPACITOR
-        if ((y.multiply(new BigDecimal(Constants.normalizationConst))).compareTo(new BigDecimal(frame.getP1().getC().getY1())) < 0) {
+        //KULKA JEST PONAD KONDENSATOREM
+        if ((y.multiply(new BigDecimal(Constants.normalizationConst))).compareTo(new BigDecimal(frame.getP1().getC().getY1())) < 0 ) {
+//           isMoving = true;
             v = u;
             //WARUNKI SPRAWDZAJACE ODLEGLOSC OD WIAZKI LASERA W PIERWSZEJ FOTOKOMORCE
-//            if ((Math.abs(y * Constants.normalizationConst) > frame.getP1().getPd1().getY1()) && ((Math.abs(y * Constants.normalizationConst)) < frame.getP1().getPd1().getY2())) {
-//                counter++;
-//                System.out.println("COUNTER: " + counter);
-//
-//            }
-            BigDecimal bg1 = y.multiply(new BigDecimal(Constants.normalizationConst));
-            bg1 = bg1.subtract(new BigDecimal(frame.getP1().getPd1().getY1()));
-            bg1 = bg1.abs();
-            bg1 = bg1.subtract(new BigDecimal(2));
-            if (bg1.compareTo(BigDecimal.ZERO) < 0)
-
+            BigDecimal bg1= y.multiply(new BigDecimal(Constants.normalizationConst));
+            bg1=bg1.subtract(new BigDecimal(frame.getP1().getPd1().getY1()));
+            bg1=bg1.abs();
+            bg1=bg1.subtract(new BigDecimal(2));
+            if(bg1.compareTo(BigDecimal.ZERO)<0)
             {
                 frame.getP1().getPd1().setT1(counter * 0.1);
                 frame.getP1().getPd1().setyBall1(y);
-
             }
-            BigDecimal bg2 = y.multiply(new BigDecimal(Constants.normalizationConst));
-            bg2 = bg2.subtract(new BigDecimal(frame.getP1().getPd1().getY2()));
-            bg2 = bg2.abs();
-            bg2 = bg2.subtract(new BigDecimal(2));
-            if (bg2.compareTo(BigDecimal.ZERO) < 0) {
-
+            BigDecimal bg2= y.multiply(new BigDecimal(Constants.normalizationConst));
+            bg2=bg2.subtract(new BigDecimal(frame.getP1().getPd1().getY2()));
+            bg2=bg2.abs();
+            bg2=bg2.subtract(new BigDecimal(2));
+            if(bg2.compareTo(BigDecimal.ZERO)<0){
                 frame.getP1().getPd1().setT2(counter * 0.1);
                 frame.getP1().getPd1().setyBall2(y);
 
             }
 
         }
-        //DROP IS IN ELECTRIC FIELD, BETWEEN CAPACITOR PLATES
+        //KULKA JEST W KONDENSATORZE
         else if ((y.multiply(new BigDecimal(Constants.normalizationConst))).compareTo(new BigDecimal(frame.getP1().getC().getY1())) >= 0
-                && y.subtract(new BigDecimal(radius)).multiply(new BigDecimal(Constants.normalizationConst)).compareTo(new BigDecimal(frame.getP1().getC().getY2())) < 0)
+                 && y.subtract(new BigDecimal(radius)).multiply(new BigDecimal(Constants.normalizationConst)).compareTo(new BigDecimal(frame.getP1().getC().getY2()))<0)
 
         {
-            //CONDITION FOR CHECKING IF ELECTRIC FIELD IS BIG ENOUGH FOR OIL DROP TO FLY UP
 
+            //WARUNEK SPRAWDZA,CZY NATEZENIE POLA JEST DOSTATECZNE, BY KULKA SIE UNOSILA
             if ((Math.abs(frame.getP1().getC().getE()) > m * (Constants.g / charge) * (1 - (Constants.airDensity / oilDensity))))
                 v = w;
-                //IF NOT DROP WILL FALL DOWN WITH W2 VELOCITY
+                //JESLI NIE TO KULKA BEDZIE WOLNIEJ SPADAC Z PREDKOSCIA W2
             else
                 v = w2;
-            //CONDITIONS TO CHECK IF THE DISTANCE FROM LASER BEAM IN 2ND PHOTODETECTOR
-            BigDecimal bg3 = y.multiply(new BigDecimal(Constants.normalizationConst));
-            bg3 = bg3.subtract(new BigDecimal(frame.getP1().getPd2().getY1()));
-            bg3 = bg3.abs();
-            bg3 = bg3.subtract(new BigDecimal(2));
-            if (bg3.compareTo(BigDecimal.ZERO) < 0) {
+            //WARUNKI SPRAWDZAJACE ODLEGLOSC OD WIAZKI LASERA W DRUGIEJ FOTOKOMORCE
+            BigDecimal bg3= y.multiply(new BigDecimal(Constants.normalizationConst));
+            bg3=bg3.subtract(new BigDecimal(frame.getP1().getPd2().getY1()));
+            bg3=bg3.abs();
+            bg3=bg3.subtract(new BigDecimal(2));
+            if(bg3.compareTo(BigDecimal.ZERO)<0){
                 frame.getP1().getPd2().setT1(counter * 0.1);
                 frame.getP1().getPd2().setyBall1(y);
-                E = frame.getP1().getC().getE();
+                E=frame.getP1().getC().getE();
             }
-            BigDecimal bg4 = y.multiply(new BigDecimal(Constants.normalizationConst));
-            bg4 = bg4.subtract(new BigDecimal(frame.getP1().getPd2().getY2()));
-            bg4 = bg4.abs();
-            bg4 = bg4.subtract(new BigDecimal(2));
-            if (bg4.compareTo(BigDecimal.ZERO) < 0) {
+            BigDecimal bg4= y.multiply(new BigDecimal(Constants.normalizationConst));
+            bg4=bg4.subtract(new BigDecimal(frame.getP1().getPd2().getY2()));
+            bg4=bg4.abs();
+            bg4=bg4.subtract(new BigDecimal(2));
+            if(bg4.compareTo(BigDecimal.ZERO)<0){
                 frame.getP1().getPd2().setT2(counter * 0.1);
                 frame.getP1().getPd2().setyBall2(y);
             }
@@ -132,10 +125,6 @@ public class OilDrop {
 
     }
 
-
-    public double getRadius() {
-        return radius;
-    }
 
     public double getCharge() {
         return charge;
@@ -181,7 +170,8 @@ public class OilDrop {
         return w;
     }
 
-    public double getE() {
+    public double getE()
+    {
         return E;
     }
 

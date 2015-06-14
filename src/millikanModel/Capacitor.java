@@ -20,20 +20,16 @@ public class Capacitor {
 
 
     public Capacitor(int h1, int h2) {
-
         power = -3;
         y1 = h1;
         y2 = h2;
-
-        d = Math.abs(h2 - h1) / 10E3;
-
+        d = Math.abs(h2 - h1)/10E3;
         voltage = 0;
         makeField();
     }
 
     void makeField() {
         E = -voltage / d;
-
     }
 
     public void paintCapacitor(Graphics g, AnimationFrame af) {
@@ -42,21 +38,13 @@ public class Capacitor {
         g.setColor(Color.GRAY);
         g.drawLine(0, y1, yWidthIntValue - af.getBallDiameter(), y1);
         g.drawLine(yWidthIntValue + af.getBallDiameter(), y1, 2 * yWidthIntValue, y1);
-        g.drawLine(0, y2, af.getWidth(), y2);
+        g.drawLine(0, y2, (int) (af.getWidth()), y2);
     }
 
 
     public double getE() {
         //dodano dzielenie przez 10, żeby zgadzaly sie obliczenia i jednostki
         return E;
-    }
-
-    public double getVoltage() {
-        return voltage;
-    }
-
-    public double getD() {
-        return d;
     }
 
     public void setVoltage(int val) {
@@ -76,7 +64,4 @@ public class Capacitor {
         this.power = power;
     }
 
-    public int getPower() {
-        return power;
-    }
 }

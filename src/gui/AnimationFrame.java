@@ -6,31 +6,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-/**
- * Responsible for Animation visualisation.
- * Paints Capacitor, 2 Photodetectors for measuring times, Oild drop with given radius.
- * Animations work is based on timer. Every 100ms the view is refreshed.
- */
+
 
 public class AnimationFrame extends JPanel {
-    /**
-     * The main frame of the program.
-     */
     private MillikanFrame frame;
-    /**
-     * Photodetector pd1 in free fall and photodetector pd2 in electric field.
-     */
     private Photodetector pd1;
     private Photodetector pd2;
-    /**
-     * Capacitor.
-     */
     private Capacitor C;
     private int ballDiameter;
     protected boolean initialize =true;
     Timer timer;
 
     AnimationFrame(MillikanFrame mf) {
+
         super(new FlowLayout(FlowLayout.CENTER));
         this.setBackground(Color.WHITE);
         this.setPreferredSize(new Dimension(500, 470));
@@ -46,13 +34,12 @@ public class AnimationFrame extends JPanel {
         final Test test=new Test(new OilDrop(frame),C,pd1,pd2);
 
         timer = new Timer(100, new ActionListener() {
-            int i=0;
+//            int i=0;
             @Override
             public void actionPerformed(ActionEvent ae)
             {
                 frame.currentDrop.move();
                 repaint();
-              //  i++;
                 test.setDrop(frame.currentDrop);
                 //WYSTARCZY TO ODKOMENTOWAC BY MIEC LOGI NA KONSOLI
 //                test.test();
@@ -61,9 +48,7 @@ public class AnimationFrame extends JPanel {
 
 
     }
-    /**
-     * Paints Photodetectors and oil drop.
-     */
+
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
@@ -72,7 +57,6 @@ public class AnimationFrame extends JPanel {
         g.setColor(Color.yellow);
         Double y=new Double(frame.currentDrop.getY().doubleValue()* Constants.normalizationConst);
         g.fillOval(((this.getWidth() / 2) - ballDiameter / 2), y.intValue()-ballDiameter/2, ballDiameter, ballDiameter);
-//        System.out.println("Frame y = " + y.intValue());
         C.paintCapacitor(g, this);
 
     }
@@ -80,9 +64,6 @@ public class AnimationFrame extends JPanel {
     {
         pd1.reset();
         pd2.reset();
-    }
-    public Capacitor getCapacitor() {
-        return C;
     }
 
     public Photodetector getPd1() {

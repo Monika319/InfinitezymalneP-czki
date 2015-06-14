@@ -5,40 +5,23 @@ import java.awt.*;
 
 /**
  * Created by monika03 on 09.05.15.
- * Electric Field Panel.
- * Class for setting eletric field values and units in JtextField and Slider.
  */
-public class ElectricField extends JPanel {
-    /**
-     * Main frame of the program.
-     */
-
+public class ElectricField extends JPanel
+{
     private MillikanFrame frame;
-
-    /**
-     * Voltage value.
-     */
     private int voltageValue;
-
-    /**
-     * Textfield for entering voltage value.
-     */
     private JTextField valueField;
-    /**
-     * Slider for changing voltage value.
-     */
     private JSlider valueSlider;
-
     public ElectricField(MillikanFrame fm) {
         super(new BorderLayout());
-        frame = fm;
+        frame=fm;
         this.setMaximumSize(new Dimension(180, 20));
         this.setPreferredSize(new Dimension(150, 40));
         voltageValue = 0;
-        String[] fieldUnits = {"mV", "V", "kV", "MV", "GV", "TV"};
+        String[] fieldUnits = {"mV", "V", "kV","MV","GV"};
         valueField = new JFormattedTextField(voltageValue);
         valueField.setEditable(true);
-        valueSlider = new JSlider(0, 1000);
+        valueSlider = new JSlider(0,1000);
         valueSlider.setValue(0);
         valueSlider.addChangeListener(frame.listeners.change);
         valueField.addActionListener(frame.listeners.electricTextListener);
@@ -52,15 +35,17 @@ public class ElectricField extends JPanel {
 
     }
 
-    public void setVoltageValue(int voltageValue) {
+    public void setVoltageValue(int voltageValue)
+    {
         this.voltageValue = voltageValue;
     }
 
-    public int getVoltageValue() {
+    public int getVoltageValue()
+    {
         return voltageValue;
     }
-
-    public void setAll() {
+    public void setAll()
+    {
         valueSlider.setValue(voltageValue);
         valueField.setText(Integer.toString(voltageValue));
     }
